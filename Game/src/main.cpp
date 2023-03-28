@@ -16,7 +16,8 @@ int main()
 {
 	sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Title");
 
-	window.setVerticalSyncEnabled(true);
+	//window.setVerticalSyncEnabled(true);
+	window.setFramerateLimit(60);
 	Player player;
 
 	std::vector<Enemy> ens;

@@ -13,15 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\Interfaces">
-      <UniqueIdentifier>{d5a47018-f903-48a3-9b1a-fe6d166b8d36}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Interfaces">
-      <UniqueIdentifier>{0a523a33-86aa-45aa-9859-325914f326e3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Attacks">
-      <UniqueIdentifier>{1c4269f7-0533-4c69-b00d-fc8ab22c3d1e}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -42,16 +33,16 @@
     <ClCompile Include="src\Entities\Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Attacks\Attack.cpp">
-      <Filter>Source Files\Interfaces</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Attacks\Types\SlashAttack.h">
-      <Filter>Header Files\Attacks</Filter>
-    </ClCompile>
     <ClCompile Include="src\Attacks\Types\SlashAttack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Entities\Animates\Animate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Attacks\Types\SlashAttack.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Attacks\Attack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -68,13 +59,13 @@
     <ClInclude Include="src\Entities\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Attacks\Attack.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="src\Entities\Animates\Animate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Entities\Inanimates\Solid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Attacks\Attack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

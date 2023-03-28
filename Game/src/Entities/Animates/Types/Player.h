@@ -1,6 +1,4 @@
 #pragma once
-#include <SFML/Graphics.hpp>
-#include <SFML/System.hpp>
 #include "../Animate.h"
 
 class Enemy;
@@ -34,5 +32,4 @@ private:
 	void checkInterractions(Enemy* enemy);
 	
 	float speed;
-
 };

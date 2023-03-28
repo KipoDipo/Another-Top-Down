@@ -17,9 +17,19 @@ void Animate::setHealth(int health)
 	this->health = health;
 }
 
+void Animate::setName(sf::String name)
+{
+	this->name = name;
+}
+
 int Animate::getHealth() const
 {
-	return 0;
+	return health;
+}
+
+sf::String Animate::getName() const
+{
+	return name;
 }
 
 void Animate::kill()

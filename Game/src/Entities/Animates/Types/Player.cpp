@@ -13,6 +13,7 @@ Player::Player()
 Player::Player(sf::Vector2f position, float speed)
 	: speed(speed)
 {
+	setName("Player");
 	slashAttack = new SlashAttack(10, 10, 50, 100);
 	sprite.setTexture(Textures::player);
 	sprite.setPosition(position);
