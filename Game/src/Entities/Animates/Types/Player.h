@@ -31,6 +31,10 @@ private:
 	
 	void checkInterractions(Enemy* enemy);
 	void checkCollisions(Solid* solid);
-	
+	bool collidesLeft = false;
+	bool collidesRight = false;
+	bool collidesUp = false;
+	bool collidesDown = false;
+
 	float speed;
 };

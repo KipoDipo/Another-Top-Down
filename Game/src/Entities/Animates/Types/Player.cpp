@@ -50,6 +50,9 @@ void Player::update()
 	slashAttack->update(collider);
 	for (size_t i = 0; i < enemiesAwareOf.size(); i++)
 		checkInterractions(enemiesAwareOf[i]);
+	
+	collidesUp = collidesDown = collidesLeft = collidesRight = false;
+	
 	for (size_t i = 0; i < solids.size(); i++)
 		checkCollisions(solids[i]);
 }

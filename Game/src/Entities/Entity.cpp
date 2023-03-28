@@ -65,16 +65,20 @@ Vector2f Entity::getCenter() const
 void Entity::draw(RenderTarget& target, RenderStates states) const
 {
 	target.draw(sprite, states);
-
+	
 	//for debugging
-	if (Keyboard::isKeyPressed(Keyboard::Escape))
+	static bool alwaysOn = false;
+	if (Keyboard::isKeyPressed(Keyboard::Tilde))
+		alwaysOn = true;
+
+	if (Keyboard::isKeyPressed(Keyboard::Escape) || alwaysOn)
 	{
 		RectangleShape outline;
 		outline.setPosition(collider.left, collider.top);
 		outline.setSize(Vector2f(collider.width, collider.height));
 		outline.setFillColor(Color::Transparent);
 		outline.setOutlineColor(Color::Red);
-		outline.setOutlineThickness(2);
+		outline.setOutlineThickness(-2);
 		target.draw(outline, states);
 	}
 }

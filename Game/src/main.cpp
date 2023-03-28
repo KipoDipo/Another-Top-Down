@@ -21,13 +21,17 @@ int main()
 	Player player;
 
 	std::vector<Enemy> ens;
-	//ens.push_back(Enemy(Vector2f(30, 30)));
-	//ens.push_back(Enemy(Vector2f(80, 100)));
-	//ens.push_back(Enemy(Vector2f(140, 60)));
+	ens.push_back(Enemy(Vector2f(180, 30)));
+	ens.push_back(Enemy(Vector2f(230, 100)));
+	ens.push_back(Enemy(Vector2f(260, 60)));
 	Vector2f smoothCamera = player.getCenter();
 
 	std::vector<Solid> solids;
 	solids.push_back(Solid(Vector2f(50, 50)));
+	solids.push_back(Solid(Vector2f(50, 100)));
+	solids.push_back(Solid(Vector2f(50, 150)));
+	solids.push_back(Solid(Vector2f(00, 150)));
+	solids.push_back(Solid(Vector2f(-50, 150)));
 
 
 	player.addEnemies(&ens);
@@ -56,7 +60,7 @@ int main()
 		window.clear();
 
 		smoothCamera += (player.getCenter() - smoothCamera) / 15.f;
-		View smoothView(smoothCamera, Vector2f(WIDTH, HEIGHT));
+		View smoothView(smoothCamera, Vector2f(WIDTH / 2, HEIGHT / 2));
 		window.setView(smoothView);
 
 		for (size_t i = 0; i < solids.size(); i++)
