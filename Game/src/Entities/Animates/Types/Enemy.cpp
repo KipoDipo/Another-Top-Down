@@ -1,14 +1,13 @@
 #include "Enemy.h"
 #include "../../../Utilities/Textures.h"
 
-Enemy::Enemy(sf::Vector2f position)
+Enemy::Enemy()
+	: Enemy(sf::Vector2f(0,0))
 {
-	sprite.setTexture(Textures::enemy);
-	sprite.setPosition(position);
-	collider = sf::FloatRect(position.x, position.y, (float)sprite.getTexture()->getSize().x, (float)sprite.getTexture()->getSize().y);
 }
 
-Enemy::Enemy()
+Enemy::Enemy(sf::Vector2f position)
+	: Animate(position, &Textures::enemy)
 {
 }
 

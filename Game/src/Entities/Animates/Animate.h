@@ -4,6 +4,9 @@
 class Animate : public Entity
 {
 public:
+	Animate();
+	Animate(sf::Vector2f position, sf::Texture* texture);
+
 	void kill();
 	bool getIsAlive() const;
 	int getHealth() const;
@@ -23,4 +26,3 @@ private:
 	bool isAlive = true;
 	int health;
 };
-

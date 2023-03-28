@@ -6,8 +6,8 @@ class Player;
 class Enemy : public Animate
 {
 public:
-	Enemy(sf::Vector2f position);
 	Enemy();
+	Enemy(sf::Vector2f position);
 private:
 
 	// Inherited via Animate

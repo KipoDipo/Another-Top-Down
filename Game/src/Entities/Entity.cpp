@@ -3,18 +3,21 @@
 using namespace sf;
 
 Entity::Entity()
-	: Entity(Vector2f(0, 0))
+	: Entity(Vector2f(0, 0), nullptr)
 {
 }
 
-Entity::Entity(Vector2f position)
+Entity::Entity(Vector2f position, sf::Texture* texture) /* Consider - Maybe custom collider? */
 {
 	sprite.setPosition(position);
+	sprite.setTexture(*texture);
+	collider = sf::FloatRect(position.x, position.y, (float)sprite.getTexture()->getSize().x, (float)sprite.getTexture()->getSize().y);
 }
 
 Entity::~Entity()
 {
 }
+
 
 void Entity::move(Vector2f position)
 {

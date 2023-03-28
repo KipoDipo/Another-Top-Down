@@ -1,5 +1,15 @@
 #include "Animate.h"
 
+Animate::Animate()
+	: Entity(), health(1)
+{
+}
+
+Animate::Animate(sf::Vector2f position, sf::Texture* texture)
+	: Entity(position, texture), health(1)
+{
+}
+
 void Animate::addHealth(int toAdd)
 {
 	setHealth(getHealth() + toAdd);

@@ -6,14 +6,13 @@ class Solid : public Entity
 {
 public:
 	Solid()
-		: Entity(sf::Vector2f(0,0))
+		: Solid(sf::Vector2f(0,0))
 	{
 	}
 	
 	Solid(sf::Vector2f position)
-		: Entity(position)
+		: Entity(position, &Textures::defaultSolid)
 	{
-		sprite.setTexture(Textures::defaultSolid);
 	}
 };
 

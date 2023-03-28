@@ -21,9 +21,9 @@ int main()
 	Player player;
 
 	std::vector<Enemy> ens;
-	ens.push_back(Enemy(Vector2f(30, 30)));
-	ens.push_back(Enemy(Vector2f(80, 100)));
-	ens.push_back(Enemy(Vector2f(140, 60)));
+	//ens.push_back(Enemy(Vector2f(30, 30)));
+	//ens.push_back(Enemy(Vector2f(80, 100)));
+	//ens.push_back(Enemy(Vector2f(140, 60)));
 	Vector2f smoothCamera = player.getCenter();
 
 	std::vector<Solid> solids;

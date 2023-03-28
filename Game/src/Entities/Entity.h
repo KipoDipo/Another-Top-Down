@@ -5,7 +5,7 @@ class Entity : public virtual sf::Drawable
 {
 public:
 	Entity();
-	Entity(sf::Vector2f position);
+	Entity(sf::Vector2f position, sf::Texture* texture);
 	virtual ~Entity();
 
 	void move(sf::Vector2f position);

@@ -30,6 +30,7 @@ private:
 	SlashAttack* slashAttack;
 	
 	void checkInterractions(Enemy* enemy);
+	void checkCollisions(Solid* solid);
 	
 	float speed;
 };
