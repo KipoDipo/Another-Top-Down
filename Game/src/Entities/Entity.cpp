@@ -43,20 +43,18 @@ sf::Vector2f Entity::getPosition() const
 	return sprite.getPosition();
 }
 
-void Entity::kill()
-{
-	isAlive = false;
-	setPosition(-100, -100);
-}
-
 const sf::FloatRect& Entity::getCollider() const
 {
 	return collider;
 }
 
-bool Entity::getIsAlive() const
+void Entity::update()
 {
-	return isAlive;
+}
+
+sf::Vector2f Entity::getCenter() const
+{
+	return sf::Vector2f(collider.left, collider.top) + sf::Vector2f(collider.width, collider.height) / 2.f;
 }
 
 void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const

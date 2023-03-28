@@ -12,14 +12,16 @@ public:
 	void move(float x, float y);
 	void setPosition(sf::Vector2f position);
 	void setPosition(float x, float y);
+
 	sf::Vector2f getPosition() const;
-	void kill();
+	sf::Vector2f getCenter() const;
 	const sf::FloatRect& getCollider() const;
-	bool getIsAlive() const;
 	
+	virtual void update();
+
+	// Inherited via Drawable
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 protected:
-	bool isAlive = true;
 	sf::Sprite sprite;
 	sf::FloatRect collider;
 };

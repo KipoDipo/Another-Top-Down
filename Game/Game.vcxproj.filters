@@ -30,13 +30,13 @@
     <ClCompile Include="src\Utilities\Textures.h">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Entities\Types\Enemy.cpp">
+    <ClCompile Include="src\Entities\Animates\Types\Enemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Utilities\Textures.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Entities\Types\Player.cpp">
+    <ClCompile Include="src\Entities\Animates\Types\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Entities\Entity.cpp">
@@ -51,15 +51,18 @@
     <ClCompile Include="src\Attacks\Types\SlashAttack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Entities\Animates\Animate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Utilities\Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Entities\Types\Player.h">
+    <ClInclude Include="src\Entities\Animates\Types\Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Entities\Types\Enemy.h">
+    <ClInclude Include="src\Entities\Animates\Types\Enemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Entities\Entity.h">
@@ -67,6 +70,9 @@
     </ClInclude>
     <ClInclude Include="src\Attacks\Attack.h">
       <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entities\Animates\Animate.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

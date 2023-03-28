@@ -3,50 +3,59 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
-#include "Entities/Types/Player.h"
-#include "Entities/Types/Enemy.h"
+#include "Entities/Animates/Types/Player.h"
+#include "Entities/Animates/Types/Enemy.h"
 
 using namespace sf;
 
+const unsigned int WIDTH = 1280;
+const unsigned int HEIGHT = 720;
+
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(500, 500), "Title");
+	sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Title");
+
 	window.setVerticalSyncEnabled(true);
 	Player player;
-	//Enemy enemy(Vector2f(30, 30));
+
 	std::vector<Enemy> ens;
 	ens.push_back(Enemy(Vector2f(30, 30)));
 	ens.push_back(Enemy(Vector2f(80, 100)));
 	ens.push_back(Enemy(Vector2f(140, 60)));
-	Vector2f smoothCamera = player.getPosition();
+	Vector2f smoothCamera = player.getCenter();
+
+	player.addEnemies(&ens);
 	while (window.isOpen())
 	{
-		/* Update */
-		player.update(ens);
-
-		
-		/* Draw & Display */
-
-		window.clear();
-		
-		smoothCamera += (player.getPosition() - smoothCamera) / 15.f;
-		View smoothView(smoothCamera, Vector2f(500, 500));
-		window.setView(smoothView);
-		
-		for (size_t i = 0; i < ens.size(); i++)
-			window.draw(ens[i]);
-		
-		window.draw(player);
-
-		window.display();
-
 		/* Dispatch Events */
-		
+
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
 		}
+
+		
+		/* Update */
+
+		player.update();
+		
+
+
+		/* Draw & Display */
+
+		window.clear();
+
+		smoothCamera += (player.getCenter() - smoothCamera) / 15.f;
+		View smoothView(smoothCamera, Vector2f(WIDTH, HEIGHT));
+		window.setView(smoothView);
+
+		for (size_t i = 0; i < ens.size(); i++)
+			window.draw(ens[i]);
+
+		window.draw(player);
+		
+		window.display();
 	}
 }

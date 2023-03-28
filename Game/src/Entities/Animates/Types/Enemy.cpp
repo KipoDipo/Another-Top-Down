@@ -1,5 +1,5 @@
 #include "Enemy.h"
-#include "../../Utilities/Textures.h"
+#include "../../../Utilities/Textures.h"
 
 Enemy::Enemy(sf::Vector2f position)
 {
@@ -9,5 +9,13 @@ Enemy::Enemy(sf::Vector2f position)
 }
 
 Enemy::Enemy()
+{
+}
+
+void Enemy::movement()
+{
+}
+
+void Enemy::update()
 {
 }
