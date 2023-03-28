@@ -8,4 +8,5 @@ struct Textures
 
 	static sf::Texture player;
 	static sf::Texture enemy;
+	static sf::Texture defaultSolid;
 };

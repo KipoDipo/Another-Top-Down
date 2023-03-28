@@ -1,5 +1,10 @@
 #include "Textures.h"
 
+
+sf::Texture Textures::player = load("player");
+sf::Texture Textures::enemy = load("enemy");
+sf::Texture Textures::defaultSolid = load("defaultSolid");
+
 sf::Texture Textures::load(std::string name)
 {
 	sf::Texture temp;
@@ -13,6 +18,3 @@ sf::Texture Textures::load(std::string name)
 	}
 	return temp;
 }
-
-sf::Texture Textures::player = load("player");
-sf::Texture Textures::enemy = load("enemy");

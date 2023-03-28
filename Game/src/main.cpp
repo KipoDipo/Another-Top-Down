@@ -5,6 +5,7 @@
 
 #include "Entities/Animates/Types/Player.h"
 #include "Entities/Animates/Types/Enemy.h"
+#include "Entities/Inanimates/Solid.h"
 
 using namespace sf;
 
@@ -24,7 +25,13 @@ int main()
 	ens.push_back(Enemy(Vector2f(140, 60)));
 	Vector2f smoothCamera = player.getCenter();
 
+	std::vector<Solid> solids;
+	solids.push_back(Solid(Vector2f(50, 50)));
+
+
 	player.addEnemies(&ens);
+	player.addSolids(&solids);
+	
 	while (window.isOpen())
 	{
 		/* Dispatch Events */
@@ -51,6 +58,9 @@ int main()
 		View smoothView(smoothCamera, Vector2f(WIDTH, HEIGHT));
 		window.setView(smoothView);
 
+		for (size_t i = 0; i < solids.size(); i++)
+			window.draw(solids[i]);
+		
 		for (size_t i = 0; i < ens.size(); i++)
 			window.draw(ens[i]);
 

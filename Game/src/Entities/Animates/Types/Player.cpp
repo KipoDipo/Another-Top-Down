@@ -1,7 +1,9 @@
 #include "Player.h"
 #include "Enemy.h"
+#include "../../Inanimates/Solid.h"
 #include "../../../Utilities/Textures.h"
 #include "../../../Utilities/Utils.h"
+#include "../../../Attacks/Types/SlashAttack.h"
 
 Player::Player()
 	: Player(sf::Vector2f(250, 250), 5)
@@ -9,11 +11,17 @@ Player::Player()
 }
 
 Player::Player(sf::Vector2f position, float speed)
-	: slashAttack(10, 10, 50, 100), speed(speed)
+	: speed(speed)
 {
+	slashAttack = new SlashAttack(10, 10, 50, 100);
 	sprite.setTexture(Textures::player);
 	sprite.setPosition(position);
 	collider = sf::FloatRect(position.x, position.y, (float)sprite.getTexture()->getSize().x, (float)sprite.getTexture()->getSize().y);
+}
+
+Player::~Player()
+{
+	delete slashAttack;
 }
 
 void Player::addEnemy(Enemy* enemy)
@@ -27,12 +35,23 @@ void Player::addEnemies(std::vector<Enemy>* enemies)
 		addEnemy(&(*enemies)[i]);
 }
 
+void Player::addSolid(Solid* solid)
+{
+	solids.push_back(solid);
+}
+void Player::addSolids(std::vector<Solid>* solids)
+{
+	for (size_t i = 0; i < solids->size(); i++)
+		addSolid(&(*solids)[i]);
+}
+
+
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	Entity::draw(target, states);
 	
-	if (slashAttack.getIsAttacking())
-		slashAttack.draw(target, states);
+	if (slashAttack->getIsAttacking())
+		slashAttack->draw(target, states);
 }
 
 void Player::movement()
@@ -58,15 +77,15 @@ void Player::movement()
 void Player::update()
 {
 	movement();
-	slashAttack.update(collider);
+	slashAttack->update(collider);
 	for (size_t i = 0; i < enemiesAwareOf.size(); i++)
 		checkInterractions(enemiesAwareOf[i]);
 }
 
 void Player::checkInterractions(Enemy* enemy)
 {
-	if (slashAttack.getIsAttacking() 
-		&& slashAttack.getAttackCollider().intersects(enemy->getCollider()))
+	if (slashAttack->getIsAttacking() 
+		&& slashAttack->getAttackCollider().intersects(enemy->getCollider()))
 	{
 		printf("hit\n");
 		enemy->kill();
