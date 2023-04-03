@@ -1,5 +1,6 @@
 #pragma once
 #include "../Entity.h"
+#include "../../Utilities/Utils.h"
 
 class Animate : public Entity
 {
@@ -18,8 +19,7 @@ public:
 	void setName(sf::String name);
 
 	virtual void update() override = 0;
-	virtual void movement() = 0;
-
+	virtual void movement(Orientation orientation = Orientation::None) = 0;
 
 private:
 	sf::String name = "NONE";

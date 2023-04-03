@@ -18,7 +18,7 @@ int main()
 
 	//window.setVerticalSyncEnabled(true);
 	window.setFramerateLimit(60);
-	Player player;
+	Player player(Vector2f(250,250), 5);
 
 	std::vector<Enemy> ens;
 	ens.push_back(Enemy(Vector2f(180, 30)));
@@ -27,16 +27,18 @@ int main()
 	Vector2f smoothCamera = player.getCenter();
 
 	std::vector<Solid> solids;
+	solids.push_back(Solid(Vector2f(50, 0)));
 	solids.push_back(Solid(Vector2f(50, 50)));
 	solids.push_back(Solid(Vector2f(50, 100)));
 	solids.push_back(Solid(Vector2f(50, 150)));
-	solids.push_back(Solid(Vector2f(00, 150)));
-	solids.push_back(Solid(Vector2f(-50, 150)));
-
+	
+	solids.push_back(Solid(Vector2f(00, 200)));
+	solids.push_back(Solid(Vector2f(-50, 200)));
+	solids.push_back(Solid(Vector2f(-100, 200)));
 
 	player.addEnemies(&ens);
 	player.addSolids(&solids);
-	
+
 	while (window.isOpen())
 	{
 		/* Dispatch Events */
@@ -57,7 +59,7 @@ int main()
 
 		/* Draw & Display */
 
-		window.clear();
+		window.clear(Color(20,20,20));
 
 		smoothCamera += (player.getCenter() - smoothCamera) / 15.f;
 		View smoothView(smoothCamera, Vector2f(WIDTH / 2, HEIGHT / 2));

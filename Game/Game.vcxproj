@@ -143,6 +143,7 @@
     <ClCompile Include="src\Utilities\Textures.cpp" />
     <ClCompile Include="src\Utilities\Textures.h" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Utilities\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Entities\Inanimates\Solid.h" />

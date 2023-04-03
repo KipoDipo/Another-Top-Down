@@ -46,32 +46,40 @@ void Player::addSolids(std::vector<Solid>* solids)
 
 void Player::update()
 {
-	movement();
-	slashAttack->update(collider);
+	movement(Orientation::Horizontal);
+	for (size_t i = 0; i < solids.size(); i++)
+		checkCollisions(solids[i], Orientation::Horizontal);
+	
+	movement(Orientation::Vertical);
+	for (size_t i = 0; i < solids.size(); i++)
+		checkCollisions(solids[i], Orientation::Vertical);
+
+
+	slashAttack->update(getCenter());
 	for (size_t i = 0; i < enemiesAwareOf.size(); i++)
 		checkInterractions(enemiesAwareOf[i]);
-	
-	collidesUp = collidesDown = collidesLeft = collidesRight = false;
-	
-	for (size_t i = 0; i < solids.size(); i++)
-		checkCollisions(solids[i]);
 }
 
-void Player::movement()
+void Player::movement(Orientation orientation)
 {
 	using namespace sf;
-	Vector2f dir;
+	dir = { 0, 0 };
+	if (orientation == Orientation::Horizontal || orientation == Orientation::None)
+	{
+		if (Keyboard::isKeyPressed(Keyboard::A))
+			dir += {-1, 0};
+		if (Keyboard::isKeyPressed(Keyboard::D))
+			dir += {1, 0};
+	}
+	if (orientation == Orientation::Vertical || orientation == Orientation::None)
+	{
+		if (Keyboard::isKeyPressed(Keyboard::W))
+			dir += {0, -1};
+		if (Keyboard::isKeyPressed(Keyboard::S))
+			dir += {0, 1};
+	}
 
-	if (Keyboard::isKeyPressed(Keyboard::W))
-		dir += {0, -1};
-	if (Keyboard::isKeyPressed(Keyboard::S))
-		dir += {0, 1};
-	if (Keyboard::isKeyPressed(Keyboard::A))
-		dir += {-1, 0};
-	if (Keyboard::isKeyPressed(Keyboard::D))
-		dir += {1, 0};
-
-	if (dir != Vector2f(0, 0))
+	if (dir.x != 0 && dir.y != 0)
 		dir /= Utils::root2;
 
 	Entity::move(dir * speed);
@@ -79,45 +87,38 @@ void Player::movement()
 
 void Player::checkInterractions(Enemy* enemy)
 {
-	if (slashAttack->getIsAttacking() 
-		&& slashAttack->getAttackCollider().intersects(enemy->getCollider()))
+	if (slashAttack->getIsAttacking()
+		&& enemy->collides(slashAttack->getAttackCollider()))
 	{
-		printf("hit\n");
 		enemy->kill();
 	}
 }
 
-void Player::checkCollisions(Solid* solid)
+void Player::checkCollisions(Solid* solid, Orientation orientation)
 {
-	if (collider.intersects(solid->getCollider()))
+	if (collides(*solid))
 	{
-		Vector2f overlap(
-			collider.left + collider.width - solid->getCollider().left - solid->getCollider().width ,
-			collider.top  + collider.height - solid->getCollider().top - solid->getCollider().height 
-		);
-		Vector2f mtv(0, 0); // minimum translation vector
-		if (fabsf(overlap.x) > fabsf(overlap.y))
+		if (orientation == Orientation::Horizontal)
 		{
-			if (overlap.x > 0)
-				mtv.x = collider.width - overlap.x;
-			else
-				mtv.x = -collider.width - overlap.x;
+			if (dir.x < 0)
+				Entity::setPosition(solid->getCollider().left + solid->getCollider().width, collider.top);
+			if (dir.x > 0)
+				Entity::setPosition(solid->getCollider().left - collider.width, collider.top);
 		}
-		else
+		else if (orientation == Orientation::Vertical)
 		{
-			if (overlap.y > 0)
-				mtv.y = collider.height - overlap.y;
-			else
-				mtv.y = -collider.height - overlap.y;
+			if (dir.y < 0)
+				Entity::setPosition(collider.left, solid->getCollider().top + solid->getCollider().height);
+			if (dir.y > 0)
+				Entity::setPosition(collider.left, solid->getCollider().top - collider.height);
 		}
-		move(mtv);
 	}
 }
 
 void Player::draw(RenderTarget& target, RenderStates states) const
 {
 	Entity::draw(target, states);
-	
+
 	if (slashAttack->getIsAttacking())
 		slashAttack->draw(target, states);
 }

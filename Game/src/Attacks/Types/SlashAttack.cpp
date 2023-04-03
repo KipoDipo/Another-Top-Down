@@ -5,7 +5,7 @@ SlashAttack::SlashAttack(int speed, float size, float distance, float range)
 {
 }
 
-void SlashAttack::update(const sf::FloatRect& entityCollider)
+void SlashAttack::update(const sf::Vector2f& origin)
 {
 	using namespace sf;
 	sf::Vector2f dir;
@@ -25,16 +25,16 @@ void SlashAttack::update(const sf::FloatRect& entityCollider)
 		{
 			setIsAttacking(true);
 			setAttackDirection(dir);
-			attackSequence(entityCollider);
+			attackSequence(origin);
 		}
 	}
 	else
 	{
-		attackSequence(entityCollider);
+		attackSequence(origin);
 	}
 }
 
-void SlashAttack::attackSequence(const sf::FloatRect& entityCollider)
+void SlashAttack::attackSequence(const sf::Vector2f& origin)
 {
 	if (getAttackProgress() > getAttackRange())
 	{
@@ -43,7 +43,6 @@ void SlashAttack::attackSequence(const sf::FloatRect& entityCollider)
 		return;
 	}
 
-	sf::Vector2f playerSizeOffset = sf::Vector2f(entityCollider.width, entityCollider.height) / 2.f;
 	sf::Vector2f atkSizeOffset = sf::Vector2f(getAttackSize(), getAttackSize()) / 2.f;
 	sf::Vector2f atkAreaOffset = sf::Vector2f(getAttackDirection().y, getAttackDirection().x) * (float)getAttackProgress();
 	sf::Vector2f atkDistanceOffset = getAttackDirection() * getAttackDistance();
@@ -51,8 +50,8 @@ void SlashAttack::attackSequence(const sf::FloatRect& entityCollider)
 
 	setAttackCollider(sf::FloatRect
 	(
-		entityCollider.left + playerSizeOffset.x - atkSizeOffset.x - atkAreaOffset.x + atkDistanceOffset.x + atkRangeOffset.x,
-		entityCollider.top + playerSizeOffset.y - atkSizeOffset.y - atkAreaOffset.y + atkDistanceOffset.y + atkRangeOffset.y,
+		origin.x - atkSizeOffset.x - atkAreaOffset.x + atkDistanceOffset.x + atkRangeOffset.x,
+		origin.y - atkSizeOffset.y - atkAreaOffset.y + atkDistanceOffset.y + atkRangeOffset.y,
 		getAttackSize(),
 		getAttackSize()
 	));

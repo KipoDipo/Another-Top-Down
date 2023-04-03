@@ -1,6 +1,23 @@
 #pragma once
+#include <SFML/System.hpp>
+#include <SFML/Graphics.hpp>
 
-namespace Utils
+struct Utils
 {
-	const float root2 = sqrt(2);
-}
+	const static float root2;
+};
+
+enum class Direction
+{
+	Up = 1,
+	Right,
+	Down,
+	Left
+};
+
+enum class Orientation
+{
+	None = -1,
+	Horizontal,
+	Vertical
+};

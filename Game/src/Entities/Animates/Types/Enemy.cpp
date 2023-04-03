@@ -11,7 +11,7 @@ Enemy::Enemy(sf::Vector2f position)
 {
 }
 
-void Enemy::movement()
+void Enemy::movement(Orientation orientation)
 {
 }
 

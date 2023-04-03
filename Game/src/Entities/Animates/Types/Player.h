@@ -20,7 +20,7 @@ public:
 	
 	// Inherited via Animate
 	virtual void update() override;	
-	void movement() override;
+	void movement(Orientation orientation = Orientation::None) override;
 
 	// Inherited via Drawable
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
@@ -28,13 +28,9 @@ private:
 	std::vector<Enemy*> enemiesAwareOf;
 	std::vector<Solid*> solids;
 	SlashAttack* slashAttack;
-	
+	sf::Vector2f dir;
 	void checkInterractions(Enemy* enemy);
-	void checkCollisions(Solid* solid);
-	bool collidesLeft = false;
-	bool collidesRight = false;
-	bool collidesUp = false;
-	bool collidesDown = false;
+	void checkCollisions(Solid* solid, Orientation orientation);
 
 	float speed;
 };

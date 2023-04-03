@@ -8,9 +8,9 @@ class Enemy : public Animate
 public:
 	Enemy();
 	Enemy(sf::Vector2f position);
-private:
 
+private:
 	// Inherited via Animate
 	virtual void update() override;
-	virtual void movement() override;
+	virtual void movement(Orientation orientation = Orientation::None) override;
 };

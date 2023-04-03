@@ -8,8 +8,8 @@ public:
 	virtual ~Attack();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	
-	virtual void update(const sf::FloatRect& entityCollider) = 0;
-	virtual void attackSequence(const sf::FloatRect& entityCollider) = 0;
+	virtual void update(const sf::Vector2f& origin) = 0;
+	virtual void attackSequence(const sf::Vector2f& origin) = 0;
 
 	bool getIsAttacking() const;
 	int getAttackProgress() const;

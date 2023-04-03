@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "../Utilities/Utils.h"
 
 class Entity : public virtual sf::Drawable
 {
@@ -16,7 +17,10 @@ public:
 	sf::Vector2f getPosition() const;
 	sf::Vector2f getCenter() const;
 	const sf::FloatRect& getCollider() const;
-	
+
+	bool collides(const Entity& entity);
+	bool collides(const sf::FloatRect& rect);
+
 	virtual void update();
 
 	// Inherited via Drawable
