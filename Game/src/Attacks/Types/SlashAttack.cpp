@@ -1,7 +1,8 @@
 #include "SlashAttack.h"
+#include "../../Utilities/Textures.h"
 
 SlashAttack::SlashAttack(int speed, float size, float distance, float range)
-	: Attack(speed, size, distance, range)
+	: Attack(speed, size, distance, range, &Textures::ball)
 {
 }
 
@@ -55,6 +56,7 @@ void SlashAttack::attackSequence(const sf::Vector2f& origin)
 		getAttackSize(),
 		getAttackSize()
 	));
+	setAttackSpritePosition(sf::Vector2f(getAttackCollider().left, getAttackCollider().top) + sf::Vector2f(getAttackCollider().width, getAttackCollider().height) / 2.f);
 
 	addAttackProgress(getAttackSpeed());
 }

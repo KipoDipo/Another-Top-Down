@@ -4,6 +4,7 @@
 sf::Texture Textures::player = load("player");
 sf::Texture Textures::enemy = load("enemy");
 sf::Texture Textures::defaultSolid = load("defaultSolid");
+sf::Texture Textures::ball = load("ball");
 
 sf::Texture Textures::load(std::string name)
 {

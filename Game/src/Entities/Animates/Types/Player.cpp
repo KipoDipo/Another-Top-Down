@@ -70,6 +70,8 @@ void Player::movement(Orientation orientation)
 			dir += {-1, 0};
 		if (Keyboard::isKeyPressed(Keyboard::D))
 			dir += {1, 0};
+		if (Keyboard::isKeyPressed(Keyboard::W) || Keyboard::isKeyPressed(Keyboard::S));
+			dir /= Utils::root2;
 	}
 	if (orientation == Orientation::Vertical || orientation == Orientation::None)
 	{
@@ -77,10 +79,10 @@ void Player::movement(Orientation orientation)
 			dir += {0, -1};
 		if (Keyboard::isKeyPressed(Keyboard::S))
 			dir += {0, 1};
+		if (Keyboard::isKeyPressed(Keyboard::A) || Keyboard::isKeyPressed(Keyboard::D));
+			dir /= Utils::root2;
 	}
 
-	if (dir.x != 0 && dir.y != 0)
-		dir /= Utils::root2;
 
 	Entity::move(dir * speed);
 }

@@ -1,6 +1,6 @@
 #include "Attack.h"
 
-Attack::Attack(int speed, float size, float distance, float range)
+Attack::Attack(int speed, float size, float distance, float range, const sf::Texture* texture)
 	: isAttacking(false), atkProgress(0),
 	atkDir(), atkCollider()
 {
@@ -8,6 +8,8 @@ Attack::Attack(int speed, float size, float distance, float range)
 	setAttackSize(size);
 	setAttackDistance(distance);
 	setAttackRange(range);
+	sprite.setTexture(*texture);
+	sprite.setOrigin((sf::Vector2f)sprite.getTexture()->getSize() / 2.f);
 }
 
 Attack::~Attack()
@@ -16,10 +18,7 @@ Attack::~Attack()
 
 void Attack::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	sf::RectangleShape shape;
-	shape.setSize(sf::Vector2f(atkCollider.width, atkCollider.height));
-	shape.setPosition(atkCollider.left, atkCollider.top);
-	target.draw(shape);
+	target.draw(sprite);
 }
 
 bool Attack::getIsAttacking() const
@@ -114,4 +113,9 @@ void Attack::setAttackDirection(sf::Vector2f direction)
 void Attack::setAttackCollider(const sf::FloatRect& collider)
 {
 	atkCollider = collider;
+}
+
+void Attack::setAttackSpritePosition(const sf::Vector2f position)
+{
+	sprite.setPosition(position);
 }

@@ -4,7 +4,7 @@
 class Attack : public virtual sf::Drawable
 {
 public:
-	Attack(int speed, float size, float distance, float range);
+	Attack(int speed, float size, float distance, float range, const sf::Texture* texture);
 	virtual ~Attack();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	
@@ -30,7 +30,7 @@ protected:
 	void setAttackRange(float range);
 	void setAttackDirection(sf::Vector2f direction);
 	void setAttackCollider(const sf::FloatRect& collider);
-
+	void setAttackSpritePosition(sf::Vector2f position);
 private:
 	bool isAttacking;
 	int atkProgress;
@@ -40,4 +40,5 @@ private:
 	float atkRange;
 	sf::Vector2f atkDir;
 	sf::FloatRect atkCollider;
+	sf::Sprite sprite;
 };
