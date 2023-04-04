@@ -5,7 +5,7 @@
 
 #include "Entities/Animates/Types/Player.h"
 #include "Entities/Animates/Types/Enemy.h"
-#include "Entities/Inanimates/Solid.h"
+#include "Entities/Inanimates/Types/Solid.h"
 
 using namespace sf;
 

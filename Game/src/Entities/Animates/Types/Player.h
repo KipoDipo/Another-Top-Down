@@ -28,9 +28,8 @@ private:
 	std::vector<Enemy*> enemiesAwareOf;
 	std::vector<Solid*> solids;
 	SlashAttack* slashAttack;
-	sf::Vector2f dir;
 	void checkInterractions(Enemy* enemy);
-	void checkCollisions(Solid* solid, Orientation orientation);
+	//void checkCollisions(Solid* solid, Orientation orientation);
 
 	float speed;
 };

@@ -1,6 +1,6 @@
 #pragma once
-#include "../Entity.h"
-#include "../../Utilities/Textures.h"
+#include "../../Entity.h"
+#include "../../../Utilities/Textures.h"
 
 class Solid : public Entity
 {

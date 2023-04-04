@@ -1,4 +1,5 @@
 #include "Animate.h"
+#include "../Inanimates/Types/Solid.h"
 
 Animate::Animate()
 	: Entity(), health(1)
@@ -32,6 +33,33 @@ void Animate::setName(sf::String name)
 	this->name = name;
 }
 
+void Animate::setDirection(sf::Vector2f direction)
+{
+	dir = direction;
+}
+
+void Animate::resolveCollisions(const Solid* solid, Orientation orientation)
+{
+	if (collides(*solid))
+	{
+		if (orientation == Orientation::Horizontal)
+		{
+			if (dir.x < 0)
+				Entity::setPosition(solid->getCollider().left + solid->getCollider().width, collider.top);
+			if (dir.x > 0)
+				Entity::setPosition(solid->getCollider().left - collider.width, collider.top);
+		}
+		else if (orientation == Orientation::Vertical)
+		{
+			if (dir.y < 0)
+				Entity::setPosition(collider.left, solid->getCollider().top + solid->getCollider().height);
+			if (dir.y > 0)
+				Entity::setPosition(collider.left, solid->getCollider().top - collider.height);
+		}
+	}
+
+}
+
 int Animate::getHealth() const
 {
 	return health;
@@ -40,6 +68,11 @@ int Animate::getHealth() const
 sf::String Animate::getName() const
 {
 	return name;
+}
+
+sf::Vector2f Animate::getDirection()
+{
+	return dir;
 }
 
 void Animate::kill()

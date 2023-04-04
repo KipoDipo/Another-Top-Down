@@ -1,6 +1,6 @@
 #include "Player.h"
 #include "Enemy.h"
-#include "../../Inanimates/Solid.h"
+#include "../../Inanimates/Types/Solid.h"
 #include "../../../Utilities/Textures.h"
 #include "../../../Utilities/Utils.h"
 #include "../../../Attacks/Types/SlashAttack.h"
@@ -48,11 +48,11 @@ void Player::update()
 {
 	movement(Orientation::Horizontal);
 	for (size_t i = 0; i < solids.size(); i++)
-		checkCollisions(solids[i], Orientation::Horizontal);
+		resolveCollisions(solids[i], Orientation::Horizontal);
 	
 	movement(Orientation::Vertical);
 	for (size_t i = 0; i < solids.size(); i++)
-		checkCollisions(solids[i], Orientation::Vertical);
+		resolveCollisions(solids[i], Orientation::Vertical);
 
 
 	slashAttack->update(getCenter());
@@ -63,28 +63,28 @@ void Player::update()
 void Player::movement(Orientation orientation)
 {
 	using namespace sf;
-	dir = { 0, 0 };
+	setDirection({ 0, 0 });
 	if (orientation == Orientation::Horizontal || orientation == Orientation::None)
 	{
 		if (Keyboard::isKeyPressed(Keyboard::A))
-			dir += {-1, 0};
+			setDirection(getDirection() + Vector2f(-1, 0));
 		if (Keyboard::isKeyPressed(Keyboard::D))
-			dir += {1, 0};
-		if (Keyboard::isKeyPressed(Keyboard::W) || Keyboard::isKeyPressed(Keyboard::S));
-			dir /= Utils::root2;
+			setDirection(getDirection() + Vector2f(1, 0));
+		if (Keyboard::isKeyPressed(Keyboard::W) || Keyboard::isKeyPressed(Keyboard::S))
+			setDirection(getDirection() / Utils::root2);
 	}
 	if (orientation == Orientation::Vertical || orientation == Orientation::None)
 	{
 		if (Keyboard::isKeyPressed(Keyboard::W))
-			dir += {0, -1};
+			setDirection(getDirection() + Vector2f(0, -1));
 		if (Keyboard::isKeyPressed(Keyboard::S))
-			dir += {0, 1};
-		if (Keyboard::isKeyPressed(Keyboard::A) || Keyboard::isKeyPressed(Keyboard::D));
-			dir /= Utils::root2;
+			setDirection(getDirection() + Vector2f(0, 1));
+		if (Keyboard::isKeyPressed(Keyboard::A) || Keyboard::isKeyPressed(Keyboard::D))
+			setDirection(getDirection() / Utils::root2);
 	}
 
 
-	Entity::move(dir * speed);
+	Entity::move(getDirection() * speed);
 }
 
 void Player::checkInterractions(Enemy* enemy)
@@ -93,27 +93,6 @@ void Player::checkInterractions(Enemy* enemy)
 		&& enemy->collides(slashAttack->getAttackCollider()))
 	{
 		enemy->kill();
-	}
-}
-
-void Player::checkCollisions(Solid* solid, Orientation orientation)
-{
-	if (collides(*solid))
-	{
-		if (orientation == Orientation::Horizontal)
-		{
-			if (dir.x < 0)
-				Entity::setPosition(solid->getCollider().left + solid->getCollider().width, collider.top);
-			if (dir.x > 0)
-				Entity::setPosition(solid->getCollider().left - collider.width, collider.top);
-		}
-		else if (orientation == Orientation::Vertical)
-		{
-			if (dir.y < 0)
-				Entity::setPosition(collider.left, solid->getCollider().top + solid->getCollider().height);
-			if (dir.y > 0)
-				Entity::setPosition(collider.left, solid->getCollider().top - collider.height);
-		}
 	}
 }
 

@@ -65,7 +65,7 @@
     <ClInclude Include="src\Entities\Animates\Animate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Entities\Inanimates\Solid.h">
+    <ClInclude Include="src\Entities\Inanimates\Types\Solid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Attacks\Attack.h">

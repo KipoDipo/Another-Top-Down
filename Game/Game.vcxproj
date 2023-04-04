@@ -146,7 +146,7 @@
     <ClCompile Include="src\Utilities\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Entities\Inanimates\Solid.h" />
+    <ClInclude Include="src\Entities\Inanimates\Types\Solid.h" />
     <ClInclude Include="src\Entities\Animates\Animate.h" />
     <ClInclude Include="src\Attacks\Attack.h" />
     <ClInclude Include="src\Entities\Animates\Types\Enemy.h" />
