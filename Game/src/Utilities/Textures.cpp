@@ -11,9 +11,21 @@ sf::Texture* Textures::get(sf::String name)
 			return &(pairs[i].texture);
 	return &none;
 }
+sf::Texture* Textures::get(int id)
+{
+	for (size_t i = 0; i < pairs.size(); i++)
+		if (pairs[i].id == id)
+			return &(pairs[i].texture);
+	return &none;
+}
 void Textures::add(sf::String fileName)
 {
 	pairs.push_back(Pair(fileName, load(fileName)));
+}
+
+void Textures::add(sf::String fileName, int id)
+{
+	pairs.push_back(Pair(fileName, load(fileName), id));
 }
 
 sf::Texture Textures::load(std::string name)
