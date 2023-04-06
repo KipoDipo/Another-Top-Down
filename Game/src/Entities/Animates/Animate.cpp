@@ -38,6 +38,11 @@ void Animate::setDirection(sf::Vector2f direction)
 	dir = direction;
 }
 
+void Animate::setSpeed(float speed)
+{
+	this->speed = speed;
+}
+
 void Animate::resolveCollisions(const Solid* solid, Orientation orientation)
 {
 	if (collides(*solid))
@@ -73,6 +78,11 @@ sf::String Animate::getName() const
 sf::Vector2f Animate::getDirection()
 {
 	return dir;
+}
+
+float Animate::getSpeed()
+{
+	return speed;
 }
 
 void Animate::kill()

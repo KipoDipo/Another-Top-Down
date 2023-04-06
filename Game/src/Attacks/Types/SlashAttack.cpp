@@ -2,7 +2,7 @@
 #include "../../Utilities/Textures.h"
 
 SlashAttack::SlashAttack(int speed, float size, float distance, float range)
-	: Attack(speed, size, distance, range, &Textures::ball)
+	: Attack(speed, size, distance, range, Textures::get("ball"))
 {
 }
 

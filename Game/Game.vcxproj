@@ -140,12 +140,15 @@
     <ClCompile Include="src\Entities\Animates\Types\Player.cpp" />
     <ClCompile Include="src\Attacks\Types\SlashAttack.cpp" />
     <ClCompile Include="src\Attacks\Types\SlashAttack.h" />
+    <ClCompile Include="src\Entities\Inanimates\Types\Ground.cpp" />
+    <ClCompile Include="src\Entities\Inanimates\Types\Solid.cpp" />
     <ClCompile Include="src\Utilities\Textures.cpp" />
     <ClCompile Include="src\Utilities\Textures.h" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Utilities\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Entities\Inanimates\Types\Ground.h" />
     <ClInclude Include="src\Entities\Inanimates\Types\Solid.h" />
     <ClInclude Include="src\Entities\Animates\Animate.h" />
     <ClInclude Include="src\Attacks\Attack.h" />

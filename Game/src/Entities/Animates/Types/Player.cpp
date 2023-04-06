@@ -13,8 +13,9 @@ Player::Player()
 }
 
 Player::Player(Vector2f position, float speed)
-	: Animate(position, &Textures::player), speed(speed)
+	: Animate(position, Textures::get("player"))
 {
+	setSpeed(speed);
 	setName("Player");
 	slashAttack = new SlashAttack(10, 10, 50, 100);
 }
@@ -84,7 +85,7 @@ void Player::movement(Orientation orientation)
 	}
 
 
-	Entity::move(getDirection() * speed);
+	Entity::move(getDirection() * getSpeed());
 }
 
 void Player::checkInterractions(Enemy* enemy)

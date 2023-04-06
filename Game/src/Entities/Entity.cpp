@@ -10,6 +10,8 @@ Entity::Entity()
 Entity::Entity(Vector2f position, sf::Texture* texture) /* Consider - Maybe custom collider? */
 {
 	sprite.setPosition(position);
+	if (!texture)
+		return;
 	sprite.setTexture(*texture);
 	collider = sf::FloatRect(position.x, position.y, (float)sprite.getTexture()->getSize().x, (float)sprite.getTexture()->getSize().y);
 }

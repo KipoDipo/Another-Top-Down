@@ -7,7 +7,7 @@ Enemy::Enemy()
 }
 
 Enemy::Enemy(sf::Vector2f position)
-	: Animate(position, &Textures::enemy)
+	: Animate(position, Textures::get("enemy"))
 {
 }
 
