@@ -3,7 +3,7 @@
 
 class Enemy;
 class Solid;
-class SlashAttack;
+class Attack;
 
 class Player : public Animate
 {
@@ -28,6 +28,6 @@ private:
 	
 	std::vector<Enemy*> enemiesAwareOf;
 	std::vector<Solid*> solids;
-	SlashAttack* slashAttack;
+	Attack* attack;
 	void checkInterractions(Enemy* enemy);
 };

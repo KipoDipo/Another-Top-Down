@@ -57,31 +57,7 @@ const sf::FloatRect& Entity::getCollider() const
 
 bool Entity::collides(const Entity& entity)
 {
-	//if (colliders[3].left < entity.colliders[1].left
-	//	&& (colliders[1].top <= entity.colliders[0].top && colliders[2].top >= entity.colliders[0].top
-	//		|| colliders[1].top >= entity.colliders[0].top && colliders[2].top <= entity.colliders[2].top
-	//		|| colliders[1].top >= entity.colliders[0].top && colliders[1].top <= entity.colliders[2].top))
-	//	return true;
-	//
-	//if (isColliderActive[0] && entity.isColliderActive[2])
-	//	if (colliders[0].intersects(entity.colliders[2]))
-	//		return true;
-	//if (isColliderActive[1] && entity.isColliderActive[3])
-	//	if (colliders[1].intersects(entity.colliders[3]))
-	//		return true;
-	//if (isColliderActive[2] && entity.isColliderActive[0])
-	//	if (colliders[2].intersects(entity.colliders[0]))
-	//		return true;
-	//if (isColliderActive[3] && entity.isColliderActive[1])
-	//	if (colliders[3].intersects(entity.colliders[1]))
-	//		return true;
-
-
-
-	if (collider.intersects(entity.collider))
-		return true;
-
-	return false;
+	return collider.intersects(entity.collider);
 }
 
 bool Entity::collides(const FloatRect& rect)

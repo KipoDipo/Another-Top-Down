@@ -4,41 +4,43 @@
 class Attack : public virtual sf::Drawable
 {
 public:
-	Attack(int speed, float size, float distance, float range, const sf::Texture* texture);
+	Attack(float speed, float size, float distance, float range, const sf::Texture* texture);
 	virtual ~Attack();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	
 	virtual void update(const sf::Vector2f& origin) = 0;
-	virtual void attackSequence(const sf::Vector2f& origin) = 0;
+	virtual void sequence(const sf::Vector2f& origin) = 0;
 
-	bool getIsAttacking() const;
-	int getAttackProgress() const;
-	int getAttackSpeed() const;
-	float getAttackSize() const;
-	float getAttackDistance() const;
-	float getAttackRange() const;
-	sf::Vector2f getAttackDirection() const;
-	const sf::FloatRect& getAttackCollider() const;
+	bool getIsActive() const;
+	float getProgress() const;
+	float getSpeed() const;
+	float getSize() const;
+	float getDistance() const;
+	float getRange() const;
+	sf::Vector2f getDirection() const;
+	const sf::FloatRect& getCollider() const;
+	bool checkSequence();
 
 protected:
-	void setIsAttacking(bool state);
-	void setAttackProgress(int progress);
-	void addAttackProgress(int plusProgress);
-	void setAttackSpeed(int speed);
-	void setAttackSize(float size);
-	void setAttackDistance(float distance);
-	void setAttackRange(float range);
-	void setAttackDirection(sf::Vector2f direction);
-	void setAttackCollider(const sf::FloatRect& collider);
-	void setAttackSpritePosition(sf::Vector2f position);
+	void setIsActive(bool state);
+	void setProgress(float progress);
+	void addProgress(float plusProgress);
+	void setSpeed(float speed);
+	void setSize(float size);
+	void setDistance(float distance);
+	void setRange(float range);
+	void setDirection(sf::Vector2f direction);
+	void setCollider(const sf::FloatRect& collider);
+	void setSpritePosition(sf::Vector2f position);
+	
 private:
-	bool isAttacking;
-	int atkProgress;
-	int atkSpeed;
-	float atkSize;
-	float atkDist;
-	float atkRange;
-	sf::Vector2f atkDir;
-	sf::FloatRect atkCollider;
+	bool isActive;
+	float progress; // 0.0 - 1.0
+	float speed;
+	float size;
+	float distance;
+	float range;
+	sf::Vector2f direction;
+	sf::FloatRect collider;
 	sf::Sprite sprite;
 };

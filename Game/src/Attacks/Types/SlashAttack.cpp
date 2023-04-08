@@ -1,18 +1,24 @@
 #include "SlashAttack.h"
 #include "../../Utilities/Textures.h"
 
-SlashAttack::SlashAttack(int speed, float size, float distance, float range)
+using namespace sf;
+
+SlashAttack::SlashAttack(float speed, float size, float distance, float range)
 	: Attack(speed, size, distance, range, Textures::get("ball"))
 {
 }
 
-void SlashAttack::update(const sf::Vector2f& origin)
+void SlashAttack::update(const Vector2f& origin)
 {
-	using namespace sf;
-	sf::Vector2f dir;
 
-	if (!getIsAttacking())
+	if (getIsActive())
 	{
+		sequence(origin);
+	}
+	else
+	{
+		Vector2f dir;
+		
 		if (Keyboard::isKeyPressed(Keyboard::Up))
 			dir = { 0, -1 };
 		else if (Keyboard::isKeyPressed(Keyboard::Down))
@@ -22,41 +28,33 @@ void SlashAttack::update(const sf::Vector2f& origin)
 		else if (Keyboard::isKeyPressed(Keyboard::Right))
 			dir = { 1, 0 };
 
-		if (dir != sf::Vector2f(0, 0))
+		if (dir != Vector2f(0, 0))
 		{
-			setIsAttacking(true);
-			setAttackDirection(dir);
-			attackSequence(origin);
+			setIsActive(true);
+			setDirection(dir);
+			sequence(origin);
 		}
-	}
-	else
-	{
-		attackSequence(origin);
 	}
 }
 
-void SlashAttack::attackSequence(const sf::Vector2f& origin)
+void SlashAttack::sequence(const Vector2f& origin)
 {
-	if (getAttackProgress() > getAttackRange())
-	{
-		setIsAttacking(false);
-		setAttackProgress(0);
+	if (!checkSequence())
 		return;
-	}
 
-	sf::Vector2f atkSizeOffset = sf::Vector2f(getAttackSize(), getAttackSize()) / 2.f;
-	sf::Vector2f atkAreaOffset = sf::Vector2f(getAttackDirection().y, getAttackDirection().x) * (float)getAttackProgress();
-	sf::Vector2f atkDistanceOffset = getAttackDirection() * getAttackDistance();
-	sf::Vector2f atkRangeOffset = sf::Vector2f(getAttackDirection().y, getAttackDirection().x) * getAttackRange()  / 2.f;
+	Vector2f atkSizeOffset = Vector2f(getSize(), getSize()) / 2.f;
+	Vector2f atkAreaOffset = Vector2f(getDirection().y, getDirection().x) * getProgress() * getRange();
+	Vector2f atkDistanceOffset = getDirection() * getDistance();
+	Vector2f atkRangeOffset = Vector2f(getDirection().y, getDirection().x) * getRange() / 2.f;
 
-	setAttackCollider(sf::FloatRect
+	setCollider(FloatRect
 	(
 		origin.x - atkSizeOffset.x - atkAreaOffset.x + atkDistanceOffset.x + atkRangeOffset.x,
 		origin.y - atkSizeOffset.y - atkAreaOffset.y + atkDistanceOffset.y + atkRangeOffset.y,
-		getAttackSize(),
-		getAttackSize()
+		getSize(),
+		getSize()
 	));
-	setAttackSpritePosition(sf::Vector2f(getAttackCollider().left, getAttackCollider().top) + sf::Vector2f(getAttackCollider().width, getAttackCollider().height) / 2.f);
 
-	addAttackProgress(getAttackSpeed());
+	setSpritePosition(Vector2f(getCollider().left, getCollider().top) + Vector2f(getCollider().width, getCollider().height) / 2.f);
+	addProgress(getSpeed());
 }

@@ -1,13 +1,13 @@
 #include "Attack.h"
 
-Attack::Attack(int speed, float size, float distance, float range, const sf::Texture* texture)
-	: isAttacking(false), atkProgress(0),
-	atkDir(), atkCollider()
+Attack::Attack(float speed, float size, float distance, float range, const sf::Texture* texture)
+	: isActive(false), progress(0),
+	direction(), collider()
 {
-	setAttackSpeed(speed);
-	setAttackSize(size);
-	setAttackDistance(distance);
-	setAttackRange(range);
+	setSpeed(speed);
+	setSize(size);
+	setDistance(distance);
+	setRange(range);
 	sprite.setTexture(*texture);
 	sprite.setOrigin((sf::Vector2f)sprite.getTexture()->getSize() / 2.f);
 }
@@ -21,101 +21,114 @@ void Attack::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(sprite);
 }
 
-bool Attack::getIsAttacking() const
+bool Attack::getIsActive() const
 {
-	return isAttacking;
+	return isActive;
 }
 
-int Attack::getAttackProgress() const
+// returns the progress of the attack from 0.0 to 1.0
+float Attack::getProgress() const
 {
-	return atkProgress;
+	return progress;
 }
 
-int Attack::getAttackSpeed() const
+float Attack::getSpeed() const
 {
-	return atkSpeed;
+	return speed;
 }
 
-float Attack::getAttackSize() const
+float Attack::getSize() const
 {
-	return atkSize;
+	return size;
 }
 
-float Attack::getAttackDistance() const
+float Attack::getDistance() const
 {
-	return atkDist;
+	return distance;
 }
 
-float Attack::getAttackRange() const
+float Attack::getRange() const
 {
-	return atkRange;
+	return range;
 }
 
-sf::Vector2f Attack::getAttackDirection() const
+sf::Vector2f Attack::getDirection() const
 {
-	return atkDir;
+	return direction;
 }
 
-const sf::FloatRect& Attack::getAttackCollider() const
+const sf::FloatRect& Attack::getCollider() const
 {
-	return atkCollider;
+	return collider;
 }
 
-void Attack::setIsAttacking(bool state)
+// returns true if the attack is still active
+bool Attack::checkSequence()
 {
-	isAttacking = state;
+	if (getProgress() > 1.00001) // to account for floating point errors
+	{
+		setIsActive(false);
+		setProgress(0);
+		return false;
+	}
+	return true;
 }
 
-void Attack::setAttackProgress(int progress)
+void Attack::setIsActive(bool state)
+{
+	isActive = state;
+}
+
+void Attack::setProgress(float progress)
 {
 	if (progress < 0)
 		progress = 0;
 
-	atkProgress = progress;
+	this->progress = progress;
 }
 
-void Attack::addAttackProgress(int plusProgress)
+void Attack::addProgress(float plusProgress)
 {
-	setAttackProgress(getAttackProgress() + plusProgress);
+	setProgress(progress + plusProgress);
 }
 
-void Attack::setAttackSpeed(int speed)
+void Attack::setSpeed(float speed)
 {
-	if (speed < 1)
-		speed = 1;
-	atkSpeed = speed;
+	if (speed < 0.f || speed > 1.f)
+		speed = 1.f;
+	this->speed = speed;
 }
 
-void Attack::setAttackSize(float size)
+void Attack::setSize(float size)
 {
 	if (size < 1)
 		size = 1;
-	atkSize = size;
+	this->size = size;
 }
 
-void Attack::setAttackDistance(float distance)
+void Attack::setDistance(float distance)
 {
-	atkDist = distance;
+	this->distance = distance;
 }
 
-void Attack::setAttackRange(float range)
+void Attack::setRange(float range)
 {
 	if (range < 1)
 		range = 1;
-	atkRange = range;
+	this->range = range;
 }
 
-void Attack::setAttackDirection(sf::Vector2f direction)
+void Attack::setDirection(sf::Vector2f direction)
 {
-	atkDir = direction;
+	this->direction = direction;
 }
 
-void Attack::setAttackCollider(const sf::FloatRect& collider)
+void Attack::setCollider(const sf::FloatRect& collider)
 {
-	atkCollider = collider;
+	this->collider = collider;
 }
 
-void Attack::setAttackSpritePosition(const sf::Vector2f position)
+void Attack::setSpritePosition(const sf::Vector2f position)
 {
 	sprite.setPosition(position);
 }

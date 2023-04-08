@@ -17,12 +17,12 @@ Player::Player(Vector2f position, float speed)
 {
 	setSpeed(speed);
 	setName("Player");
-	slashAttack = new SlashAttack(10, 10, 50, 100);
+	attack = new SlashAttack(0.1f, 10, 50, 100);
 }
 
 Player::~Player()
 {
-	delete slashAttack;
+	delete attack;
 }
 
 void Player::addEnemy(Enemy* enemy)
@@ -56,7 +56,7 @@ void Player::update()
 		resolveCollisions(solids[i], Orientation::Vertical);
 
 
-	slashAttack->update(getCenter());
+	attack->update(getCenter());
 	for (size_t i = 0; i < enemiesAwareOf.size(); i++)
 		checkInterractions(enemiesAwareOf[i]);
 }
@@ -90,8 +90,8 @@ void Player::movement(Orientation orientation)
 
 void Player::checkInterractions(Enemy* enemy)
 {
-	if (slashAttack->getIsAttacking()
-		&& enemy->collides(slashAttack->getAttackCollider()))
+	if (attack->getIsActive()
+		&& enemy->collides(attack->getCollider()))
 	{
 		enemy->kill();
 	}
@@ -101,6 +101,6 @@ void Player::draw(RenderTarget& target, RenderStates states) const
 {
 	Entity::draw(target, states);
 
-	if (slashAttack->getIsAttacking())
-		slashAttack->draw(target, states);
+	if (attack->getIsActive())
+		attack->draw(target, states);
 }

@@ -18,9 +18,6 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Utilities\Textures.h">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Entities\Animates\Types\Enemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -38,9 +35,6 @@
     </ClCompile>
     <ClCompile Include="src\Entities\Animates\Animate.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Attacks\Types\SlashAttack.h">
-      <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Attacks\Attack.cpp">
       <Filter>Source Files</Filter>
@@ -78,6 +72,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Entities\Inanimates\Types\Ground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entities\All.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Attacks\Types\SlashAttack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utilities\Textures.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

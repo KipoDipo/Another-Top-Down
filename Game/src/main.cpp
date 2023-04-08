@@ -3,10 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
-#include "Entities/Animates/Types/Player.h"
-#include "Entities/Animates/Types/Enemy.h"
-#include "Entities/Inanimates/Types/Solid.h"
-#include "Entities/Inanimates/Types/Ground.h"
+#include "Entities/All.h"
 
 using namespace sf;
 
@@ -20,13 +17,14 @@ int main()
 	Textures::add("ball");
 	Textures::add("defaultGround");
 	Textures::add("defaultSolid");
+	Textures::add("guide");
 
 	sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Title");
 
 	window.setVerticalSyncEnabled(true);
 	//window.setFramerateLimit(60);
 	Player player(Vector2f(250,250), 5);
-	float zoom = 2;
+	float zoom = 2.f;
 
 	std::vector<Enemy> ens;
 	ens.push_back(Enemy(Vector2f(180, 30)));
@@ -45,6 +43,7 @@ int main()
 	solids.push_back(Solid(Vector2f(-100, 200)));
 
 	std::vector<Ground> grounds;
+	Ground guide(Vector2f(0, 0), Textures::get("guide"));
 	for (size_t i = 0; i < 10; i++)
 	{
 		for (size_t j = 0; j < 10; j++)
@@ -76,7 +75,7 @@ int main()
 
 		/* Draw & Display */
 
-		window.clear(Color(20,20,20));
+		window.clear(Color(30,20,30));
 
 		smoothCamera += (player.getCenter() - smoothCamera) / 15.f;
 		
@@ -97,6 +96,7 @@ int main()
 		for (size_t i = 0; i < ens.size(); i++)
 			window.draw(ens[i]);
 
+		window.draw(guide); // just a debug guide showing where {0,0} is
 		window.draw(player);
 		
 		window.display();

@@ -9,4 +9,3 @@ public:
 	Solid(sf::Vector2f position);
 	Solid(sf::Vector2f position, sf::Texture* texture);
 };
-

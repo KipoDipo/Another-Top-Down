@@ -17,9 +17,9 @@ class Textures
 		{
 		}
 	};
-	static sf::Texture none;
+	static sf::Texture noneTexture;
+	static sf::Texture noneTextureGenerator();
 	static std::vector<Pair> pairs;
-
 public:
 	
 	static sf::Texture* get(sf::String name);

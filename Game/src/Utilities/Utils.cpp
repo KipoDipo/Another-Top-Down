@@ -3,4 +3,4 @@
 
 using namespace sf;
 
-const float Utils::root2 = sqrt(2);
+const float Utils::root2 = sqrtf(2);
