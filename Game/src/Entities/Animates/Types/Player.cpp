@@ -17,7 +17,7 @@ Player::Player(Vector2f position, float speed)
 {
 	setSpeed(speed);
 	setName("Player");
-	attack = new SlashAttack(0.1f, 10, 50, 100);
+	attack = new SlashAttack(6.f, 10, 50, 100);
 }
 
 Player::~Player()
@@ -85,7 +85,7 @@ void Player::movement(Orientation orientation)
 	}
 
 
-	Entity::move(getDirection() * getSpeed());
+	Entity::move(getDirection() * getSpeed() * Utils::getDeltaTime());
 }
 
 void Player::checkInterractions(Enemy* enemy)

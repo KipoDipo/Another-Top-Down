@@ -1,5 +1,6 @@
 #include "SlashAttack.h"
 #include "../../Utilities/Textures.h"
+#include "../../Utilities/Utils.h"
 
 using namespace sf;
 
@@ -8,9 +9,9 @@ SlashAttack::SlashAttack(float speed, float size, float distance, float range)
 {
 }
 
+
 void SlashAttack::update(const Vector2f& origin)
 {
-
 	if (getIsActive())
 	{
 		sequence(origin);
@@ -18,7 +19,7 @@ void SlashAttack::update(const Vector2f& origin)
 	else
 	{
 		Vector2f dir;
-		
+
 		if (Keyboard::isKeyPressed(Keyboard::Up))
 			dir = { 0, -1 };
 		else if (Keyboard::isKeyPressed(Keyboard::Down))
@@ -56,5 +57,5 @@ void SlashAttack::sequence(const Vector2f& origin)
 	));
 
 	setSpritePosition(Vector2f(getCollider().left, getCollider().top) + Vector2f(getCollider().width, getCollider().height) / 2.f);
-	addProgress(getSpeed());
+	addProgress(getSpeed() * Utils::getDeltaTime());
 }

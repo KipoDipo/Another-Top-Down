@@ -21,9 +21,9 @@ int main()
 
 	sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Title");
 
-	window.setVerticalSyncEnabled(true);
-	//window.setFramerateLimit(60);
-	Player player(Vector2f(250,250), 5);
+	//window.setVerticalSyncEnabled(true);
+	window.setFramerateLimit(300);
+	Player player(Vector2f(250, 250), 300);
 	float zoom = 2.f;
 
 	std::vector<Enemy> ens;
@@ -37,7 +37,7 @@ int main()
 	solids.push_back(Solid(Vector2f(50, 50)));
 	solids.push_back(Solid(Vector2f(50, 100)));
 	solids.push_back(Solid(Vector2f(50, 150)));
-	
+
 	solids.push_back(Solid(Vector2f(00, 200)));
 	solids.push_back(Solid(Vector2f(-50, 200)));
 	solids.push_back(Solid(Vector2f(-100, 200)));
@@ -54,7 +54,20 @@ int main()
 
 	player.addEnemies(&ens);
 	player.addSolids(&solids);
+	
+	Utils::resetDeltaTime();
+	
+	// This is very cluttered, will refactor when I make a UI class
+	Text text;
+	Font font;
+	font.loadFromFile("res\\fonts\\Pixeled.ttf");
 
+	text.setFont(font);
+	text.setFillColor(Color::White);
+	text.setCharacterSize(25);
+	text.setString("FPS: wait");
+
+	Clock clock;
 	while (window.isOpen())
 	{
 		/* Dispatch Events */
@@ -66,23 +79,22 @@ int main()
 				window.close();
 		}
 
-		
 		/* Update */
 
 		player.update();
+
 		
-
-
+		
 		/* Draw & Display */
 
-		window.clear(Color(30,20,30));
+		window.clear(Color(30, 20, 30));
 
-		smoothCamera += (player.getCenter() - smoothCamera) / 15.f;
-		
-		if (fabsf(smoothCamera.x - player.getCenter().x) < 0.3f)
-			smoothCamera.x = player.getCenter().x;
-		if (fabsf(smoothCamera.y - player.getCenter().y) < 0.3f)
-			smoothCamera.y = player.getCenter().y;
+		smoothCamera += ((player.getCenter() - smoothCamera) / 0.5f) * Utils::getDeltaTime();
+
+		//if (fabsf(smoothCamera.x - player.getCenter().x) < 0.3f)
+		//	smoothCamera.x = player.getCenter().x;
+		//if (fabsf(smoothCamera.y - player.getCenter().y) < 0.3f)
+		//	smoothCamera.y = player.getCenter().y;
 
 		View smoothView(smoothCamera, Vector2f(WIDTH / zoom, HEIGHT / zoom));
 		window.setView(smoothView);
@@ -99,6 +111,20 @@ int main()
 		window.draw(guide); // just a debug guide showing where {0,0} is
 		window.draw(player);
 		
+		/* Draw UI(very beta) */
+		window.setView(window.getDefaultView());
+		{
+			window.draw(text);	
+			if (clock.getElapsedTime().asSeconds() > 0.5f)
+			{
+				clock.restart();
+				text.setString("FPS: " + std::to_string((int)(1.f / Utils::getDeltaTime())));
+			}
+			text.setPosition(Vector2f(5, 10));
+		}
+		window.setView(smoothView);
+
 		window.display();
+		Utils::resetDeltaTime();
 	}
 }

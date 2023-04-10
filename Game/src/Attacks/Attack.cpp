@@ -94,7 +94,7 @@ void Attack::addProgress(float plusProgress)
 
 void Attack::setSpeed(float speed)
 {
-	if (speed < 0.f || speed > 1.f)
+	if (speed < 0.f)
 		speed = 1.f;
 	this->speed = speed;
 }
