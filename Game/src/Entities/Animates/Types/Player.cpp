@@ -1,8 +1,7 @@
+#include "../../../Utilities/All.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "../../Inanimates/Types/Solid.h"
-#include "../../../Utilities/Textures.h"
-#include "../../../Utilities/Utils.h"
 #include "../../../Attacks/Types/SlashAttack.h"
 
 using namespace sf;
@@ -50,11 +49,26 @@ void Player::update()
 	movement(Orientation::Horizontal);
 	for (size_t i = 0; i < solids.size(); i++)
 		resolveCollisions(solids[i], Orientation::Horizontal);
-	
+
 	movement(Orientation::Vertical);
 	for (size_t i = 0; i < solids.size(); i++)
 		resolveCollisions(solids[i], Orientation::Vertical);
 
+	if (!attack->getIsActive())
+	{
+		Vector2f atkDir;
+		if (Keyboard::isKeyPressed(Keyboard::Up))
+			atkDir = { 0, -1 };
+		if (Keyboard::isKeyPressed(Keyboard::Down))
+			atkDir = { 0, 1 };
+		if (Keyboard::isKeyPressed(Keyboard::Left))
+			atkDir = { -1, 0 };
+		if (Keyboard::isKeyPressed(Keyboard::Right))
+			atkDir = { 1, 0 };
+
+		if (atkDir != Vector2f(0, 0))
+			attack->start(atkDir);
+	}
 
 	attack->update(getCenter());
 	for (size_t i = 0; i < enemiesAwareOf.size(); i++)
@@ -65,27 +79,29 @@ void Player::movement(Orientation orientation)
 {
 	using namespace sf;
 	setDirection({ 0, 0 });
-	if (orientation == Orientation::Horizontal || orientation == Orientation::None)
+	Vector2f direction = getDirection();
+	switch (orientation)
 	{
+	case Orientation::Horizontal:
 		if (Keyboard::isKeyPressed(Keyboard::A))
-			setDirection(getDirection() + Vector2f(-1, 0));
+			direction += Vector2f(-1, 0);
 		if (Keyboard::isKeyPressed(Keyboard::D))
-			setDirection(getDirection() + Vector2f(1, 0));
+			direction += Vector2f(1, 0);
 		if (Keyboard::isKeyPressed(Keyboard::W) || Keyboard::isKeyPressed(Keyboard::S))
-			setDirection(getDirection() / Utils::root2);
-	}
-	if (orientation == Orientation::Vertical || orientation == Orientation::None)
-	{
+			direction /= Utils::root2;
+		break;
+	case Orientation::Vertical:
 		if (Keyboard::isKeyPressed(Keyboard::W))
-			setDirection(getDirection() + Vector2f(0, -1));
+			direction += Vector2f(0, -1);
 		if (Keyboard::isKeyPressed(Keyboard::S))
-			setDirection(getDirection() + Vector2f(0, 1));
+			direction += Vector2f(0, 1);
 		if (Keyboard::isKeyPressed(Keyboard::A) || Keyboard::isKeyPressed(Keyboard::D))
-			setDirection(getDirection() / Utils::root2);
+			direction /= Utils::root2;
+		break;
 	}
 
-
-	Entity::move(getDirection() * getSpeed() * Utils::getDeltaTime());
+	setDirection(direction);
+	Entity::move(getDirection() * getSpeed() * DeltaTime::get());
 }
 
 void Player::checkInterractions(Enemy* enemy)

@@ -8,5 +8,4 @@ public:
 	
 	// Inherited via Attack
 	virtual void update(const sf::Vector2f& origin) override;
-	virtual void sequence(const sf::Vector2f& origin) override;
 };

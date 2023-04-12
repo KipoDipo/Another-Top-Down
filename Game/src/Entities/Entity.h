@@ -1,6 +1,5 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "../Utilities/Utils.h"
 
 class Entity : public virtual sf::Drawable
 {

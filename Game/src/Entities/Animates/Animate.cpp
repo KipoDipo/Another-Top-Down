@@ -1,13 +1,14 @@
 #include "Animate.h"
 #include "../Inanimates/Types/Solid.h"
+#include "../../Utilities/Utils.h"
 
 Animate::Animate()
-	: Entity(), health(1)
+	: Entity(), health(1), speed(0)
 {
 }
 
 Animate::Animate(sf::Vector2f position, sf::Texture* texture)
-	: Entity(position, texture), health(1)
+	: Entity(position, texture), health(1), speed(0)
 {
 }
 
@@ -43,23 +44,24 @@ void Animate::setSpeed(float speed)
 	this->speed = speed;
 }
 
-void Animate::resolveCollisions(const Solid* solid, Orientation orientation)
+void Animate::resolveCollisions(const Entity* entity, Orientation orientation)
 {
-	if (collides(*solid))
+	if (collides(*entity))
 	{
-		if (orientation == Orientation::Horizontal)
+		switch (orientation)
 		{
+		case Orientation::Horizontal:
 			if (dir.x < 0)
-				Entity::setPosition(solid->getCollider().left + solid->getCollider().width, collider.top);
-			if (dir.x > 0)
-				Entity::setPosition(solid->getCollider().left - collider.width, collider.top);
-		}
-		else if (orientation == Orientation::Vertical)
-		{
+				Entity::setPosition(entity->getCollider().left + entity->getCollider().width, collider.top);
+			else if (dir.x > 0)
+				Entity::setPosition(entity->getCollider().left - collider.width, collider.top);
+			break;
+		case Orientation::Vertical:
 			if (dir.y < 0)
-				Entity::setPosition(collider.left, solid->getCollider().top + solid->getCollider().height);
-			if (dir.y > 0)
-				Entity::setPosition(collider.left, solid->getCollider().top - collider.height);
+				Entity::setPosition(collider.left, entity->getCollider().top + entity->getCollider().height);
+			else if (dir.y > 0)
+				Entity::setPosition(collider.left, entity->getCollider().top - collider.height);
+			break;
 		}
 	}
 

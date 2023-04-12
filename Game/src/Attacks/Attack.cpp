@@ -1,9 +1,12 @@
 #include "Attack.h"
 
 Attack::Attack(float speed, float size, float distance, float range, const sf::Texture* texture)
-	: isActive(false), progress(0),
-	direction(), collider()
 {
+	setIsActive(false);
+	setProgress(0);
+	setDirection({});
+	setCollider({});
+	
 	setSpeed(speed);
 	setSize(size);
 	setDistance(distance);
@@ -62,18 +65,6 @@ const sf::FloatRect& Attack::getCollider() const
 	return collider;
 }
 
-// returns true if the attack is still active
-bool Attack::checkSequence()
-{
-	if (getProgress() > 1.00001) // to account for floating point errors
-	{
-		setIsActive(false);
-		setProgress(0);
-		return false;
-	}
-	return true;
-}
-
 void Attack::setIsActive(bool state)
 {
 	isActive = state;
@@ -83,6 +74,12 @@ void Attack::setProgress(float progress)
 {
 	if (progress < 0)
 		progress = 0;
+	
+	else if (progress > 1.0001) // to account for floating point errors
+	{
+		isActive = false;
+		progress = 0;
+	}
 
 	this->progress = progress;
 }
@@ -131,4 +128,17 @@ void Attack::setCollider(const sf::FloatRect& collider)
 void Attack::setSpritePosition(const sf::Vector2f position)
 {
 	sprite.setPosition(position);
+}
+
+void Attack::start(sf::Vector2f direction)
+{
+	setIsActive(true);
+	setDirection(direction);
+	setProgress(0);
+}
+
+void Attack::stop()
+{
+	setIsActive(false);
+	setProgress(0);
 }

@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include "../Utilities/Utils.h"
 
 using namespace sf;
 

@@ -1,19 +1,27 @@
 #include "Utils.h"
 #include <math.h>
+#include <iostream>
 
 using namespace sf;
 
 const float Utils::root2 = sqrtf(2);
 
-float Utils::getDeltaTime()
+Vector2f Utils::normalized(Vector2f vector)
 {
-	return deltaTime;
+	return vector / sqrtf(vector.x * vector.x + vector.y * vector.y);
 }
 
-void Utils::resetDeltaTime()
+Vector2f Utils::roundedBySubdivions(Vector2f vector, int subDivisions)
 {
-	deltaTime = clock.restart().asSeconds();
+	float roundToNearest = 1.f / subDivisions;
+
+	float x = (int)vector.x + roundToNearest * (int)((vector.x - (int)vector.x) / roundToNearest);
+	float y = (int)vector.y + roundToNearest * (int)((vector.y - (int)vector.y) / roundToNearest);
+	
+	return Vector2f(x, y);
 }
 
-sf::Clock Utils::clock;
-float Utils::deltaTime = 0;
+void Utils::printVector(Vector2f vector, std::string caption)
+{
+	std::cout << caption << " { " << vector.x << ", " << vector.y << " }" << std::endl;
+}

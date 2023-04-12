@@ -1,16 +1,26 @@
 #pragma once
 #include "../Animate.h"
 
-class Player;
+class Solid;
+enum class Orientation;
 
 class Enemy : public Animate
 {
 public:
 	Enemy();
-	Enemy(sf::Vector2f position);
+	Enemy(sf::Vector2f position, float speed);
 
-private:
+	void setTarget(Entity* target);
+
 	// Inherited via Animate
 	virtual void update() override;
-	virtual void movement(Orientation orientation = Orientation::None) override;
+
+	void addSolids(std::vector<Solid>* solids);
+	void addSolid(Solid* solid);
+private:
+	// Inherited via Animate
+	virtual void movement(Orientation orientation) override;
+
+	Entity* target;
+	std::vector<Solid*> solids;
 };

@@ -1,16 +1,17 @@
 #pragma once
 #include "../Entity.h"
-#include "../../Utilities/Utils.h"
 
-class Solid;
+enum class Orientation;
 
 class Animate : public Entity
 {
 public:
 	Animate();
 	Animate(sf::Vector2f position, sf::Texture* texture);
-
+	
+	virtual void update() override = 0;
 	void kill();
+	
 	bool getIsAlive() const;
 	int getHealth() const;
 	sf::String getName() const;
@@ -23,11 +24,10 @@ public:
 	void setName(sf::String name);
 	void setDirection(sf::Vector2f direction);
 	void setSpeed(float speed);
+	void resolveCollisions(const Entity* entity, Orientation orientation);
 
-	void resolveCollisions(const Solid* solid, Orientation orientation);
-
-	virtual void update() override = 0;
-	virtual void movement(Orientation orientation = Orientation::None) = 0;
+protected:
+	virtual void movement(Orientation orientation) = 0;
 
 private:
 	bool isAlive = true;

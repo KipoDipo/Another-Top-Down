@@ -4,6 +4,7 @@
 #include <SFML/Window.hpp>
 
 #include "Entities/All.h"
+#include "Utilities/All.h"
 
 using namespace sf;
 
@@ -27,10 +28,11 @@ int main()
 	float zoom = 2.f;
 
 	std::vector<Enemy> ens;
-	ens.push_back(Enemy(Vector2f(180, 30)));
-	ens.push_back(Enemy(Vector2f(230, 100)));
-	ens.push_back(Enemy(Vector2f(260, 60)));
-	Vector2f smoothCamera = player.getCenter();
+	ens.push_back(Enemy(Vector2f(180, 30) , rand() % 20 + 20));
+	ens.push_back(Enemy(Vector2f(230, 100), rand() % 20 + 20));
+	ens.push_back(Enemy(Vector2f(260, 60) , rand() % 20 + 20));
+
+
 
 	std::vector<Solid> solids;
 	solids.push_back(Solid(Vector2f(50, 0)));
@@ -42,21 +44,28 @@ int main()
 	solids.push_back(Solid(Vector2f(-50, 200)));
 	solids.push_back(Solid(Vector2f(-100, 200)));
 
+	for (size_t i = 0; i < ens.size(); i++)
+	{
+		ens[i].setTarget(&player);
+		ens[i].addSolids(&solids);
+	}
+	
 	std::vector<Ground> grounds;
 	Ground guide(Vector2f(0, 0), Textures::get("guide"));
-	for (size_t i = 0; i < 10; i++)
+	for (int i = -3; i < 10; i++)
 	{
-		for (size_t j = 0; j < 10; j++)
+		for (int j = -3; j < 10; j++)
 		{
-			grounds.push_back(Ground(Vector2f(i * 50, j * 50)));
+			grounds.push_back(Ground(Vector2f(j * 50, i * 50)));
 		}
 	}
 
 	player.addEnemies(&ens);
 	player.addSolids(&solids);
 	
-	Utils::resetDeltaTime();
 	
+	Vector2f smoothCamera = player.getCenter();
+	DeltaTime::reset();
 	// This is very cluttered, will refactor when I make a UI class
 	Text text;
 	Font font;
@@ -80,23 +89,26 @@ int main()
 		}
 
 		/* Update */
-
 		player.update();
-
+		
+		for (size_t i = 0; i < ens.size(); i++)
+			ens[i].update();
 		
 		
 		/* Draw & Display */
 
 		window.clear(Color(30, 20, 30));
 
-		smoothCamera += ((player.getCenter() - smoothCamera) / 0.5f) * Utils::getDeltaTime();
+		smoothCamera += ((player.getCenter() - smoothCamera) * 2.f) * DeltaTime::get();
 
-		//if (fabsf(smoothCamera.x - player.getCenter().x) < 0.3f)
-		//	smoothCamera.x = player.getCenter().x;
-		//if (fabsf(smoothCamera.y - player.getCenter().y) < 0.3f)
-		//	smoothCamera.y = player.getCenter().y;
+		if (fabsf(smoothCamera.x - player.getCenter().x) < 1/zoom && fabsf(smoothCamera.y - player.getCenter().y) < 1/zoom)
+		{
+			smoothCamera.x = player.getCenter().x;
+			smoothCamera.y = player.getCenter().y;
+		}
+		
+		View smoothView(Utils::roundedBySubdivions(smoothCamera, (int)zoom), Vector2f(WIDTH / zoom, HEIGHT / zoom));
 
-		View smoothView(smoothCamera, Vector2f(WIDTH / zoom, HEIGHT / zoom));
 		window.setView(smoothView);
 
 		for (size_t i = 0; i < grounds.size(); i++)
@@ -108,8 +120,8 @@ int main()
 		for (size_t i = 0; i < ens.size(); i++)
 			window.draw(ens[i]);
 
-		window.draw(guide); // just a debug guide showing where {0,0} is
 		window.draw(player);
+		window.draw(guide); // just a debug guide showing where {0,0} is
 		
 		/* Draw UI(very beta) */
 		window.setView(window.getDefaultView());
@@ -118,13 +130,13 @@ int main()
 			if (clock.getElapsedTime().asSeconds() > 0.5f)
 			{
 				clock.restart();
-				text.setString("FPS: " + std::to_string((int)(1.f / Utils::getDeltaTime())));
+				text.setString("FPS: " + std::to_string((int)(1.f / DeltaTime::get())));
 			}
 			text.setPosition(Vector2f(5, 10));
 		}
 		window.setView(smoothView);
 
 		window.display();
-		Utils::resetDeltaTime();
+		DeltaTime::reset();
 	}
 }

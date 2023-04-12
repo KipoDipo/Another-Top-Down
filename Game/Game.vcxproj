@@ -124,6 +124,9 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <ShowIncludes>
+      </ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -133,12 +136,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Utilities\DeltaTime.cpp" />
     <ClCompile Include="src\Entities\Animates\Animate.cpp" />
     <ClCompile Include="src\Attacks\Attack.cpp" />
     <ClCompile Include="src\Entities\Animates\Types\Enemy.cpp" />
     <ClCompile Include="src\Entities\Entity.cpp" />
     <ClCompile Include="src\Entities\Animates\Types\Player.cpp" />
     <ClCompile Include="src\Attacks\Types\SlashAttack.cpp" />
+    <ClInclude Include="src\Utilities\All.h" />
+    <ClInclude Include="src\Utilities\DeltaTime.h" />
     <ClInclude Include="src\Attacks\Types\SlashAttack.h" />
     <ClCompile Include="src\Entities\Inanimates\Types\Ground.cpp" />
     <ClCompile Include="src\Entities\Inanimates\Types\Solid.cpp" />

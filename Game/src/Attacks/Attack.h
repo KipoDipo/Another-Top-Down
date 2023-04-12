@@ -9,7 +9,9 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	
 	virtual void update(const sf::Vector2f& origin) = 0;
-	virtual void sequence(const sf::Vector2f& origin) = 0;
+
+	void start(sf::Vector2f direction);
+	void stop();
 
 	bool getIsActive() const;
 	float getProgress() const;
@@ -19,7 +21,6 @@ public:
 	float getRange() const;
 	sf::Vector2f getDirection() const;
 	const sf::FloatRect& getCollider() const;
-	bool checkSequence();
 
 protected:
 	void setIsActive(bool state);

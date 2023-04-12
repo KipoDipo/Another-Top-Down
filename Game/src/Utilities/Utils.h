@@ -6,25 +6,13 @@ class Utils
 {
 public:
 	const static float root2;
-	static float getDeltaTime();
-	static void resetDeltaTime();
-
-private:
-	static float deltaTime;
-	static sf::Clock clock;
-};
-
-enum class Direction
-{
-	Up = 1,
-	Right,
-	Down,
-	Left
+	static sf::Vector2f normalized(sf::Vector2f vector);
+	static sf::Vector2f roundedBySubdivions(sf::Vector2f vector, int subDivisions);
+	static void printVector(sf::Vector2f vector, std::string caption = "Vector2f");
 };
 
 enum class Orientation
 {
-	None = -1,
 	Horizontal,
 	Vertical
 };
