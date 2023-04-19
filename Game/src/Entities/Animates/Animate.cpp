@@ -14,12 +14,12 @@ Animate::Animate(sf::Vector2f position, sf::Texture* texture)
 
 void Animate::addHealth(int toAdd)
 {
-	setHealth(getHealth() + toAdd);
+	setHealth(health + toAdd);
 }
 
 void Animate::subHealth(int toSubtract)
 {
-	setHealth(getHealth() - toSubtract);
+	setHealth(health - toSubtract);
 }
 
 void Animate::setHealth(int health)
@@ -67,6 +67,11 @@ void Animate::resolveCollisions(const Entity* entity, Orientation orientation)
 
 }
 
+void Animate::addCollidable(Entity* entity)
+{
+	collidablesList.push_back(entity);
+}
+
 int Animate::getHealth() const
 {
 	return health;
@@ -85,6 +90,11 @@ sf::Vector2f Animate::getDirection()
 float Animate::getSpeed()
 {
 	return speed;
+}
+
+const std::vector<Entity*>& Animate::getCollidablesList() const
+{
+	return collidablesList;
 }
 
 void Animate::kill()

@@ -15,12 +15,9 @@ public:
 	// Inherited via Animate
 	virtual void update() override;
 
-	void addSolids(std::vector<Solid>* solids);
-	void addSolid(Solid* solid);
 private:
 	// Inherited via Animate
 	virtual void movement(Orientation orientation) override;
 
 	Entity* target;
-	std::vector<Solid*> solids;
 };

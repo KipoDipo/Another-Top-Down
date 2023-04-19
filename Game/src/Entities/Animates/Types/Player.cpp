@@ -26,7 +26,7 @@ Player::~Player()
 
 void Player::addEnemy(Enemy* enemy)
 {
-	enemiesAwareOf.push_back(enemy);
+	enemiesList.push_back(enemy);
 }
 void Player::addEnemies(std::vector<Enemy>* enemies)
 {
@@ -34,25 +34,15 @@ void Player::addEnemies(std::vector<Enemy>* enemies)
 		addEnemy(&(*enemies)[i]);
 }
 
-void Player::addSolid(Solid* solid)
-{
-	solids.push_back(solid);
-}
-void Player::addSolids(std::vector<Solid>* solids)
-{
-	for (size_t i = 0; i < solids->size(); i++)
-		addSolid(&(*solids)[i]);
-}
-
 void Player::update()
 {
 	movement(Orientation::Horizontal);
-	for (size_t i = 0; i < solids.size(); i++)
-		resolveCollisions(solids[i], Orientation::Horizontal);
+	for (size_t i = 0; i < getCollidablesList().size(); i++)
+		resolveCollisions(getCollidablesList()[i], Orientation::Horizontal);
 
 	movement(Orientation::Vertical);
-	for (size_t i = 0; i < solids.size(); i++)
-		resolveCollisions(solids[i], Orientation::Vertical);
+	for (size_t i = 0; i < getCollidablesList().size(); i++)
+		resolveCollisions(getCollidablesList()[i], Orientation::Vertical);
 
 	if (!attack->getIsActive())
 	{
@@ -71,8 +61,8 @@ void Player::update()
 	}
 
 	attack->update(getCenter());
-	for (size_t i = 0; i < enemiesAwareOf.size(); i++)
-		checkInterractions(enemiesAwareOf[i]);
+	for (size_t i = 0; i < enemiesList.size(); i++)
+		checkInterractions(enemiesList[i]);
 }
 
 void Player::movement(Orientation orientation)

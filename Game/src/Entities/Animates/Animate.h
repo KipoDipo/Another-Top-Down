@@ -17,6 +17,7 @@ public:
 	sf::String getName() const;
 	sf::Vector2f getDirection();
 	float getSpeed();
+	const std::vector<Entity*>& getCollidablesList() const;
 
 	void addHealth(int toAdd);
 	void subHealth(int toSubtract);
@@ -25,6 +26,8 @@ public:
 	void setDirection(sf::Vector2f direction);
 	void setSpeed(float speed);
 	void resolveCollisions(const Entity* entity, Orientation orientation);
+
+	void addCollidable(Entity* entity);
 
 protected:
 	virtual void movement(Orientation orientation) = 0;
@@ -35,4 +38,6 @@ private:
 	float speed;
 	sf::Vector2f dir;
 	sf::String name = "NONE";
+
+	std::vector<Entity*> collidablesList;
 };

@@ -8,6 +8,9 @@ const float Utils::root2 = sqrtf(2);
 
 Vector2f Utils::normalized(Vector2f vector)
 {
+	if (vector == Vector2f(0, 0))
+		return Vector2f(0, 0);
+
 	return vector / sqrtf(vector.x * vector.x + vector.y * vector.y);
 }
 

@@ -23,7 +23,7 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Title");
 
 	//window.setVerticalSyncEnabled(true);
-	window.setFramerateLimit(300);
+	//window.setFramerateLimit(144);
 	Player player(Vector2f(250, 250), 300);
 	float zoom = 2.f;
 
@@ -47,22 +47,20 @@ int main()
 	for (size_t i = 0; i < ens.size(); i++)
 	{
 		ens[i].setTarget(&player);
-		ens[i].addSolids(&solids);
+		for (size_t j = 0; j < solids.size(); j++)
+			ens[i].addCollidable(&solids[j]);
 	}
 	
 	std::vector<Ground> grounds;
 	Ground guide(Vector2f(0, 0), Textures::get("guide"));
 	for (int i = -3; i < 10; i++)
-	{
 		for (int j = -3; j < 10; j++)
-		{
 			grounds.push_back(Ground(Vector2f(j * 50, i * 50)));
-		}
-	}
 
 	player.addEnemies(&ens);
-	player.addSolids(&solids);
-	
+	for (size_t i = 0; i < solids.size(); i++)
+		player.addCollidable(&solids[i]);
+
 	
 	Vector2f smoothCamera = player.getCenter();
 	DeltaTime::reset();
@@ -77,6 +75,10 @@ int main()
 	text.setString("FPS: wait");
 
 	Clock clock;
+
+	float sumFps = 0;
+	int frames = 0;
+
 	while (window.isOpen())
 	{
 		/* Dispatch Events */
@@ -101,12 +103,6 @@ int main()
 
 		smoothCamera += ((player.getCenter() - smoothCamera) * 2.f) * DeltaTime::get();
 
-		if (fabsf(smoothCamera.x - player.getCenter().x) < 1/zoom && fabsf(smoothCamera.y - player.getCenter().y) < 1/zoom)
-		{
-			smoothCamera.x = player.getCenter().x;
-			smoothCamera.y = player.getCenter().y;
-		}
-		
 		View smoothView(Utils::roundedBySubdivions(smoothCamera, (int)zoom), Vector2f(WIDTH / zoom, HEIGHT / zoom));
 
 		window.setView(smoothView);
@@ -122,15 +118,21 @@ int main()
 
 		window.draw(player);
 		window.draw(guide); // just a debug guide showing where {0,0} is
-		
+
 		/* Draw UI(very beta) */
 		window.setView(window.getDefaultView());
 		{
-			window.draw(text);	
+			window.draw(text);
 			if (clock.getElapsedTime().asSeconds() > 0.5f)
 			{
 				clock.restart();
-				text.setString("FPS: " + std::to_string((int)(1.f / DeltaTime::get())));
+				text.setString("FPS: " + std::to_string((int)(sumFps / frames)));
+				frames = sumFps = 0;
+			}
+			else
+			{
+				sumFps += 1.f / DeltaTime::get();
+				frames++;
 			}
 			text.setPosition(Vector2f(5, 10));
 		}

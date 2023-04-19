@@ -23,6 +23,7 @@ void Enemy::movement(Orientation orientation)
 {
 	setDirection({ 0,0 });
 	sf::Vector2f direction = Utils::normalized(target->getCenter() - getCenter());
+
 	switch (orientation)
 	{
 	case Orientation::Horizontal:
@@ -41,21 +42,10 @@ void Enemy::update()
 		return;
 	
 	movement(Orientation::Vertical);
-	for (size_t i = 0; i < solids.size(); i++)
-		resolveCollisions(solids[i], Orientation::Vertical);
+	for (size_t i = 0; i < getCollidablesList().size(); i++)
+		resolveCollisions(getCollidablesList()[i], Orientation::Vertical);
 
 	movement(Orientation::Horizontal);
-	for (size_t i = 0; i < solids.size(); i++)
-		resolveCollisions(solids[i], Orientation::Horizontal);
-}
-
-void Enemy::addSolids(std::vector<Solid>* solids)
-{
-	for (size_t i = 0; i < solids->size(); i++)
-		addSolid(&(*solids)[i]);
-}
-
-void Enemy::addSolid(Solid* solid)
-{
-	solids.push_back(solid);
+	for (size_t i = 0; i < getCollidablesList().size(); i++)
+		resolveCollisions(getCollidablesList()[i], Orientation::Horizontal);
 }

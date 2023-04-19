@@ -24,6 +24,7 @@ public:
 
 	// Inherited via Drawable
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
 protected:
 	sf::Sprite sprite;
 	sf::FloatRect collider;
