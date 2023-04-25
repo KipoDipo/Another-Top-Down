@@ -1,5 +1,5 @@
 #include "Textures.h"
-#include "Utils.h"
+#include "Paths.h"
 
 std::vector<Textures::Pair> Textures::pairs;
 
@@ -68,9 +68,8 @@ void Textures::add(std::string fileName, int id)
 sf::Texture Textures::load(std::string name)
 {
 	sf::Texture temp;
-	if (!temp.loadFromFile(Utils::pathToTextures + name + ".png"))
-	{
+	if (!temp.loadFromFile(Paths::textures + name + ".png"))
 		return noneTexture;
-	}
+
 	return temp;
 }

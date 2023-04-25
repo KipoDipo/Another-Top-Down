@@ -9,7 +9,7 @@ Enemy::Enemy()
 }
 
 Enemy::Enemy(sf::Vector2f position, float speed)
-	: Animate(position, Animations::getNone(), speed), target(nullptr)
+	: Animate(position, Animation::getNone(), speed), target(nullptr)
 {
 }
 

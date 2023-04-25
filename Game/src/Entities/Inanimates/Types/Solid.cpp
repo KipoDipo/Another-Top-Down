@@ -7,7 +7,7 @@ Solid::Solid()
 }
 
 Solid::Solid(sf::Vector2f position)
-	: Solid(position, Animations::getNone())
+	: Solid(position, Animation::getNone())
 {
 }
 

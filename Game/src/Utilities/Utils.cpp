@@ -6,14 +6,6 @@ using namespace sf;
 
 const float Utils::root2 = sqrtf(2);
 
-const char* Utils::pathToTextures = "res/textures/";
-const char* Utils::pathToFonts = "res/fonts/";
-
-const char* Utils::greenFlag = "\033[92;102m \033[0m";
-const char* Utils::yellowFlag = "\033[33;43m \033[0m";
-const char* Utils::redFlag = "\033[31;41m \033[0m";
-
-
 Vector2f Utils::normalized(Vector2f vector)
 {
 	if (vector == Vector2f(0, 0))

@@ -88,52 +88,7 @@ void Animation::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(sprite, states);
 }
 
-
-Animation Animations::noneAnimation = Animations::noneAnimationGenerator();
-//std::vector<Animations::Pair> Animations::pairs;
-
-Animation Animations::load(const std::string& name, float switchTime)
-{
-	std::vector<sf::Texture> frames;
-
-	sf::Texture buffer;
-	std::ifstream checkFile;
-	for (size_t i = 0;; i++)
-	{
-		std::string fullPath = Utils::pathToTextures + name + std::to_string(i) + ".png";
-		checkFile.open(fullPath);
-		if (!checkFile)
-		{
-			if (i == 0)
-			{
-				std::string lastResortPath = Utils::pathToTextures + name + ".png";
-				checkFile.open(lastResortPath);
-				if (!checkFile)
-				{
-					printf("%s couldn't load %s (%s)\n", Utils::redFlag, name.c_str(), lastResortPath.c_str());
-					frames.push_back(*Textures::getNone());
-					break;
-				}
-
-				buffer.loadFromFile(lastResortPath);
-				frames.push_back(buffer);
-				printf("%s loaded single %s (%s)\n", Utils::greenFlag, name.c_str(), lastResortPath.c_str());
-				break;
-			}
-			else
-			{
-				printf("%s loaded animation %s (%s%sX.png)\n", Utils::greenFlag, name.c_str(), Utils::pathToTextures, name.c_str());
-				break;
-			}
-		}
-		checkFile.close();
-		buffer.loadFromFile(fullPath);
-		frames.push_back(buffer);
-	}
-	return Animation(frames, switchTime);
-}
-
-Animation Animations::noneAnimationGenerator()
+Animation Animation::noneAnimationGenerator()
 {
 	std::vector<sf::Texture> noFrames;
 	sf::Texture texture;
@@ -163,38 +118,9 @@ Animation Animations::noneAnimationGenerator()
 	return Animation(noFrames, 1.f);
 }
 
-const Animation& Animations::get(const std::string& name) const
-{
-	for (size_t i = 0; i < entries.size(); i++)
-		if (entries[i].name == name)
-			return entries[i].animation;
-	return noneAnimation;
-}
+Animation Animation::noneAnimation = Animation::noneAnimationGenerator();
 
-const Animation& Animations::get(int id) const
-{
-	for (size_t i = 0; i < entries.size(); i++)
-		if (entries[i].id == id)
-			return entries[i].animation;
-	return noneAnimation;
-}
-
-const Animation& Animations::getNone()
+const Animation& Animation::getNone()
 {
 	return noneAnimation;
-}
-
-void Animations::add(const std::string& fileName, float switchTime, const std::string name)
-{
-	entries.push_back(Dictionary(name, load(fileName, switchTime)));
-}
-
-void Animations::add(const std::string& fileName, float switchTime)
-{
-	entries.push_back(Dictionary(fileName, load(fileName, switchTime)));
-}
-
-void Animations::add(const std::string& fileName, float switchTime, int id)
-{
-	entries.push_back(Dictionary(fileName, load(fileName, switchTime), id));
 }

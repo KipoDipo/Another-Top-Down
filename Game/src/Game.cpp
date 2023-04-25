@@ -1,7 +1,7 @@
 #include "Game.h"
 #include "Entities/All.h"
 #include "Utilities/All.h"
-#include "Animation/Animation.h"
+#include "Animation/AnimationCollection.h"
 
 using namespace sf;
 using namespace std;
@@ -62,12 +62,13 @@ void Game::Init()
 
 
 	srand(time(0));
-	Animations playerAnims;
-	Animations enemyAnims;
+	AnimationCollection playerAnims;
+	AnimationCollection enemyAnims;
 	
-	Animations otherAnims;
+	AnimationCollection otherAnims;
 
 	playerAnims.add("player_idle/player", 0.1f, "player_idle");
+	playerAnims.add("player_down/player", 0.1f, "player_down");
 	enemyAnims.add("enemy", 1.f, 0);
 	
 	otherAnims.add("ball", 1.f);
@@ -111,9 +112,6 @@ void Game::Update()
 
 void Game::Draw()
 {
-
-
-
 	window.clear(Color(30, 20, 30));
 
 	smoothCamera += ((levels[0]->getPlayer().getCenter() - smoothCamera) * 2.f) * DeltaTime::get();

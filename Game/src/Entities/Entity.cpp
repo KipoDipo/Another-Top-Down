@@ -4,7 +4,7 @@
 using namespace sf;
 
 Entity::Entity()
-	: Entity(Vector2f(0, 0), Animations::getNone())
+	: Entity(Vector2f(0, 0), Animation::getNone())
 {
 }
 

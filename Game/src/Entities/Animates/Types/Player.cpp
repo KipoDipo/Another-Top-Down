@@ -19,7 +19,7 @@ Player::Player(const Player& other)
 }
 
 Player::Player(Vector2f position, float speed)
-	: Player(position, speed, Animations::getNone(), Animations::getNone())
+	: Player(position, speed, Animation::getNone(), Animation::getNone())
 {
 }
 

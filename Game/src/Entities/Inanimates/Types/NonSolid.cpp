@@ -7,7 +7,7 @@ NonSolid::NonSolid()
 }
 
 NonSolid::NonSolid(sf::Vector2f position)
-	: NonSolid(position, Animations::getNone())
+	: NonSolid(position, Animation::getNone())
 {
 }
 
