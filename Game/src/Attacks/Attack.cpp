@@ -1,6 +1,7 @@
 #include "Attack.h"
 
-Attack::Attack(float speed, float size, float distance, float range, const sf::Texture* texture)
+Attack::Attack(float speed, float size, float distance, float range, const Animation& sprite)
+	: sprite(sprite)
 {
 	setIsActive(false);
 	setProgress(0);
@@ -11,8 +12,7 @@ Attack::Attack(float speed, float size, float distance, float range, const sf::T
 	setSize(size);
 	setDistance(distance);
 	setRange(range);
-	sprite.setTexture(*texture);
-	sprite.setOrigin((sf::Vector2f)sprite.getTexture()->getSize() / 2.f);
+	this->sprite.setOrigin((sf::Vector2f)sprite.getSize() / 2.f);
 }
 
 Attack::~Attack()

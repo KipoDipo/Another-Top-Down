@@ -136,6 +136,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Animation\Animation.cpp" />
+    <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\Level.cpp" />
     <ClCompile Include="src\Utilities\DeltaTime.cpp" />
     <ClCompile Include="src\Entities\Animates\Animate.cpp" />
     <ClCompile Include="src\Attacks\Attack.cpp" />
@@ -143,10 +146,13 @@
     <ClCompile Include="src\Entities\Entity.cpp" />
     <ClCompile Include="src\Entities\Animates\Types\Player.cpp" />
     <ClCompile Include="src\Attacks\Types\SlashAttack.cpp" />
+    <ClInclude Include="src\Animation\Animation.h" />
+    <ClInclude Include="src\Level.h" />
+    <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\Utilities\All.h" />
     <ClInclude Include="src\Utilities\DeltaTime.h" />
     <ClInclude Include="src\Attacks\Types\SlashAttack.h" />
-    <ClCompile Include="src\Entities\Inanimates\Types\Ground.cpp" />
+    <ClCompile Include="src\Entities\Inanimates\Types\NonSolid.cpp" />
     <ClCompile Include="src\Entities\Inanimates\Types\Solid.cpp" />
     <ClCompile Include="src\Utilities\Textures.cpp" />
     <ClInclude Include="src\Utilities\Textures.h" />
@@ -155,7 +161,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Entities\All.h" />
-    <ClInclude Include="src\Entities\Inanimates\Types\Ground.h" />
+    <ClInclude Include="src\Entities\Inanimates\Types\NonSolid.h" />
     <ClInclude Include="src\Entities\Inanimates\Types\Solid.h" />
     <ClInclude Include="src\Entities\Animates\Animate.h" />
     <ClInclude Include="src\Attacks\Attack.h" />

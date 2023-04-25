@@ -1,8 +1,9 @@
 #include "Textures.h"
+#include "Utils.h"
 
 std::vector<Textures::Pair> Textures::pairs;
 
-sf::Texture Textures::noneTexture = Textures::noneTextureGenerator();
+sf::Texture Textures::noneTexture(Textures::noneTextureGenerator());
 
 sf::Texture Textures::noneTextureGenerator()
 {
@@ -31,11 +32,17 @@ sf::Texture Textures::noneTextureGenerator()
 	return texture;
 }
 
-sf::Texture* Textures::get(sf::String name)
+sf::Texture* Textures::getNone()
+{
+	return &noneTexture;
+}
+
+sf::Texture* Textures::get(std::string name)
 {
 	for (size_t i = 0; i < pairs.size(); i++)
 		if (pairs[i].name == name)
 			return &(pairs[i].texture);
+	printf("couldn't get texture with name: %s\n", name.c_str());
 	return &noneTexture;
 }
 
@@ -44,15 +51,16 @@ sf::Texture* Textures::get(int id)
 	for (size_t i = 0; i < pairs.size(); i++)
 		if (pairs[i].id == id)
 			return &(pairs[i].texture);
+	printf("couldn't get texture with ID: %d\n", id);
 	return &noneTexture;
 }
 
-void Textures::add(sf::String fileName)
+void Textures::add(std::string fileName)
 {
 	pairs.push_back(Pair(fileName, load(fileName)));
 }
 
-void Textures::add(sf::String fileName, int id)
+void Textures::add(std::string fileName, int id)
 {
 	pairs.push_back(Pair(fileName, load(fileName), id));
 }
@@ -60,7 +68,7 @@ void Textures::add(sf::String fileName, int id)
 sf::Texture Textures::load(std::string name)
 {
 	sf::Texture temp;
-	if (!temp.loadFromFile("res/" + name + ".png"))
+	if (!temp.loadFromFile(Utils::pathToTextures + name + ".png"))
 	{
 		return noneTexture;
 	}

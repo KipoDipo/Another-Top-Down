@@ -6,5 +6,5 @@ class Solid : public Entity
 public:
 	Solid();
 	Solid(sf::Vector2f position);
-	Solid(sf::Vector2f position, sf::Texture* texture);
+	Solid(sf::Vector2f position, const Animation& texture);
 };

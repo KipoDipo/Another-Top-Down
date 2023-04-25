@@ -1,11 +1,12 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "../Animation/Animation.h"
 
 class Entity : public virtual sf::Drawable
 {
 public:
 	Entity();
-	Entity(sf::Vector2f position, sf::Texture* texture);
+	Entity(sf::Vector2f position, const Animation& sprite);
 	virtual ~Entity();
 
 	void move(sf::Vector2f position);
@@ -26,6 +27,6 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 protected:
-	sf::Sprite sprite;
+	Animation sprite;
 	sf::FloatRect collider;
 };

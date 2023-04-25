@@ -8,10 +8,10 @@ class Textures
 	struct Pair
 	{
 		int id;
-		sf::String name;
+		std::string name;
 		sf::Texture texture;
 
-		Pair(sf::String name, sf::Texture texture, int id = -1)
+		Pair(std::string name, sf::Texture texture, int id = -1)
 			: name(name), texture(texture), id(id)
 		{
 		}
@@ -21,8 +21,10 @@ class Textures
 	static std::vector<Pair> pairs;
 public:
 	
-	static sf::Texture* get(sf::String name);
+	static sf::Texture* get(std::string name);
 	static sf::Texture* get(int id);
-	static void add(sf::String fileName);
-	static void add(sf::String fileName, int id);
+	static sf::Texture* getNone();
+
+	static void add(std::string fileName);
+	static void add(std::string fileName, int id);
 };

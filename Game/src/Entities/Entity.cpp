@@ -4,17 +4,15 @@
 using namespace sf;
 
 Entity::Entity()
-	: Entity(Vector2f(0, 0), nullptr)
+	: Entity(Vector2f(0, 0), Animations::getNone())
 {
 }
 
-Entity::Entity(Vector2f position, sf::Texture* texture) /* Consider - Maybe custom collider? */
+Entity::Entity(Vector2f position, const Animation& sprite) /* Consider - Maybe custom collider? */
+	: sprite(sprite)
 {
-	sprite.setPosition(position);
-	if (!texture)
-		return;
-	sprite.setTexture(*texture);
-	collider = sf::FloatRect(position.x, position.y, (float)sprite.getTexture()->getSize().x, (float)sprite.getTexture()->getSize().y);
+	this->sprite.setPosition(position);
+	collider = sf::FloatRect(position.x, position.y, (float)sprite.getSize().x, (float)sprite.getSize().y);
 }
 
 Entity::~Entity()
@@ -68,6 +66,7 @@ bool Entity::collides(const FloatRect& rect)
 
 void Entity::update()
 {
+	sprite.update();
 }
 
 Vector2f Entity::getCenter() const

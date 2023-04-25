@@ -9,9 +9,13 @@ Enemy::Enemy()
 }
 
 Enemy::Enemy(sf::Vector2f position, float speed)
-	: Animate(position, Textures::get("enemy")), target(nullptr)
+	: Animate(position, Animations::getNone(), speed), target(nullptr)
 {
-	setSpeed(speed);
+}
+
+Enemy::Enemy(sf::Vector2f position, const Animation& sprite, float speed)
+	: Animate(position, sprite, speed), target(nullptr)
+{
 }
 
 void Enemy::setTarget(Entity* target)
@@ -38,9 +42,10 @@ void Enemy::movement(Orientation orientation)
 
 void Enemy::update()
 {
+	Entity::update();
+	
 	if (!target)
 		return;
-	
 	movement(Orientation::Vertical);
 	for (size_t i = 0; i < getCollidablesList().size(); i++)
 		resolveCollisions(getCollidablesList()[i], Orientation::Vertical);

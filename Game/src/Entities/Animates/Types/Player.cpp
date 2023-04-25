@@ -1,3 +1,4 @@
+#include "../../../Animation/Animation.h"
 #include "../../../Utilities/All.h"
 #include "Player.h"
 #include "Enemy.h"
@@ -7,26 +8,37 @@
 using namespace sf;
 
 Player::Player()
-	: Player(Vector2f(250, 250), 5)
+	: Player(Vector2f(250, 250), 300)
 {
 }
 
+Player::Player(const Player& other)
+	: Animate(other)
+{
+	copy(other);
+}
+
 Player::Player(Vector2f position, float speed)
-	: Animate(position, Textures::get("player"))
+	: Player(position, speed, Animations::getNone(), Animations::getNone())
+{
+}
+
+Player::Player(sf::Vector2f position, float speed, const Animation& sprite, const Animation& attackSprite)
+	: Animate(position, sprite)
 {
 	setSpeed(speed);
 	setName("Player");
-	attack = new SlashAttack(6.f, 10, 50, 100);
+	attack = new SlashAttack(6.f, 10, 50, 100, attackSprite);
 }
 
 Player::~Player()
 {
-	delete attack;
+	free();
 }
 
 void Player::addEnemy(Enemy* enemy)
 {
-	enemiesList.push_back(enemy);
+	enemies.push_back(enemy);
 }
 void Player::addEnemies(std::vector<Enemy>* enemies)
 {
@@ -34,8 +46,15 @@ void Player::addEnemies(std::vector<Enemy>* enemies)
 		addEnemy(&(*enemies)[i]);
 }
 
+void Player::clearEnemies()
+{
+	enemies.clear();
+}
+
 void Player::update()
 {
+	Entity::update();
+	
 	movement(Orientation::Horizontal);
 	for (size_t i = 0; i < getCollidablesList().size(); i++)
 		resolveCollisions(getCollidablesList()[i], Orientation::Horizontal);
@@ -61,8 +80,8 @@ void Player::update()
 	}
 
 	attack->update(getCenter());
-	for (size_t i = 0; i < enemiesList.size(); i++)
-		checkInterractions(enemiesList[i]);
+	for (size_t i = 0; i < enemies.size(); i++)
+		checkInterractions(enemies[i]);
 }
 
 void Player::movement(Orientation orientation)
@@ -109,4 +128,15 @@ void Player::draw(RenderTarget& target, RenderStates states) const
 
 	if (attack->getIsActive())
 		attack->draw(target, states);
+}
+
+void Player::copy(const Player& player)
+{
+	enemies = player.enemies;
+	attack = player.attack->clone();
+}
+
+void Player::free()
+{
+	delete attack;
 }

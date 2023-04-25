@@ -5,5 +5,5 @@
 #include "Animates/Types/Enemy.h"
 #include "Animates/Types/Player.h"
 
-#include "Inanimates/Types/Ground.h"
+#include "Inanimates/Types/NonSolid.h"
 #include "Inanimates/Types/Solid.h"

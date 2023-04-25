@@ -7,11 +7,11 @@ Solid::Solid()
 }
 
 Solid::Solid(sf::Vector2f position)
-	: Solid(position, Textures::get("defaultSolid"))
+	: Solid(position, Animations::getNone())
 {
 }
 
-Solid::Solid(sf::Vector2f position, sf::Texture* texture)
-	: Entity(position, texture)
+Solid::Solid(sf::Vector2f position, const Animation& sprite)
+	: Entity(position, sprite)
 {
 }

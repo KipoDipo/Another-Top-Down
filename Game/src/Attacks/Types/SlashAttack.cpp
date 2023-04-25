@@ -3,14 +3,14 @@
 
 using namespace sf;
 
-SlashAttack::SlashAttack(float speed, float size, float distance, float range)
-	: Attack(speed, size, distance, range, Textures::get("ball"))
+SlashAttack::SlashAttack(float speed, float size, float distance, float range, const Animation& animation)
+	: Attack(speed, size, distance, range, animation)
 {
 }
 
 
 void SlashAttack::update(const Vector2f& origin)
-{
+{	
 	if (!getIsActive())
 		return;
 
@@ -29,4 +29,9 @@ void SlashAttack::update(const Vector2f& origin)
 
 	setSpritePosition(Vector2f(getCollider().left, getCollider().top) + Vector2f(getCollider().width, getCollider().height) / 2.f);
 	addProgress(getSpeed() * DeltaTime::get());
+}
+
+SlashAttack* SlashAttack::clone() const
+{
+	return new SlashAttack(*this);
 }

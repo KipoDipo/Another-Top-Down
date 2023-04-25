@@ -7,9 +7,11 @@ Animate::Animate()
 {
 }
 
-Animate::Animate(sf::Vector2f position, sf::Texture* texture)
-	: Entity(position, texture), health(1), speed(0)
+Animate::Animate(sf::Vector2f position, const Animation& sprite, float speed)
+	: Entity(position, sprite)
 {
+	setHealth(1);
+	setSpeed(speed);
 }
 
 void Animate::addHealth(int toAdd)
@@ -29,7 +31,7 @@ void Animate::setHealth(int health)
 	this->health = health;
 }
 
-void Animate::setName(sf::String name)
+void Animate::setName(const std::string& name)
 {
 	this->name = name;
 }
@@ -72,12 +74,17 @@ void Animate::addCollidable(Entity* entity)
 	collidablesList.push_back(entity);
 }
 
+void Animate::clearCollidables()
+{
+	collidablesList.clear();
+}
+
 int Animate::getHealth() const
 {
 	return health;
 }
 
-sf::String Animate::getName() const
+std::string Animate::getName() const
 {
 	return name;
 }

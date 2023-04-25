@@ -1,12 +1,14 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "../Animation/Animation.h"
 
 class Attack : public virtual sf::Drawable
 {
 public:
-	Attack(float speed, float size, float distance, float range, const sf::Texture* texture);
+	Attack(float speed, float size, float distance, float range, const Animation& sprite);
 	virtual ~Attack();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	virtual Attack* clone() const = 0;
 	
 	virtual void update(const sf::Vector2f& origin) = 0;
 
@@ -33,7 +35,7 @@ protected:
 	void setDirection(sf::Vector2f direction);
 	void setCollider(const sf::FloatRect& collider);
 	void setSpritePosition(sf::Vector2f position);
-	
+
 private:
 	bool isActive;
 	float progress; // 0.0 - 1.0
@@ -43,5 +45,5 @@ private:
 	float range;
 	sf::Vector2f direction;
 	sf::FloatRect collider;
-	sf::Sprite sprite;
+	Animation sprite;
 };
