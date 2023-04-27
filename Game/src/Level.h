@@ -11,16 +11,16 @@ public:
 	~Level();
 	
 	void setPlayer(sf::Vector2f position, float speed);
-	void setPlayer(sf::Vector2f position, float speed, const Animation& sprite, const Animation& attackSprite);
+	void setPlayer(sf::Vector2f position, float speed, const Animator& animations, const Animator& atkAnimations);
 	
 	void addHostile(sf::Vector2f position, float speed);
-	void addHostile(sf::Vector2f position, float speed, const Animation& sprite);
+	void addHostile(sf::Vector2f position, float speed, const Animator& animations);
 	void addSolid(sf::Vector2f position);
-	void addSolid(sf::Vector2f position, const Animation& sprite);
+	void addSolid(sf::Vector2f position, const Animator& animations);
 	void addGround(sf::Vector2f position);
-	void addGround(sf::Vector2f position, const Animation& sprite);
+	void addGround(sf::Vector2f position, const Animator& animations);
 	void addDecoration(sf::Vector2f position);
-	void addDecoration(sf::Vector2f position, const Animation& sprite);
+	void addDecoration(sf::Vector2f position, const Animator& animations);
 
 	void create();
 

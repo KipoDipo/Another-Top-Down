@@ -4,15 +4,22 @@
 using namespace sf;
 
 Entity::Entity()
-	: Entity(Vector2f(0, 0), Animation::getNone())
+	: Entity(Vector2f(0, 0), AnimationCollection::getNone())
 {
 }
 
-Entity::Entity(Vector2f position, const Animation& sprite) /* Consider - Maybe custom collider? */
-	: sprite(sprite)
+Entity::Entity(Vector2f position, const Animator& animationCollection) /* Consider - Maybe custom collider? */
+	: animator(animationCollection)
+
 {
-	this->sprite.setPosition(position);
-	collider = sf::FloatRect(position.x, position.y, (float)sprite.getSize().x, (float)sprite.getSize().y);
+	animator.setPosition(position);
+	
+	collider = FloatRect(
+		position.x, 
+		position.y, 
+		(float)animator.getAnimation().getSize().x, 
+		(float)animator.getAnimation().getSize().y
+	);
 }
 
 Entity::~Entity()
@@ -27,7 +34,7 @@ void Entity::move(Vector2f direction)
 
 void Entity::move(float x, float y)
 {
-	sprite.move(x, y);
+	animator.move(x, y);
 	collider.left += x;
 	collider.top += y;
 }
@@ -39,14 +46,14 @@ void Entity::setPosition(Vector2f position)
 
 void Entity::setPosition(float x, float y)
 {
-	sprite.setPosition(x, y);
+	animator.setPosition(x, y);
 	collider.left = x;
 	collider.top = y;
 }
 
 Vector2f Entity::getPosition() const
 {
-	return sprite.getPosition();
+	return animator.getAnimation().getPosition();
 }
 
 const sf::FloatRect& Entity::getCollider() const
@@ -66,7 +73,7 @@ bool Entity::collides(const FloatRect& rect)
 
 void Entity::update()
 {
-	sprite.update();
+	animator.update();
 }
 
 Vector2f Entity::getCenter() const
@@ -76,7 +83,7 @@ Vector2f Entity::getCenter() const
 
 void Entity::draw(RenderTarget& target, RenderStates states) const
 {
-	target.draw(sprite, states);
+	target.draw(animator.getAnimation(), states);
 
 	//for debugging
 	static bool alwaysOn = false;

@@ -60,48 +60,54 @@ void Game::Init()
 	text.setCharacterSize(25);
 	text.setString("FPS: wait");
 
-
-	srand(time(0));
-	AnimationCollection playerAnims;
-	AnimationCollection enemyAnims;
+	srand((unsigned int)time(0));
+	Animator playerAnims;
+	Animator enemyAnims;
+	Animator atkAnims;
+	Animator solidAnims;
+	Animator groundAnims;
 	
-	AnimationCollection otherAnims;
+	Animator sparkAnims;
+	Animator guideAnims;
 
-	playerAnims.add("player_idle/player", 0.1f, "player_idle");
 	playerAnims.add("player_down/player", 0.1f, "player_down");
-	enemyAnims.add("enemy", 1.f, 0);
+	playerAnims.add("player_up/player", 0.1f, "player_up");
+	playerAnims.add("player_right/player", 0.1f, "player_right");
+	playerAnims.add("player_left/player", 0.1f, "player_left");
 	
-	otherAnims.add("ball", 1.f);
-	otherAnims.add("defaultGround", 1.f, 1);
-	otherAnims.add("solid/solid", 0.08f, 0);
-	otherAnims.add("guide", 1.f);
-	otherAnims.add("spark/spark", 0.1f, "spark");
+	enemyAnims.add("enemy", 1.f);
+	
+	atkAnims.add("ball", 1.f);
+	groundAnims.add("defaultGround", 1.f);
+	solidAnims.add("solid/solid", 0.08f);
+	guideAnims.add("guide", 1.f);
+	sparkAnims.add("spark/spark", 0.1f, "spark");
 
 	Level* testLevel = new Level();
 
-	testLevel->setPlayer(Vector2f(250, 250), 300.f, playerAnims.get("player_idle"), otherAnims.get("ball"));
+	testLevel->setPlayer(Vector2f(250, 250), 300.f, playerAnims, atkAnims);
+	
+	testLevel->addHostile(Vector2f(180, 30), rand() % 20 + 20.f, enemyAnims);
+	testLevel->addHostile(Vector2f(230, 100), rand() % 20 + 20.f, enemyAnims);
+	testLevel->addHostile(Vector2f(260, 60), rand() % 20 + 20.f, enemyAnims);
 
-	testLevel->addHostile(Vector2f(180, 30), rand() % 20 + 20, enemyAnims.get(0));
-	testLevel->addHostile(Vector2f(230, 100), rand() % 20 + 20, enemyAnims.get(0));
-	testLevel->addHostile(Vector2f(260, 60), rand() % 20 + 20, enemyAnims.get(0));
-
-	testLevel->addSolid(Vector2f(50, 0), otherAnims.get(0));
-	testLevel->addSolid(Vector2f(50, 50), otherAnims.get(0));
-	testLevel->addSolid(Vector2f(50, 100), otherAnims.get(0));
-	testLevel->addSolid(Vector2f(50, 150), otherAnims.get(0));
-	testLevel->addSolid(Vector2f(00, 200), otherAnims.get(0));
-	testLevel->addSolid(Vector2f(-50, 200), otherAnims.get(0));
-	testLevel->addSolid(Vector2f(-100, 200), otherAnims.get(0));
+	testLevel->addSolid(Vector2f(50, 0), solidAnims);
+	testLevel->addSolid(Vector2f(50, 50), solidAnims);
+	testLevel->addSolid(Vector2f(50, 100), solidAnims);
+	testLevel->addSolid(Vector2f(50, 150), solidAnims);
+	testLevel->addSolid(Vector2f(00, 200), solidAnims);
+	testLevel->addSolid(Vector2f(-50, 200), solidAnims);
+	testLevel->addSolid(Vector2f(-100, 200), solidAnims);
 
 	for (int i = -3; i < 10; i++)
 		for (int j = -3; j < 10; j++)
-			testLevel->addGround(Vector2f(j * 50, i * 50), otherAnims.get(1));
+			testLevel->addGround(Vector2f(j * 50.f, i * 50.f), groundAnims);
 
-	testLevel->addDecoration(Vector2f(0, 0), otherAnims.get("spark"));
-
+	testLevel->addDecoration(Vector2f(0, 0), guideAnims);
+	testLevel->addDecoration(Vector2f(0, 0), sparkAnims);
+	
+	testLevel->create();
 	levels.push_back(testLevel);
-	levels[levels.size() - 1]->create();
-
 	smoothCamera = levels[levels.size() - 1]->getPlayer().getCenter();
 }
 
@@ -130,7 +136,8 @@ void Game::Draw()
 		{
 			mclock.restart();
 			text.setString("FPS: " + std::to_string((int)(sumFps / frames)));
-			sumFps = frames = 0;
+			sumFps = 0;
+			frames = 0;
 		}
 		else
 		{

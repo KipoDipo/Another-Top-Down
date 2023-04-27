@@ -1,12 +1,12 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "../Animation/Animation.h"
+#include "../Animation/Animator.h"
 
 class Entity : public virtual sf::Drawable
 {
 public:
 	Entity();
-	Entity(sf::Vector2f position, const Animation& sprite);
+	Entity(sf::Vector2f position, const Animator& animHandler);
 	virtual ~Entity();
 
 	void move(sf::Vector2f position);
@@ -26,7 +26,7 @@ public:
 	// Inherited via Drawable
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-protected:
-	Animation sprite;
+private:
+	Animator animator;
 	sf::FloatRect collider;
 };

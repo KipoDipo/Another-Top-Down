@@ -19,16 +19,16 @@ Player::Player(const Player& other)
 }
 
 Player::Player(Vector2f position, float speed)
-	: Player(position, speed, Animation::getNone(), Animation::getNone())
+	: Player(position, speed, AnimationCollection::getNone(), AnimationCollection::getNone())
 {
 }
 
-Player::Player(sf::Vector2f position, float speed, const Animation& sprite, const Animation& attackSprite)
-	: Animate(position, sprite)
+Player::Player(sf::Vector2f position, float speed, const Animator& animations, const Animator& atkAnimations)
+	: Animate(position, animations)
 {
 	setSpeed(speed);
 	setName("Player");
-	attack = new SlashAttack(6.f, 10, 50, 100, attackSprite);
+	attack = new SlashAttack(6.f, 10, 50, 100, atkAnimations);
 }
 
 Player::~Player()

@@ -3,8 +3,8 @@
 
 using namespace sf;
 
-SlashAttack::SlashAttack(float speed, float size, float distance, float range, const Animation& animation)
-	: Attack(speed, size, distance, range, animation)
+SlashAttack::SlashAttack(float speed, float size, float distance, float range, const Animator& animations)
+	: Attack(speed, size, distance, range, animations)
 {
 }
 
@@ -13,6 +13,8 @@ void SlashAttack::update(const Vector2f& origin)
 {	
 	if (!getIsActive())
 		return;
+
+	updateSprite();
 
 	Vector2f atkSizeOffset = Vector2f(getSize(), getSize()) / 2.f;
 	Vector2f atkAreaOffset = Vector2f(getDirection().y, getDirection().x) * getProgress() * getRange();

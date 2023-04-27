@@ -1,4 +1,3 @@
-#include "../Utilities/Textures.h"
 #include "../Utilities/Utils.h"
 #include "Animation.h"
 #include <fstream>
@@ -8,20 +7,8 @@ Animation::Animation()
 {
 }
 
-Animation::Animation(const Animation& other)
-	: frames(other.frames), switchTime(other.switchTime), currentFrame(other.currentFrame), clock(other.clock)
-{
-	sprite.setPosition(other.sprite.getPosition());
-	sprite.setOrigin(other.sprite.getOrigin());
-	sprite.setRotation(other.sprite.getRotation());
-	sprite.setColor(other.sprite.getColor());
-	sprite.setScale(other.sprite.getScale());
-	if (frames.size() > 0)
-		sprite.setTexture(frames[0]);
-}
-
-Animation::Animation(const std::vector<sf::Texture>& frames, float switchTime)
-	: frames(frames), sprite(frames[0]), switchTime(switchTime), currentFrame(0), clock()
+Animation::Animation(std::vector<sf::Texture>* frames, float switchTime)
+	: frames(frames), sprite((*this->frames)[0]), switchTime(switchTime), currentFrame(0), clock()
 {
 }
 
@@ -31,11 +18,17 @@ void Animation::update()
 	
 	if (elapsedTime > switchTime)
 	{
-		if (currentFrame >= frames.size())
-			currentFrame = 0;
-		sprite.setTexture(frames[currentFrame++]);
+		sprite.setTexture((*frames)[currentFrame]);
+		currentFrame = (currentFrame + 1) % frames->size(); // from 0 to size
 		clock.restart();
 	}
+}
+
+void Animation::reset()
+{
+	clock.restart();
+	currentFrame = 0;
+	sprite.setTexture((*frames)[0]);
 }
 
 void Animation::setPosition(sf::Vector2f position)
@@ -48,9 +41,9 @@ void Animation::setPosition(float x, float y)
 	sprite.setPosition(x, y);
 }
 
-void Animation::setOrigin(sf::Vector2f position)
+void Animation::setOrigin(sf::Vector2f origin)
 {
-	setOrigin(position.x, position.y);
+	setOrigin(origin.x, origin.y);
 }
 
 void Animation::setOrigin(float x, float y)
@@ -80,7 +73,7 @@ sf::Vector2u Animation::getSize() const
 
 sf::Vector2f Animation::getPosition() const
 {
-	return sf::Vector2f();
+	return sprite.getPosition();
 }
 
 void Animation::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -90,7 +83,7 @@ void Animation::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 Animation Animation::noneAnimationGenerator()
 {
-	std::vector<sf::Texture> noFrames;
+	std::vector<sf::Texture>* noFrames = new std::vector<sf::Texture>();
 	sf::Texture texture;
 	texture.create(50, 50);
 	sf::Image img = texture.copyToImage();
@@ -114,13 +107,13 @@ Animation Animation::noneAnimationGenerator()
 
 	texture.update(img);
 
-	noFrames.push_back(texture);
+	noFrames->push_back(texture);
 	return Animation(noFrames, 1.f);
 }
 
 Animation Animation::noneAnimation = Animation::noneAnimationGenerator();
 
-const Animation& Animation::getNone()
+Animation& Animation::getNone()
 {
 	return noneAnimation;
 }

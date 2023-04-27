@@ -7,7 +7,7 @@ class Animate : public Entity
 {
 public:
 	Animate();
-	Animate(sf::Vector2f position, const Animation& sprite, float speed = 0);
+	Animate(sf::Vector2f position, const Animator& animations, float speed = 0);
 	
 	virtual void update() override = 0;
 	void kill();

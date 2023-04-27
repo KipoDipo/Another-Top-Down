@@ -7,8 +7,8 @@ Animate::Animate()
 {
 }
 
-Animate::Animate(sf::Vector2f position, const Animation& sprite, float speed)
-	: Entity(position, sprite)
+Animate::Animate(sf::Vector2f position, const Animator& animations, float speed)
+	: Entity(position, animations)
 {
 	setHealth(1);
 	setSpeed(speed);
@@ -54,15 +54,15 @@ void Animate::resolveCollisions(const Entity* entity, Orientation orientation)
 		{
 		case Orientation::Horizontal:
 			if (dir.x < 0)
-				Entity::setPosition(entity->getCollider().left + entity->getCollider().width, collider.top);
+				Entity::setPosition(entity->getCollider().left + entity->getCollider().width, getCollider().top);
 			else if (dir.x > 0)
-				Entity::setPosition(entity->getCollider().left - collider.width, collider.top);
+				Entity::setPosition(entity->getCollider().left - getCollider().width, getCollider().top);
 			break;
 		case Orientation::Vertical:
 			if (dir.y < 0)
-				Entity::setPosition(collider.left, entity->getCollider().top + entity->getCollider().height);
+				Entity::setPosition(getCollider().left, entity->getCollider().top + entity->getCollider().height);
 			else if (dir.y > 0)
-				Entity::setPosition(collider.left, entity->getCollider().top - collider.height);
+				Entity::setPosition(getCollider().left, entity->getCollider().top - getCollider().height);
 			break;
 		}
 	}

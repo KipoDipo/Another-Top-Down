@@ -40,10 +40,10 @@ void Level::setPlayer(sf::Vector2f position, float speed)
 	}
 }
 
-void Level::setPlayer(sf::Vector2f position, float speed, const Animation& sprite, const Animation& attackSprite)
+void Level::setPlayer(sf::Vector2f position, float speed, const Animator& animations, const Animator& atkAnimations)
 {
 	if (!player)
-		player = new Player(position, speed, sprite, attackSprite);
+		player = new Player(position, speed, animations, atkAnimations);
 	else
 	{
 		player->setPosition(position);
@@ -58,9 +58,9 @@ void Level::addHostile(sf::Vector2f position, float speed)
 	hostiles.push_back(new Enemy(position, speed));
 }
 
-void Level::addHostile(sf::Vector2f position, float speed, const Animation& sprite)
+void Level::addHostile(sf::Vector2f position, float speed, const Animator& animations)
 {
-	hostiles.push_back(new Enemy(position, sprite, speed));
+	hostiles.push_back(new Enemy(position, animations, speed));
 }
 
 void Level::addSolid(sf::Vector2f position)
@@ -68,9 +68,9 @@ void Level::addSolid(sf::Vector2f position)
 	solids.push_back(new Solid(position));
 }
 
-void Level::addSolid(sf::Vector2f position, const Animation& sprite)
+void Level::addSolid(sf::Vector2f position, const Animator& animations)
 {
-	solids.push_back(new Solid(position, sprite));
+	solids.push_back(new Solid(position, animations));
 }
 
 void Level::addGround(sf::Vector2f position)
@@ -78,9 +78,9 @@ void Level::addGround(sf::Vector2f position)
 	grounds.push_back(new NonSolid(position));
 }
 
-void Level::addGround(sf::Vector2f position, const Animation& sprite)
+void Level::addGround(sf::Vector2f position, const Animator& animations)
 {
-	grounds.push_back(new NonSolid(position, sprite));
+	grounds.push_back(new NonSolid(position, animations));
 }
 
 void Level::addDecoration(sf::Vector2f position)
@@ -88,9 +88,9 @@ void Level::addDecoration(sf::Vector2f position)
 	decorations.push_back(new NonSolid(position));
 }
 
-void Level::addDecoration(sf::Vector2f position, const Animation& sprite)
+void Level::addDecoration(sf::Vector2f position, const Animator& animations)
 {
-	decorations.push_back(new NonSolid(position, sprite));
+	decorations.push_back(new NonSolid(position, animations));
 }
 
 void Level::create()
@@ -116,6 +116,8 @@ void Level::update()
 	player->update();
 	for (size_t i = 0; i < hostiles.size(); i++)
 		hostiles[i]->update();
+	for (size_t i = 0; i < grounds.size(); i++)
+		grounds[i]->update();
 	for (size_t i = 0; i < solids.size(); i++)
 		solids[i]->update();
 	for (size_t i = 0; i < decorations.size(); i++)
