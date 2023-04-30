@@ -21,6 +21,8 @@ public:
 	bool collides(const Entity& entity);
 	bool collides(const sf::FloatRect& rect);
 
+	void setAnimation(const std::string name);
+
 	virtual void update();
 
 	// Inherited via Drawable

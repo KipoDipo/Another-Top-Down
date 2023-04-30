@@ -8,8 +8,8 @@ public:
 
 	Animation& operator[](const std::string& name);
 	const Animation& operator[](const std::string& name) const;
-	Animation& operator[](int index);
-	const Animation& operator[](int index) const;
+	Animation& operator[](size_t index);
+	const Animation& operator[](size_t index) const;
 
 	void move(sf::Vector2f position);
 	void move(float x, float y);

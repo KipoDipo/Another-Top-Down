@@ -15,11 +15,12 @@ Animator::Animator(const Animator& other)
 			currentAnimation = &animations[i];
 			break;
 		}
+
 	if (currentAnimation == nullptr)
 		printf("%s something has gone terribly wrong when using the copy ctor of Animator...", ConsoleColors::redFlag);
 }
 
-const Animator& Animator::operator=(const Animator& other)
+Animator& Animator::operator=(const Animator& other)
 {
 	animations = other.animations;
 	currentAnimation = nullptr;
@@ -29,6 +30,7 @@ const Animator& Animator::operator=(const Animator& other)
 			currentAnimation = &animations[i];
 			break;
 		}
+
 	if (currentAnimation == nullptr)
 		printf("%s something has gone terribly wrong when using the operator= of Animator...", ConsoleColors::redFlag);
 }
@@ -50,6 +52,9 @@ Animator::Animator(const AnimationCollection& animations, const std::string& def
 
 void Animator::setAnimation(const std::string& name)
 {
+	if (currentAnimation == &animations[name])
+		return;
+
 	animations[name].setPosition(currentAnimation->getPosition());
 	currentAnimation = &animations[name];
 	currentAnimation->reset();

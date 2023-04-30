@@ -6,7 +6,7 @@ class Animator
 public:
 	Animator();
 	Animator(const Animator& other);
-	const Animator& operator=(const Animator& other);
+	Animator& operator=(const Animator& other);
 	
 	Animator(const std::string& defaultAnimationName);
 	Animator(const AnimationCollection& animations);

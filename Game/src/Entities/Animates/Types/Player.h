@@ -14,6 +14,7 @@ public:
 	Player& operator=(const Player& other) = delete;
 	Player(sf::Vector2f position, float speed);
 	Player(sf::Vector2f position, float speed, const Animator& animations, const Animator& atkAnimations);
+	//Player(sf::Vector2f position, float speed, const AnimateAnimation& animation, const Animator& atkAnimations);
 	~Player();
 	
 	void addEnemy(Enemy* enemy);

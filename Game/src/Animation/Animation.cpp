@@ -8,8 +8,9 @@ Animation::Animation()
 }
 
 Animation::Animation(std::vector<sf::Texture>* frames, float switchTime)
-	: frames(frames), sprite((*this->frames)[0]), switchTime(switchTime), currentFrame(0), clock()
+	: frames(frames), switchTime(switchTime), currentFrame(0), clock()
 {
+	sprite = frames == nullptr ? Animation::getNone().sprite : sf::Sprite((*this->frames)[0]);
 }
 
 void Animation::update()
@@ -64,6 +65,11 @@ void Animation::move(float x, float y)
 void Animation::setSwitchTime(float switchTime)
 {
 	this->switchTime = switchTime;
+}
+
+size_t Animation::getCurrentFrame() const
+{
+	return currentFrame;
 }
 
 sf::Vector2u Animation::getSize() const

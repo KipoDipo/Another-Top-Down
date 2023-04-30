@@ -19,8 +19,11 @@ public:
 	
 	void setSwitchTime(float switchTime);
 
+	size_t getCurrentFrame() const;
+
 	sf::Vector2u getSize() const;
 	sf::Vector2f getPosition() const;
+
 
 	static Animation& getNone();
 
@@ -28,7 +31,7 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 	
 private:
-	std::vector<sf::Texture>* frames;
+	std::shared_ptr<std::vector<sf::Texture>> frames;
 	sf::Sprite sprite;
 	float switchTime;
 	size_t currentFrame;

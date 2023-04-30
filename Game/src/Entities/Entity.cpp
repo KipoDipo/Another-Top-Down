@@ -71,6 +71,11 @@ bool Entity::collides(const FloatRect& rect)
 	return collider.intersects(rect);
 }
 
+void Entity::setAnimation(const std::string name)
+{
+	animator.setAnimation(name);
+}
+
 void Entity::update()
 {
 	animator.update();

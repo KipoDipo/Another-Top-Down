@@ -55,13 +55,30 @@ void Player::update()
 {
 	Entity::update();
 	
-	movement(Orientation::Horizontal);
-	for (size_t i = 0; i < getCollidablesList().size(); i++)
-		resolveCollisions(getCollidablesList()[i], Orientation::Horizontal);
+	std::string animation = "player_down";
 
 	movement(Orientation::Vertical);
 	for (size_t i = 0; i < getCollidablesList().size(); i++)
 		resolveCollisions(getCollidablesList()[i], Orientation::Vertical);
+
+	if (getDirection().y > 0)
+		animation = "player_down";
+	else if (getDirection().y < 0)
+		animation = "player_up";
+	
+	movement(Orientation::Horizontal);
+	for (size_t i = 0; i < getCollidablesList().size(); i++)
+		resolveCollisions(getCollidablesList()[i], Orientation::Horizontal);
+	
+	if (getDirection().x > 0)
+		animation = "player_right";
+	else if (getDirection().x < 0)
+		animation = "player_left";
+
+	setAnimation(animation);
+
+
+	
 
 	if (!attack->getIsActive())
 	{

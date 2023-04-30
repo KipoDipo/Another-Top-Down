@@ -137,6 +137,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Animation\Animator.cpp" />
+    <ClCompile Include="src\Animation\Animatorv2.cpp" />
     <ClCompile Include="src\Utilities\ConsoleColors.cpp" />
     <ClCompile Include="src\Utilities\Paths.cpp" />
     <ClCompile Include="src\Animation\Animation.cpp" />
@@ -153,6 +154,8 @@
     <ClInclude Include="src\Animation\Animation.h" />
     <ClInclude Include="src\Animation\AnimationCollection.h" />
     <ClInclude Include="src\Animation\Animator.h" />
+    <ClInclude Include="src\Animation\Animatorv2.h" />
+    <ClInclude Include="src\Animation\Types\AnimateAnimation.h" />
     <ClInclude Include="src\Level.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\Utilities\All.h" />

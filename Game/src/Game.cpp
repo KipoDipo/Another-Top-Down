@@ -74,11 +74,11 @@ void Game::Init()
 	playerAnims.add("player_up/player", 0.1f, "player_up");
 	playerAnims.add("player_right/player", 0.1f, "player_right");
 	playerAnims.add("player_left/player", 0.1f, "player_left");
-	
+
 	enemyAnims.add("enemy", 1.f);
 	
-	atkAnims.add("ball", 1.f);
-	groundAnims.add("defaultGround", 1.f);
+	atkAnims.add("ball/ball", 0.1f, "ball");
+	groundAnims.add("tiles", 1.f);
 	solidAnims.add("solid/solid", 0.08f);
 	guideAnims.add("guide", 1.f);
 	sparkAnims.add("spark/spark", 0.1f, "spark");
@@ -104,11 +104,16 @@ void Game::Init()
 			testLevel->addGround(Vector2f(j * 50.f, i * 50.f), groundAnims);
 
 	testLevel->addDecoration(Vector2f(0, 0), guideAnims);
-	testLevel->addDecoration(Vector2f(0, 0), sparkAnims);
+
+	//for (int i = -3; i < 10; i++)
+	//	for (int j = -3; j < 10; j++)
+	//		if (rand() % 5 == 0)
+				testLevel->addDecoration(Vector2f(0.f, 0.f), sparkAnims);
 	
 	testLevel->create();
 	levels.push_back(testLevel);
 	smoothCamera = levels[levels.size() - 1]->getPlayer().getCenter();
+	mclock.restart();
 }
 
 void Game::Update()

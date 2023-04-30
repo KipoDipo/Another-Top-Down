@@ -3,6 +3,7 @@
 #include "../Utilities/ConsoleColors.h"
 #include <fstream>
 
+//#define NO_ANIM
 
 Animation AnimationCollection::load(const std::string& name, float switchTime)
 {
@@ -40,6 +41,10 @@ Animation AnimationCollection::load(const std::string& name, float switchTime)
 		checkFile.close();
 		buffer.loadFromFile(fullPath);
 		frames->push_back(buffer);
+#ifdef NO_ANIM
+		printf("%s loaded animation %s (%s%s0.png) [NO_ANIM]\n", ConsoleColors::greenFlag, name.c_str(), Paths::textures, name.c_str());
+		break;
+		#endif
 	}
 	return Animation(frames, switchTime);
 }
@@ -52,7 +57,7 @@ Animation& AnimationCollection::operator[](const std::string& name)
 	printf("%s couldn't get \"%s\"\n", ConsoleColors::yellowFlag, name.c_str());
 	return Animation::getNone();
 }
-Animation& AnimationCollection::operator[](int index)
+Animation& AnimationCollection::operator[](size_t index)
 {
 	return entries[index].animation;
 }
@@ -65,7 +70,7 @@ const Animation& AnimationCollection::operator[](const std::string& name) const
 	printf("%s couldn't get \"%s\"\n", ConsoleColors::yellowFlag, name.c_str());
 	return Animation::getNone();
 }
-const Animation& AnimationCollection::operator[](int index) const
+const Animation& AnimationCollection::operator[](size_t index) const
 {
 	return entries[index].animation;
 }
