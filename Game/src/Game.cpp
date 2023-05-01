@@ -1,7 +1,7 @@
 #include "Game.h"
 #include "Entities/All.h"
 #include "Utilities/All.h"
-#include "Animation/AnimationCollection.h"
+#include "Animation/Types/AnimateAnimation.h"
 
 using namespace sf;
 using namespace std;
@@ -61,27 +61,16 @@ void Game::Init()
 	text.setString("FPS: wait");
 
 	srand((unsigned int)time(0));
-	Animator playerAnims;
-	Animator enemyAnims;
-	Animator atkAnims;
-	Animator solidAnims;
-	Animator groundAnims;
+	Animatorv2 atkAnims;
+	AnimateAnimation playerAnims("player_up/player", "player_down/player", "player_left/player", "player_right/player", "player_down/player", 0.1f);
+	AnimateAnimation enemyAnims("enemy", 0.1f);
+	InanimateAnimation solidAnims("solid/solid", 0.08f);
+	InanimateAnimation groundAnims("tiles", 1.f);
 	
-	Animator sparkAnims;
-	Animator guideAnims;
+	InanimateAnimation sparkAnims("spark/spark", 0.1f);
+	InanimateAnimation guideAnims("guide", 1.f);
 
-	playerAnims.add("player_down/player", 0.1f, "player_down");
-	playerAnims.add("player_up/player", 0.1f, "player_up");
-	playerAnims.add("player_right/player", 0.1f, "player_right");
-	playerAnims.add("player_left/player", 0.1f, "player_left");
-
-	enemyAnims.add("enemy", 1.f);
-	
-	atkAnims.add("ball/ball", 0.1f, "ball");
-	groundAnims.add("tiles", 1.f);
-	solidAnims.add("solid/solid", 0.08f);
-	guideAnims.add("guide", 1.f);
-	sparkAnims.add("spark/spark", 0.1f, "spark");
+	atkAnims.add("ball/ball", 0.1f);
 
 	Level* testLevel = new Level();
 
@@ -104,11 +93,12 @@ void Game::Init()
 			testLevel->addGround(Vector2f(j * 50.f, i * 50.f), groundAnims);
 
 	testLevel->addDecoration(Vector2f(0, 0), guideAnims);
+	testLevel->addDecoration(Vector2f(0, 0), sparkAnims);
 
 	//for (int i = -3; i < 10; i++)
 	//	for (int j = -3; j < 10; j++)
 	//		if (rand() % 5 == 0)
-				testLevel->addDecoration(Vector2f(0.f, 0.f), sparkAnims);
+	//			testLevel->addDecoration(Vector2f(j * 50.f, i * 50.f), sparkAnims);
 	
 	testLevel->create();
 	levels.push_back(testLevel);
@@ -128,8 +118,6 @@ void Game::Draw()
 	smoothCamera += ((levels[0]->getPlayer().getCenter() - smoothCamera) * 2.f) * DeltaTime::get();
 	View smoothView(Utils::roundedBySubdivions(smoothCamera, (int)zoom), (Vector2f)window.getSize() / zoom);
 	window.setView(smoothView);
-
-
 
 	window.draw(*levels[0]);
 

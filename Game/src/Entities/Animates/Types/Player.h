@@ -12,9 +12,7 @@ public:
 	Player();
 	Player(const Player& other);
 	Player& operator=(const Player& other) = delete;
-	Player(sf::Vector2f position, float speed);
-	Player(sf::Vector2f position, float speed, const Animator& animations, const Animator& atkAnimations);
-	//Player(sf::Vector2f position, float speed, const AnimateAnimation& animation, const Animator& atkAnimations);
+	Player(sf::Vector2f position, float speed, const AnimateAnimation& animations, const Animatorv2& atkAnimations);
 	~Player();
 	
 	void addEnemy(Enemy* enemy);

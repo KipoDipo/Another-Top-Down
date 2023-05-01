@@ -1,6 +1,6 @@
 #include "Attack.h"
 
-Attack::Attack(float speed, float size, float distance, float range, const Animator& animations)
+Attack::Attack(float speed, float size, float distance, float range, const Animatorv2& animations)
 	: animator(animations)
 {
 	setIsActive(false);
@@ -12,7 +12,7 @@ Attack::Attack(float speed, float size, float distance, float range, const Anima
 	setSize(size);
 	setDistance(distance);
 	setRange(range);
-	this->animator.setOrigin((sf::Vector2f)animator.getAnimation().getSize() / 2.f);
+	this->animator.get().setOrigin((sf::Vector2f)animator.get().getSize() / 2.f);
 }
 
 Attack::~Attack()
@@ -21,7 +21,7 @@ Attack::~Attack()
 
 void Attack::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	target.draw(animator.getAnimation());
+	target.draw(animator, states);
 }
 
 bool Attack::getIsActive() const
@@ -127,7 +127,7 @@ void Attack::setCollider(const sf::FloatRect& collider)
 
 void Attack::setSpritePosition(const sf::Vector2f position)
 {
-	animator.setPosition(position);
+	animator.get().setPosition(position);
 }
 
 void Attack::updateSprite()

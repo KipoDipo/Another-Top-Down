@@ -10,17 +10,12 @@ public:
 	Level& operator=(const Level& other);
 	~Level();
 	
-	void setPlayer(sf::Vector2f position, float speed);
-	void setPlayer(sf::Vector2f position, float speed, const Animator& animations, const Animator& atkAnimations);
+	void setPlayer(sf::Vector2f position, float speed, const AnimateAnimation& animations, const Animatorv2& atkAnimations);
 	
-	void addHostile(sf::Vector2f position, float speed);
-	void addHostile(sf::Vector2f position, float speed, const Animator& animations);
-	void addSolid(sf::Vector2f position);
-	void addSolid(sf::Vector2f position, const Animator& animations);
-	void addGround(sf::Vector2f position);
-	void addGround(sf::Vector2f position, const Animator& animations);
-	void addDecoration(sf::Vector2f position);
-	void addDecoration(sf::Vector2f position, const Animator& animations);
+	void addHostile(sf::Vector2f position, float speed, const AnimateAnimation& animations);
+	void addSolid(sf::Vector2f position, const InanimateAnimation& animations);
+	void addGround(sf::Vector2f position, const InanimateAnimation& animations);
+	void addDecoration(sf::Vector2f position, const InanimateAnimation& animations);
 
 	void create();
 
@@ -37,7 +32,7 @@ private:
 
 	Player* player;
 	std::vector<Enemy*> hostiles;
-	std::vector<Solid*> solids;
-	std::vector<NonSolid*> grounds;
-	std::vector<NonSolid*> decorations;
+	std::vector<Inanimate*> solids;
+	std::vector<Inanimate*> grounds;
+	std::vector<Inanimate*> decorations;
 };

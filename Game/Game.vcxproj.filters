@@ -39,12 +39,6 @@
     <ClCompile Include="src\Utilities\Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Entities\Inanimates\Types\NonSolid.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Entities\Inanimates\Types\Solid.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Utilities\DeltaTime.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -57,19 +51,16 @@
     <ClCompile Include="src\Animation\Animation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Animation\AnimationCollection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Utilities\Paths.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Utilities\ConsoleColors.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Animation\Animator.cpp">
+    <ClCompile Include="src\Animation\Animatorv2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Animation\Animatorv2.cpp">
+    <ClCompile Include="src\Entities\Inanimates\Inanimate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -89,13 +80,7 @@
     <ClInclude Include="src\Entities\Animates\Animate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Entities\Inanimates\Types\Solid.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Attacks\Attack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Entities\Inanimates\Types\NonSolid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Entities\All.h">
@@ -119,22 +104,22 @@
     <ClInclude Include="src\Animation\Animation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Animation\AnimationCollection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Utilities\Paths.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Utilities\ConsoleColors.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Animation\Animator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Animation\Types\AnimateAnimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Animation\Animatorv2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entities\Inanimates\Inanimate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Animation\Types\InanimateAnimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

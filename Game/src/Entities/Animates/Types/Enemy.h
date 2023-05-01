@@ -9,7 +9,7 @@ class Enemy : public Animate
 public:
 	Enemy();
 	Enemy(sf::Vector2f position, float speed);
-	Enemy(sf::Vector2f position, const Animator& animations, float speed);
+	Enemy(sf::Vector2f position, const AnimateAnimation& animation, float speed);
 
 	void setTarget(Entity* target);
 

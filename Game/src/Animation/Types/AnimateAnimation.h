@@ -1,7 +1,7 @@
 #pragma once
-#include "../Animator.h"
+#include "../Animatorv2.h"
 
-class AnimateAnimation
+class AnimateAnimation : public Animatorv2
 {
 public:
 	enum State 
@@ -18,24 +18,23 @@ public:
 	{
 	}
 
-	AnimateAnimation(const std::string& down, const std::string& up, const std::string& left, const std::string& right, const std::string& sleep, float delay)
-		: down(down), up(up), left(left), right(right), sleep(sleep), state(DOWN)
+	AnimateAnimation(const std::string& single, float delay)
+		: state(DOWN)
 	{
-		animator.add(up, delay);
-		animator.add(down, delay);
-		animator.add(left, delay);
-		animator.add(right, delay);
-		animator.add(sleep, delay);
+		Animatorv2::add(single, delay);
+		Animatorv2::set(0);
 	}
 
-	void update()
+	AnimateAnimation(const std::string& up, const std::string& down, const std::string& left, const std::string& right, const std::string& sleep, float delay)
+		: state(DOWN)
 	{
-		animator.update();
-	}
+		Animatorv2::add(down,	 delay);
+		Animatorv2::add(up,		 delay);
+		Animatorv2::add(left,	 delay);
+		Animatorv2::add(right,	 delay);
+		Animatorv2::add(sleep,	 delay);
 
-	const Animation& get() const
-	{
-		return animator.getAnimation();
+		Animatorv2::set(0);
 	}
 
 	void set(State state)
@@ -47,19 +46,19 @@ public:
 		switch (state)
 		{
 		case AnimateAnimation::DOWN:
-			animator.setAnimation(down);
+			Animatorv2::set(0);
 			break;
 		case AnimateAnimation::UP:
-			animator.setAnimation(up);
+			Animatorv2::set(1);
 			break;
 		case AnimateAnimation::LEFT:
-			animator.setAnimation(left);
+			Animatorv2::set(2);
 			break;
 		case AnimateAnimation::RIGHT:
-			animator.setAnimation(right);
+			Animatorv2::set(3);
 			break;
 		case AnimateAnimation::SLEEP:
-			animator.setAnimation(sleep);
+			Animatorv2::set(4);
 			break;
 		default:
 			break;
@@ -67,13 +66,12 @@ public:
 	}
 
 private:
+	void add(const std::string& path, float delay)
+	{}
+	void add(const std::string& path, float delay, const std::string& name) 
+	{}
+	void set(const std::string& path)
+	{}
+
 	State state;
-
-	std::string down;
-	std::string up;
-	std::string left;
-	std::string right;
-	std::string sleep;
-
-	Animator animator;
 };

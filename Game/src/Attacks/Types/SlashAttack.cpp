@@ -3,7 +3,7 @@
 
 using namespace sf;
 
-SlashAttack::SlashAttack(float speed, float size, float distance, float range, const Animator& animations)
+SlashAttack::SlashAttack(float speed, float size, float distance, float range, const Animatorv2& animations)
 	: Attack(speed, size, distance, range, animations)
 {
 }

@@ -4,21 +4,17 @@
 using namespace sf;
 
 Entity::Entity()
-	: Entity(Vector2f(0, 0), AnimationCollection::getNone())
+	: Entity(Vector2f(0, 0), Vector2f(50, 50))
 {
 }
 
-Entity::Entity(Vector2f position, const Animator& animationCollection) /* Consider - Maybe custom collider? */
-	: animator(animationCollection)
-
+Entity::Entity(Vector2f position, Vector2f size) /* Consider - Maybe custom collider? */
 {
-	animator.setPosition(position);
-	
 	collider = FloatRect(
 		position.x, 
 		position.y, 
-		(float)animator.getAnimation().getSize().x, 
-		(float)animator.getAnimation().getSize().y
+		size.x, 
+		size.y
 	);
 }
 
@@ -34,7 +30,7 @@ void Entity::move(Vector2f direction)
 
 void Entity::move(float x, float y)
 {
-	animator.move(x, y);
+	//animator.move(x, y);
 	collider.left += x;
 	collider.top += y;
 }
@@ -46,14 +42,14 @@ void Entity::setPosition(Vector2f position)
 
 void Entity::setPosition(float x, float y)
 {
-	animator.setPosition(x, y);
+	//animator.setPosition(x, y);
 	collider.left = x;
 	collider.top = y;
 }
 
 Vector2f Entity::getPosition() const
 {
-	return animator.getAnimation().getPosition();
+	return Vector2f(collider.left, collider.top);
 }
 
 const sf::FloatRect& Entity::getCollider() const
@@ -71,14 +67,8 @@ bool Entity::collides(const FloatRect& rect)
 	return collider.intersects(rect);
 }
 
-void Entity::setAnimation(const std::string name)
-{
-	animator.setAnimation(name);
-}
-
 void Entity::update()
 {
-	animator.update();
 }
 
 Vector2f Entity::getCenter() const
@@ -86,14 +76,15 @@ Vector2f Entity::getCenter() const
 	return Vector2f(collider.left, collider.top) + Vector2f(collider.width, collider.height) / 2.f;
 }
 
+bool alwaysOn = false;
 void Entity::draw(RenderTarget& target, RenderStates states) const
 {
-	target.draw(animator.getAnimation(), states);
-
 	//for debugging
-	static bool alwaysOn = false;
 	if (Keyboard::isKeyPressed(Keyboard::Tilde))
 		alwaysOn = true;
+
+	if (Keyboard::isKeyPressed(Keyboard::Tilde) && Keyboard::isKeyPressed(Keyboard::LShift))
+		alwaysOn = false;
 
 	if (Keyboard::isKeyPressed(Keyboard::Escape) || alwaysOn)
 	{

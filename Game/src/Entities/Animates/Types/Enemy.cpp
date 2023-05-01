@@ -1,5 +1,4 @@
 #include "../../../Utilities/All.h"
-#include "../../Inanimates/Types/Solid.h"
 #include "Enemy.h"
 #include "Player.h"
 
@@ -9,12 +8,12 @@ Enemy::Enemy()
 }
 
 Enemy::Enemy(sf::Vector2f position, float speed)
-	: Animate(position, AnimationCollection::getNone(), speed), target(nullptr)
+	: Animate(position, sf::Vector2f(50,50), AnimateAnimation(), speed), target(nullptr)
 {
 }
 
-Enemy::Enemy(sf::Vector2f position, const Animator& animations, float speed)
-	: Animate(position, animations, speed), target(nullptr)
+Enemy::Enemy(sf::Vector2f position, const AnimateAnimation& animation, float speed)
+	: Animate(position, sf::Vector2f(50,50), animation, speed), target(nullptr)
 {
 }
 
@@ -42,6 +41,9 @@ void Enemy::movement(Orientation orientation)
 
 void Enemy::update()
 {
+	if (!getIsAlive())
+		return;
+
 	Entity::update();
 	
 	if (!target)

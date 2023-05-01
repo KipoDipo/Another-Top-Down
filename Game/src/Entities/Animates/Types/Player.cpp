@@ -2,13 +2,12 @@
 #include "../../../Utilities/All.h"
 #include "Player.h"
 #include "Enemy.h"
-#include "../../Inanimates/Types/Solid.h"
 #include "../../../Attacks/Types/SlashAttack.h"
 
 using namespace sf;
 
 Player::Player()
-	: Player(Vector2f(250, 250), 300)
+	: Player(Vector2f(250, 250), 300, AnimateAnimation(), Animatorv2())
 {
 }
 
@@ -18,13 +17,8 @@ Player::Player(const Player& other)
 	copy(other);
 }
 
-Player::Player(Vector2f position, float speed)
-	: Player(position, speed, AnimationCollection::getNone(), AnimationCollection::getNone())
-{
-}
-
-Player::Player(sf::Vector2f position, float speed, const Animator& animations, const Animator& atkAnimations)
-	: Animate(position, animations)
+Player::Player(sf::Vector2f position, float speed, const AnimateAnimation& animation, const Animatorv2& atkAnimations)
+	: Animate(position, Vector2f(50,50), animation, speed)
 {
 	setSpeed(speed);
 	setName("Player");
@@ -53,32 +47,29 @@ void Player::clearEnemies()
 
 void Player::update()
 {
-	Entity::update();
+	Animate::update();
 	
-	std::string animation = "player_down";
+	AnimateAnimation::State state = AnimateAnimation::DOWN;
 
 	movement(Orientation::Vertical);
 	for (size_t i = 0; i < getCollidablesList().size(); i++)
 		resolveCollisions(getCollidablesList()[i], Orientation::Vertical);
-
-	if (getDirection().y > 0)
-		animation = "player_down";
-	else if (getDirection().y < 0)
-		animation = "player_up";
 	
+	if (getDirection().y > 0)
+		state = AnimateAnimation::DOWN;
+	if (getDirection().y < 0)
+		state = AnimateAnimation::UP;
+
 	movement(Orientation::Horizontal);
 	for (size_t i = 0; i < getCollidablesList().size(); i++)
 		resolveCollisions(getCollidablesList()[i], Orientation::Horizontal);
-	
+
 	if (getDirection().x > 0)
-		animation = "player_right";
-	else if (getDirection().x < 0)
-		animation = "player_left";
+		state = AnimateAnimation::RIGHT;
+	if (getDirection().x < 0)
+		state = AnimateAnimation::LEFT;
 
-	setAnimation(animation);
-
-
-	
+	setAnimation(state);
 
 	if (!attack->getIsActive())
 	{
@@ -127,7 +118,7 @@ void Player::movement(Orientation orientation)
 	}
 
 	setDirection(direction);
-	Entity::move(getDirection() * getSpeed() * DeltaTime::get());
+	Animate::move(getDirection() * getSpeed() * DeltaTime::get());
 }
 
 void Player::checkInterractions(Enemy* enemy)
@@ -141,7 +132,7 @@ void Player::checkInterractions(Enemy* enemy)
 
 void Player::draw(RenderTarget& target, RenderStates states) const
 {
-	Entity::draw(target, states);
+	Animate::draw(target, states);
 
 	if (attack->getIsActive())
 		attack->draw(target, states);

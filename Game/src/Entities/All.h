@@ -5,5 +5,4 @@
 #include "Animates/Types/Enemy.h"
 #include "Animates/Types/Player.h"
 
-#include "Inanimates/Types/NonSolid.h"
-#include "Inanimates/Types/Solid.h"
+#include "Inanimates/Inanimate.h"

@@ -15,6 +15,9 @@ Animation::Animation(std::vector<sf::Texture>* frames, float switchTime)
 
 void Animation::update()
 {
+	if ((*frames).size() == 1)
+		return;
+
 	float elapsedTime = clock.getElapsedTime().asSeconds();
 	
 	if (elapsedTime > switchTime)

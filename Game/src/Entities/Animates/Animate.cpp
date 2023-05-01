@@ -1,17 +1,23 @@
 #include "Animate.h"
-#include "../Inanimates/Types/Solid.h"
 #include "../../Utilities/Utils.h"
 
 Animate::Animate()
-	: Entity(), health(1), speed(0)
+	: Animate(sf::Vector2f(0,0), sf::Vector2f(50,50), AnimateAnimation(), 0)
 {
 }
 
-Animate::Animate(sf::Vector2f position, const Animator& animations, float speed)
-	: Entity(position, animations)
+Animate::Animate(sf::Vector2f position, sf::Vector2f size, const AnimateAnimation& animation, float speed)
+	: Entity(position, size), animation(animation)
 {
 	setHealth(1);
 	setSpeed(speed);
+	this->animation.get().setPosition(position);
+}
+
+void Animate::update()
+{
+	Entity::update();
+	animation.update();
 }
 
 void Animate::addHealth(int toAdd)
@@ -46,6 +52,11 @@ void Animate::setSpeed(float speed)
 	this->speed = speed;
 }
 
+void Animate::setAnimation(AnimateAnimation::State state)
+{
+	animation.set(state);
+}
+
 void Animate::resolveCollisions(const Entity* entity, Orientation orientation)
 {
 	if (collides(*entity))
@@ -65,6 +76,7 @@ void Animate::resolveCollisions(const Entity* entity, Orientation orientation)
 				Entity::setPosition(getCollider().left, entity->getCollider().top - getCollider().height);
 			break;
 		}
+		animation.get().setPosition(Entity::getPosition());
 	}
 
 }
@@ -104,13 +116,37 @@ const std::vector<Entity*>& Animate::getCollidablesList() const
 	return collidablesList;
 }
 
+void Animate::move(sf::Vector2f position)
+{
+	move(position.x, position.y);
+}
+
+void Animate::move(float x, float y)
+{
+	Entity::move(x, y);
+	animation.get().move(x, y);
+}
+
 void Animate::kill()
 {
 	isAlive = false;
-	setPosition(-10000, -10000);
+	Entity::setPosition(-10000, -10000);
+	animation.get().setPosition(Entity::getPosition());
 }
 
 bool Animate::getIsAlive() const
 {
 	return isAlive;
+}
+
+void Animate::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	if (!isAlive)
+		return;
+
+	target.draw(animation, states);
+
+#ifdef COLLIDER_DEBUG
+	Entity::draw(target, states);
+#endif
 }

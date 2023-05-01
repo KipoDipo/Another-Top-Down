@@ -5,6 +5,39 @@
 
 //#define NO_ANIM
 
+Animatorv2::Animatorv2()
+	: none(Animation::getNone()), current(&none)
+{
+}
+
+Animatorv2::Animatorv2(const Animatorv2& other)
+	: none(Animation::getNone()), current(&none), animations(other.animations)
+{
+	for (size_t i = 0; i < other.animations.size(); i++)
+		if (other.current == &other.animations[i])
+		{
+			current = &animations[i];
+			break;
+		}
+
+	if (current == &none)
+		printf("%s something has gone terribly wrong when using the copy ctor of Animatorv2...\n", ConsoleColors::redFlag);
+}
+
+Animatorv2& Animatorv2::operator=(const Animatorv2& other)
+{
+	for (size_t i = 0; i < other.animations.size(); i++)
+		if (other.current == &other.animations[i])
+		{
+			current = &animations[i];
+			break;
+		}
+
+	if (current == &none)
+		printf("%s something has gone terribly wrong when using the operator= of Animatorv2...\n", ConsoleColors::redFlag);
+	return *this;
+}
+
 Animation Animatorv2::load(const std::string& path, float delay)
 {
 	std::vector<sf::Texture>* frames = new std::vector<sf::Texture>();
@@ -49,33 +82,38 @@ Animation Animatorv2::load(const std::string& path, float delay)
 	return Animation(frames, delay);
 }
 
-Animatorv2::Animatorv2()
-	: none(Animation::getNone()), current(&none)
-{
-}
-
 void Animatorv2::add(const std::string& path, float delay)
 {
-	animations[path] = load(path, delay);
+	animations.push_back(load(path, delay));
+	if (current == &none)
+		current = &animations[animations.size() - 1];
 }
 
-void Animatorv2::set(const std::string& path)
+void Animatorv2::set(size_t index)
 {
-	Animation* ref;
-	if (animations.count(path) != 0)	// if the animation exists
-		ref = &animations[path];		// point 'ref' to that animation
-	else								// otherwise
-		ref = &none;					// point 'ref' to 'none'
-
-	if (current == ref)
-		return;
+	Animation* ref = index < animations.size() ? &animations[index] : &none;
 
 	ref->setPosition(current->getPosition());
 	current = ref;
 	current->reset();
 }
 
+Animation& Animatorv2::get()
+{
+	return *current;
+}
+
+const Animation& Animatorv2::get() const
+{
+	return *current;
+}
+
 void Animatorv2::update()
 {
 	current->update();
+}
+
+void Animatorv2::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	target.draw(*current, states);
 }

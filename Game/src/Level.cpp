@@ -29,18 +29,7 @@ Level::~Level()
 	free();
 }
 
-void Level::setPlayer(sf::Vector2f position, float speed)
-{
-	if (!player)
-		player = new Player(position, speed);
-	else
-	{
-		player->setPosition(position);
-		player->setSpeed(speed);
-	}
-}
-
-void Level::setPlayer(sf::Vector2f position, float speed, const Animator& animations, const Animator& atkAnimations)
+void Level::setPlayer(sf::Vector2f position, float speed, const AnimateAnimation& animations, const Animatorv2& atkAnimations)
 {
 	if (!player)
 		player = new Player(position, speed, animations, atkAnimations);
@@ -48,49 +37,28 @@ void Level::setPlayer(sf::Vector2f position, float speed, const Animator& animat
 	{
 		player->setPosition(position);
 		player->setSpeed(speed);
-		//TODO player->setSprite()
 	}
 
 }
 
-void Level::addHostile(sf::Vector2f position, float speed)
-{
-	hostiles.push_back(new Enemy(position, speed));
-}
-
-void Level::addHostile(sf::Vector2f position, float speed, const Animator& animations)
+void Level::addHostile(sf::Vector2f position, float speed, const AnimateAnimation& animations)
 {
 	hostiles.push_back(new Enemy(position, animations, speed));
 }
 
-void Level::addSolid(sf::Vector2f position)
+void Level::addSolid(sf::Vector2f position, const InanimateAnimation& animations)
 {
-	solids.push_back(new Solid(position));
+	solids.push_back(new Inanimate(position, animations));
 }
 
-void Level::addSolid(sf::Vector2f position, const Animator& animations)
+void Level::addGround(sf::Vector2f position, const InanimateAnimation& animations)
 {
-	solids.push_back(new Solid(position, animations));
+	grounds.push_back(new Inanimate(position, animations));
 }
 
-void Level::addGround(sf::Vector2f position)
+void Level::addDecoration(sf::Vector2f position, const InanimateAnimation& animations)
 {
-	grounds.push_back(new NonSolid(position));
-}
-
-void Level::addGround(sf::Vector2f position, const Animator& animations)
-{
-	grounds.push_back(new NonSolid(position, animations));
-}
-
-void Level::addDecoration(sf::Vector2f position)
-{
-	decorations.push_back(new NonSolid(position));
-}
-
-void Level::addDecoration(sf::Vector2f position, const Animator& animations)
-{
-	decorations.push_back(new NonSolid(position, animations));
+	decorations.push_back(new Inanimate(position, animations));
 }
 
 void Level::create()
@@ -155,11 +123,11 @@ void Level::copy(const Level& other)
 	for (size_t i = 0; i < other.hostiles.size(); i++)
 		hostiles.push_back(new Enemy(*other.hostiles[i]));
 	for (size_t i = 0; i < other.solids.size(); i++)
-		solids.push_back(new Solid(*other.solids[i]));
+		solids.push_back(new Inanimate(*other.solids[i]));
 	for (size_t i = 0; i < other.grounds.size(); i++)
-		grounds.push_back(new NonSolid(*other.grounds[i]));
+		grounds.push_back(new Inanimate(*other.grounds[i]));
 	for (size_t i = 0; i < other.decorations.size(); i++)
-		decorations.push_back(new NonSolid(*other.decorations[i]));
+		decorations.push_back(new Inanimate(*other.decorations[i]));
 }
 
 void Level::free()

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -93,15 +93,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>SFML_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)SFML-2.5.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)SFML-2.5.1-x86\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)SFML-2.5.1\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-s.lib	;sfml-window-s.lib;sfml-system-s.lib;sfml-audio-s.lib;opengl32.lib;freetype.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)SFML-2.5.1-x86\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-window-s.lib;sfml-graphics-s.lib	;sfml-system-s.lib;sfml-audio-s.lib;opengl32.lib;freetype.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -122,26 +122,28 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SFML_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <TreatWarningAsError>false</TreatWarningAsError>
       <ShowIncludes>
       </ShowIncludes>
+      <AdditionalIncludeDirectories>$(SolutionDir)SFML-2.5.1-x64\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>sfml-window-s.lib;sfml-graphics-s.lib	;sfml-system-s.lib;sfml-audio-s.lib;opengl32.lib;freetype.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)SFML-2.5.1-x64\lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Animation\Animator.cpp" />
     <ClCompile Include="src\Animation\Animatorv2.cpp" />
+    <ClCompile Include="src\Entities\Inanimates\Inanimate.cpp" />
     <ClCompile Include="src\Utilities\ConsoleColors.cpp" />
     <ClCompile Include="src\Utilities\Paths.cpp" />
     <ClCompile Include="src\Animation\Animation.cpp" />
-    <ClCompile Include="src\Animation\AnimationCollection.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\Level.cpp" />
     <ClCompile Include="src\Utilities\DeltaTime.cpp" />
@@ -152,26 +154,22 @@
     <ClCompile Include="src\Entities\Animates\Types\Player.cpp" />
     <ClCompile Include="src\Attacks\Types\SlashAttack.cpp" />
     <ClInclude Include="src\Animation\Animation.h" />
-    <ClInclude Include="src\Animation\AnimationCollection.h" />
-    <ClInclude Include="src\Animation\Animator.h" />
     <ClInclude Include="src\Animation\Animatorv2.h" />
     <ClInclude Include="src\Animation\Types\AnimateAnimation.h" />
+    <ClInclude Include="src\Animation\Types\InanimateAnimation.h" />
+    <ClInclude Include="src\Entities\Inanimates\Inanimate.h" />
     <ClInclude Include="src\Level.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\Utilities\All.h" />
     <ClInclude Include="src\Utilities\ConsoleColors.h" />
     <ClInclude Include="src\Utilities\DeltaTime.h" />
     <ClInclude Include="src\Attacks\Types\SlashAttack.h" />
-    <ClCompile Include="src\Entities\Inanimates\Types\NonSolid.cpp" />
-    <ClCompile Include="src\Entities\Inanimates\Types\Solid.cpp" />
     <ClInclude Include="src\Utilities\Paths.h" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Utilities\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Entities\All.h" />
-    <ClInclude Include="src\Entities\Inanimates\Types\NonSolid.h" />
-    <ClInclude Include="src\Entities\Inanimates\Types\Solid.h" />
     <ClInclude Include="src\Entities\Animates\Animate.h" />
     <ClInclude Include="src\Attacks\Attack.h" />
     <ClInclude Include="src\Entities\Animates\Types\Enemy.h" />
