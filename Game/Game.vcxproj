@@ -139,42 +139,43 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Animation\Animatorv2.cpp" />
-    <ClCompile Include="src\Entities\Inanimates\Inanimate.cpp" />
+    <ClCompile Include="src\Animation\Animator.cpp" />
+    <ClCompile Include="src\Entities\Objects\Inanimates\Inanimate.cpp" />
     <ClCompile Include="src\Utilities\ConsoleColors.cpp" />
     <ClCompile Include="src\Utilities\Paths.cpp" />
     <ClCompile Include="src\Animation\Animation.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\Level.cpp" />
     <ClCompile Include="src\Utilities\DeltaTime.cpp" />
-    <ClCompile Include="src\Entities\Animates\Animate.cpp" />
-    <ClCompile Include="src\Attacks\Attack.cpp" />
-    <ClCompile Include="src\Entities\Animates\Types\Enemy.cpp" />
+    <ClCompile Include="src\Entities\Objects\Animates\Animate.cpp" />
+    <ClCompile Include="src\Entities\Attacks\Attack.cpp" />
+    <ClCompile Include="src\Entities\Objects\Animates\Types\Enemy.cpp" />
     <ClCompile Include="src\Entities\Entity.cpp" />
-    <ClCompile Include="src\Entities\Animates\Types\Player.cpp" />
-    <ClCompile Include="src\Attacks\Types\SlashAttack.cpp" />
+    <ClCompile Include="src\Entities\Objects\Animates\Types\Player.cpp" />
+    <ClCompile Include="src\Entities\Attacks\Types\SlashAttack.cpp" />
     <ClInclude Include="src\Animation\Animation.h" />
-    <ClInclude Include="src\Animation\Animatorv2.h" />
-    <ClInclude Include="src\Animation\Types\AnimateAnimation.h" />
-    <ClInclude Include="src\Animation\Types\InanimateAnimation.h" />
-    <ClInclude Include="src\Entities\Inanimates\Inanimate.h" />
+    <ClInclude Include="src\Animation\Animator.h" />
+    <ClInclude Include="src\Animation\Types\AnimateAnimator.h" />
+    <ClInclude Include="src\Animation\Types\GenericAnimator.h" />
+    <ClInclude Include="src\Animation\Types\InanimateAnimator.h" />
+    <ClInclude Include="src\Entities\Objects\Inanimates\Inanimate.h" />
     <ClInclude Include="src\Level.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\Utilities\All.h" />
     <ClInclude Include="src\Utilities\ConsoleColors.h" />
     <ClInclude Include="src\Utilities\DeltaTime.h" />
-    <ClInclude Include="src\Attacks\Types\SlashAttack.h" />
+    <ClInclude Include="src\Entities\Attacks\Types\SlashAttack.h" />
     <ClInclude Include="src\Utilities\Paths.h" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Utilities\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Entities\All.h" />
-    <ClInclude Include="src\Entities\Animates\Animate.h" />
-    <ClInclude Include="src\Attacks\Attack.h" />
-    <ClInclude Include="src\Entities\Animates\Types\Enemy.h" />
+    <ClInclude Include="src\Entities\Objects\Animates\Animate.h" />
+    <ClInclude Include="src\Entities\Attacks\Attack.h" />
+    <ClInclude Include="src\Entities\Objects\Animates\Types\Enemy.h" />
     <ClInclude Include="src\Entities\Entity.h" />
-    <ClInclude Include="src\Entities\Animates\Types\Player.h" />
+    <ClInclude Include="src\Entities\Objects\Animates\Types\Player.h" />
     <ClInclude Include="src\Utilities\Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

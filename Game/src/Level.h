@@ -10,12 +10,12 @@ public:
 	Level& operator=(const Level& other);
 	~Level();
 	
-	void setPlayer(sf::Vector2f position, float speed, const AnimateAnimation& animations, const Animatorv2& atkAnimations);
+	void setPlayer(sf::Vector2f position, float speed, const AnimateAnimator& animator, const GenericAnimator& atkAnimator);
 	
-	void addHostile(sf::Vector2f position, float speed, const AnimateAnimation& animations);
-	void addSolid(sf::Vector2f position, const InanimateAnimation& animations);
-	void addGround(sf::Vector2f position, const InanimateAnimation& animations);
-	void addDecoration(sf::Vector2f position, const InanimateAnimation& animations);
+	void addHostile(sf::Vector2f position, float speed, const AnimateAnimator& animator);
+	void addSolid(sf::Vector2f position, const InanimateAnimator& animator);
+	void addGround(sf::Vector2f position, const InanimateAnimator& animator);
+	void addDecoration(sf::Vector2f position, const InanimateAnimator& animator);
 
 	void create();
 

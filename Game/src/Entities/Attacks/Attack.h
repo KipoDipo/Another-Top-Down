@@ -1,13 +1,13 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "../Animation/Animatorv2.h"
+#include "../../Animation/Types/GenericAnimator.h"
+#include "../Entity.h"
 
-class Attack : public virtual sf::Drawable
+class Attack : public Entity
 {
 public:
-	Attack(float speed, float size, float distance, float range, const Animatorv2& animations);
+	Attack(float speed, float size, float distance, float range, const GenericAnimator& animations);
 	virtual ~Attack();
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual Attack* clone() const = 0;
 	
 	virtual void update(const sf::Vector2f& origin) = 0;
@@ -18,24 +18,27 @@ public:
 	bool getIsActive() const;
 	float getProgress() const;
 	float getSpeed() const;
-	float getSize() const;
 	float getDistance() const;
 	float getRange() const;
 	sf::Vector2f getDirection() const;
-	const sf::FloatRect& getCollider() const;
+
+	//Inherited via Drawable
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 protected:
 	void setIsActive(bool state);
 	void setProgress(float progress);
 	void addProgress(float plusProgress);
 	void setSpeed(float speed);
-	void setSize(float size);
 	void setDistance(float distance);
 	void setRange(float range);
 	void setDirection(sf::Vector2f direction);
-	void setCollider(const sf::FloatRect& collider);
-	void setSpritePosition(sf::Vector2f position);
-	void updateSprite();
+
+	// Inherited via Entity
+	virtual void setPosition(sf::Vector2f position) override;
+	virtual void setPosition(float x, float y) override;
+
+	void updateAnimation();
 
 private:
 	bool isActive;
@@ -45,6 +48,5 @@ private:
 	float distance;
 	float range;
 	sf::Vector2f direction;
-	sf::FloatRect collider;
-	Animatorv2 animator;
+	GenericAnimator animator;
 };

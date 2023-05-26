@@ -18,22 +18,22 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Entities\Animates\Types\Enemy.cpp">
+    <ClCompile Include="src\Entities\Objects\Animates\Types\Enemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Entities\Animates\Types\Player.cpp">
+    <ClCompile Include="src\Entities\Objects\Animates\Types\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Entities\Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Attacks\Types\SlashAttack.cpp">
+    <ClCompile Include="src\Entities\Attacks\Types\SlashAttack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Entities\Animates\Animate.cpp">
+    <ClCompile Include="src\Entities\Objects\Animates\Animate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Attacks\Attack.cpp">
+    <ClCompile Include="src\Entities\Attacks\Attack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Utilities\Utils.cpp">
@@ -57,10 +57,10 @@
     <ClCompile Include="src\Utilities\ConsoleColors.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Animation\Animatorv2.cpp">
+    <ClCompile Include="src\Animation\Animator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Entities\Inanimates\Inanimate.cpp">
+    <ClCompile Include="src\Entities\Objects\Inanimates\Inanimate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -68,25 +68,25 @@
     <ClInclude Include="src\Utilities\Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Entities\Animates\Types\Player.h">
+    <ClInclude Include="src\Entities\Objects\Animates\Types\Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Entities\Animates\Types\Enemy.h">
+    <ClInclude Include="src\Entities\Objects\Animates\Types\Enemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Entities\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Entities\Animates\Animate.h">
+    <ClInclude Include="src\Entities\Objects\Animates\Animate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Attacks\Attack.h">
+    <ClInclude Include="src\Entities\Attacks\Attack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Entities\All.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Attacks\Types\SlashAttack.h">
+    <ClInclude Include="src\Entities\Attacks\Types\SlashAttack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Utilities\DeltaTime.h">
@@ -110,16 +110,19 @@
     <ClInclude Include="src\Utilities\ConsoleColors.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Animation\Types\AnimateAnimation.h">
+    <ClInclude Include="src\Animation\Types\AnimateAnimator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Animation\Animatorv2.h">
+    <ClInclude Include="src\Animation\Animator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Entities\Inanimates\Inanimate.h">
+    <ClInclude Include="src\Entities\Objects\Inanimates\Inanimate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Animation\Types\InanimateAnimation.h">
+    <ClInclude Include="src\Animation\Types\InanimateAnimator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Animation\Types\GenericAnimator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

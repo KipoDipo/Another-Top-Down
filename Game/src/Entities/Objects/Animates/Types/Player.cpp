@@ -1,5 +1,5 @@
-#include "../../../Animation/Animation.h"
-#include "../../../Utilities/All.h"
+#include "../../../../Animation/Animation.h"
+#include "../../../../Utilities/All.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "../../../Attacks/Types/SlashAttack.h"
@@ -7,7 +7,7 @@
 using namespace sf;
 
 Player::Player()
-	: Player(Vector2f(250, 250), 300, AnimateAnimation(), Animatorv2())
+	: Player(Vector2f(250, 250), 300, AnimateAnimator(), GenericAnimator())
 {
 }
 
@@ -17,7 +17,7 @@ Player::Player(const Player& other)
 	copy(other);
 }
 
-Player::Player(sf::Vector2f position, float speed, const AnimateAnimation& animation, const Animatorv2& atkAnimations)
+Player::Player(sf::Vector2f position, float speed, const AnimateAnimator& animation, const GenericAnimator& atkAnimations)
 	: Animate(position, Vector2f(50,50), animation, speed)
 {
 	setSpeed(speed);
@@ -49,25 +49,25 @@ void Player::update()
 {
 	Animate::update();
 	
-	AnimateAnimation::State state = AnimateAnimation::DOWN;
+	AnimateAnimator::State state = AnimateAnimator::DOWN;
 
 	movement(Orientation::Vertical);
 	for (size_t i = 0; i < getCollidablesList().size(); i++)
 		resolveCollisions(getCollidablesList()[i], Orientation::Vertical);
 	
 	if (getDirection().y > 0)
-		state = AnimateAnimation::DOWN;
+		state = AnimateAnimator::DOWN;
 	if (getDirection().y < 0)
-		state = AnimateAnimation::UP;
+		state = AnimateAnimator::UP;
 
 	movement(Orientation::Horizontal);
 	for (size_t i = 0; i < getCollidablesList().size(); i++)
 		resolveCollisions(getCollidablesList()[i], Orientation::Horizontal);
 
 	if (getDirection().x > 0)
-		state = AnimateAnimation::RIGHT;
+		state = AnimateAnimator::RIGHT;
 	if (getDirection().x < 0)
-		state = AnimateAnimation::LEFT;
+		state = AnimateAnimator::LEFT;
 
 	setAnimation(state);
 

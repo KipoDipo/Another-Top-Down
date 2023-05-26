@@ -1,15 +1,14 @@
 #include "Attack.h"
 
-Attack::Attack(float speed, float size, float distance, float range, const Animatorv2& animations)
-	: animator(animations)
+Attack::Attack(float speed, float size, float distance, float range, const GenericAnimator& animations)
+	: Entity(sf::Vector2f(0,0), sf::Vector2f(size,size)), 
+	animator(animations)
 {
 	setIsActive(false);
 	setProgress(0);
 	setDirection({});
-	setCollider({});
 	
 	setSpeed(speed);
-	setSize(size);
 	setDistance(distance);
 	setRange(range);
 	this->animator.get().setOrigin((sf::Vector2f)animator.get().getSize() / 2.f);
@@ -17,11 +16,6 @@ Attack::Attack(float speed, float size, float distance, float range, const Anima
 
 Attack::~Attack()
 {
-}
-
-void Attack::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{
-	target.draw(animator, states);
 }
 
 bool Attack::getIsActive() const
@@ -40,11 +34,6 @@ float Attack::getSpeed() const
 	return speed;
 }
 
-float Attack::getSize() const
-{
-	return size;
-}
-
 float Attack::getDistance() const
 {
 	return distance;
@@ -58,11 +47,6 @@ float Attack::getRange() const
 sf::Vector2f Attack::getDirection() const
 {
 	return direction;
-}
-
-const sf::FloatRect& Attack::getCollider() const
-{
-	return collider;
 }
 
 void Attack::setIsActive(bool state)
@@ -96,13 +80,6 @@ void Attack::setSpeed(float speed)
 	this->speed = speed;
 }
 
-void Attack::setSize(float size)
-{
-	if (size < 1)
-		size = 1;
-	this->size = size;
-}
-
 void Attack::setDistance(float distance)
 {
 	this->distance = distance;
@@ -120,17 +97,18 @@ void Attack::setDirection(sf::Vector2f direction)
 	this->direction = direction;
 }
 
-void Attack::setCollider(const sf::FloatRect& collider)
+void Attack::setPosition(sf::Vector2f position)
 {
-	this->collider = collider;
+	setPosition(position.x, position.y);
 }
 
-void Attack::setSpritePosition(const sf::Vector2f position)
+void Attack::setPosition(float x, float y)
 {
-	animator.get().setPosition(position);
+	Entity::setPosition(x, y);
+	animator.get().setPosition(sf::Vector2f(getCollider().left, getCollider().top) + sf::Vector2f(getCollider().width, getCollider().height) / 2.f);
 }
 
-void Attack::updateSprite()
+void Attack::updateAnimation()
 {
 	animator.update();
 }
@@ -146,4 +124,9 @@ void Attack::stop()
 {
 	setIsActive(false);
 	setProgress(0);
+}
+
+void Attack::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	target.draw(animator, states);
 }

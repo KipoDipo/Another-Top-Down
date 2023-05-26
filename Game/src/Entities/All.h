@@ -2,7 +2,10 @@
 
 #pragma once
 
-#include "Animates/Types/Enemy.h"
-#include "Animates/Types/Player.h"
+#include "Objects/Animates/Types/Enemy.h"
+#include "Objects/Animates/Types/Player.h"
 
-#include "Inanimates/Inanimate.h"
+#include "Objects/Inanimates/Inanimate.h"
+
+#include "Attacks/Attack.h"
+#include "Attacks/Types/SlashAttack.h"

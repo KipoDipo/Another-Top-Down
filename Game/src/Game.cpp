@@ -1,7 +1,6 @@
 #include "Game.h"
 #include "Entities/All.h"
 #include "Utilities/All.h"
-#include "Animation/Types/AnimateAnimation.h"
 
 using namespace sf;
 using namespace std;
@@ -53,24 +52,24 @@ int frames = 0;
 
 void Game::Init()
 {
+	srand((unsigned int)time(0));
+
 	font.loadFromFile("res\\fonts\\Pixeled.ttf");
 
 	text.setFont(font);
 	text.setFillColor(Color::White);
 	text.setCharacterSize(25);
+	text.setPosition(Vector2f(5, 10));
 	text.setString("FPS: wait");
 
-	srand((unsigned int)time(0));
-	Animatorv2 atkAnims;
-	AnimateAnimation playerAnims("player_up/player", "player_down/player", "player_left/player", "player_right/player", "player_down/player", 0.1f);
-	AnimateAnimation enemyAnims("enemy", 0.1f);
-	InanimateAnimation solidAnims("solid/solid", 0.08f);
-	InanimateAnimation groundAnims("tiles", 1.f);
+	GenericAnimator atkAnims("ball/ball", 30);
+	AnimateAnimator playerAnims("player_up/player", "player_down/player", "player_left/player", "player_right/player", "player_down/player", 12);
+	AnimateAnimator enemyAnims("enemy", 12);
+	InanimateAnimator solidAnims("solid/solid", 14);
+	InanimateAnimator groundAnims("tiles", 1);
 	
-	InanimateAnimation sparkAnims("spark/spark", 0.1f);
-	InanimateAnimation guideAnims("guide", 1.f);
-
-	atkAnims.add("ball/ball", 0.1f);
+	InanimateAnimator sparkAnims("spark/spark", 10);
+	InanimateAnimator guideAnims("guide", 1);
 
 	Level* testLevel = new Level();
 
@@ -137,7 +136,6 @@ void Game::Draw()
 			sumFps += 1.f / DeltaTime::get();
 			frames++;
 		}
-		text.setPosition(Vector2f(5, 10));
 	}
 	window.setView(smoothView);
 

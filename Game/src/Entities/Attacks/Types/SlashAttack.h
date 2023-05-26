@@ -4,7 +4,7 @@
 class SlashAttack : public Attack
 {
 public:
-	SlashAttack(float speed, float size, float distance, float range, const Animatorv2& animations);
+	SlashAttack(float speed, float size, float distance, float range, const GenericAnimator& animations);
 	
 	// Inherited via Attack
 	void update(const sf::Vector2f& origin) override;

@@ -30,7 +30,6 @@ void Entity::move(Vector2f direction)
 
 void Entity::move(float x, float y)
 {
-	//animator.move(x, y);
 	collider.left += x;
 	collider.top += y;
 }
@@ -42,7 +41,6 @@ void Entity::setPosition(Vector2f position)
 
 void Entity::setPosition(float x, float y)
 {
-	//animator.setPosition(x, y);
 	collider.left = x;
 	collider.top = y;
 }
@@ -57,12 +55,12 @@ const sf::FloatRect& Entity::getCollider() const
 	return collider;
 }
 
-bool Entity::collides(const Entity& entity)
+bool Entity::collides(const Entity& entity) const
 {
 	return collider.intersects(entity.collider);
 }
 
-bool Entity::collides(const FloatRect& rect)
+bool Entity::collides(const FloatRect& rect) const
 {
 	return collider.intersects(rect);
 }
@@ -74,6 +72,11 @@ void Entity::update()
 Vector2f Entity::getCenter() const
 {
 	return Vector2f(collider.left, collider.top) + Vector2f(collider.width, collider.height) / 2.f;
+}
+
+const sf::Vector2f Entity::getSize() const
+{
+	return sf::Vector2f(collider.width, collider.height);
 }
 
 bool alwaysOn = false;

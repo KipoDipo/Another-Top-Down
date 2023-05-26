@@ -1,23 +1,23 @@
 #include "Animate.h"
-#include "../../Utilities/Utils.h"
+#include "../../../Utilities/Utils.h"
 
 Animate::Animate()
-	: Animate(sf::Vector2f(0,0), sf::Vector2f(50,50), AnimateAnimation(), 0)
+	: Animate(sf::Vector2f(0,0), sf::Vector2f(50,50), AnimateAnimator(), 0)
 {
 }
 
-Animate::Animate(sf::Vector2f position, sf::Vector2f size, const AnimateAnimation& animation, float speed)
-	: Entity(position, size), animation(animation)
+Animate::Animate(sf::Vector2f position, sf::Vector2f size, const AnimateAnimator& animator, float speed)
+	: Entity(position, size), animator(animator)
 {
 	setHealth(1);
 	setSpeed(speed);
-	this->animation.get().setPosition(position);
+	this->animator.get().setPosition(position);
 }
 
 void Animate::update()
 {
 	Entity::update();
-	animation.update();
+	animator.update();
 }
 
 void Animate::addHealth(int toAdd)
@@ -52,9 +52,9 @@ void Animate::setSpeed(float speed)
 	this->speed = speed;
 }
 
-void Animate::setAnimation(AnimateAnimation::State state)
+void Animate::setAnimation(AnimateAnimator::State state)
 {
-	animation.set(state);
+	animator.setState(state);
 }
 
 void Animate::resolveCollisions(const Entity* entity, Orientation orientation)
@@ -76,7 +76,7 @@ void Animate::resolveCollisions(const Entity* entity, Orientation orientation)
 				Entity::setPosition(getCollider().left, entity->getCollider().top - getCollider().height);
 			break;
 		}
-		animation.get().setPosition(Entity::getPosition());
+		animator.get().setPosition(Entity::getPosition());
 	}
 
 }
@@ -124,14 +124,14 @@ void Animate::move(sf::Vector2f position)
 void Animate::move(float x, float y)
 {
 	Entity::move(x, y);
-	animation.get().move(x, y);
+	animator.get().move(x, y);
 }
 
 void Animate::kill()
 {
 	isAlive = false;
 	Entity::setPosition(-10000, -10000);
-	animation.get().setPosition(Entity::getPosition());
+	animator.get().setPosition(Entity::getPosition());
 }
 
 bool Animate::getIsAlive() const
@@ -144,7 +144,7 @@ void Animate::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	if (!isAlive)
 		return;
 
-	target.draw(animation, states);
+	target.draw(animator, states);
 
 #ifdef COLLIDER_DEBUG
 	Entity::draw(target, states);

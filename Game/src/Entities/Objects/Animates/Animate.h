@@ -1,6 +1,6 @@
 #pragma once
-#include "../Entity.h"
-#include "../../Animation/Types/AnimateAnimation.h"
+#include "../../Entity.h"
+#include "../../../Animation/Types/AnimateAnimator.h"
 
 enum class Orientation;
 
@@ -8,7 +8,7 @@ class Animate : public Entity
 {
 public:
 	Animate();
-	Animate(sf::Vector2f position, sf::Vector2f size, const AnimateAnimation& animation, float speed = 0);
+	Animate(sf::Vector2f position, sf::Vector2f size, const AnimateAnimator& animation, float speed = 0);
 	
 	virtual void update() override;
 
@@ -31,7 +31,7 @@ public:
 	void setDirection(sf::Vector2f direction);
 	void setSpeed(float speed);
 
-	void setAnimation(AnimateAnimation::State state);
+	void setAnimation(AnimateAnimator::State state);
 
 	void resolveCollisions(const Entity* entity, Orientation orientation);
 
@@ -49,6 +49,6 @@ private:
 	float speed;
 	sf::Vector2f dir;
 	std::string name = "NONE";
-	AnimateAnimation animation;
+	AnimateAnimator animator;
 	std::vector<Entity*> collidablesList;
 };

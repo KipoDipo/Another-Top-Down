@@ -29,10 +29,10 @@ Level::~Level()
 	free();
 }
 
-void Level::setPlayer(sf::Vector2f position, float speed, const AnimateAnimation& animations, const Animatorv2& atkAnimations)
+void Level::setPlayer(sf::Vector2f position, float speed, const AnimateAnimator& animator, const GenericAnimator& atkAnimator)
 {
 	if (!player)
-		player = new Player(position, speed, animations, atkAnimations);
+		player = new Player(position, speed, animator, atkAnimator);
 	else
 	{
 		player->setPosition(position);
@@ -41,22 +41,22 @@ void Level::setPlayer(sf::Vector2f position, float speed, const AnimateAnimation
 
 }
 
-void Level::addHostile(sf::Vector2f position, float speed, const AnimateAnimation& animations)
+void Level::addHostile(sf::Vector2f position, float speed, const AnimateAnimator& animations)
 {
 	hostiles.push_back(new Enemy(position, animations, speed));
 }
 
-void Level::addSolid(sf::Vector2f position, const InanimateAnimation& animations)
+void Level::addSolid(sf::Vector2f position, const InanimateAnimator& animations)
 {
 	solids.push_back(new Inanimate(position, animations));
 }
 
-void Level::addGround(sf::Vector2f position, const InanimateAnimation& animations)
+void Level::addGround(sf::Vector2f position, const InanimateAnimator& animations)
 {
 	grounds.push_back(new Inanimate(position, animations));
 }
 
-void Level::addDecoration(sf::Vector2f position, const InanimateAnimation& animations)
+void Level::addDecoration(sf::Vector2f position, const InanimateAnimator& animations)
 {
 	decorations.push_back(new Inanimate(position, animations));
 }

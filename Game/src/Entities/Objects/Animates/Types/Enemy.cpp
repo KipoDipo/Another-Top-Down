@@ -8,11 +8,11 @@ Enemy::Enemy()
 }
 
 Enemy::Enemy(sf::Vector2f position, float speed)
-	: Animate(position, sf::Vector2f(50,50), AnimateAnimation(), speed), target(nullptr)
+	: Animate(position, sf::Vector2f(50,50), AnimateAnimator(), speed), target(nullptr)
 {
 }
 
-Enemy::Enemy(sf::Vector2f position, const AnimateAnimation& animation, float speed)
+Enemy::Enemy(sf::Vector2f position, const AnimateAnimator& animation, float speed)
 	: Animate(position, sf::Vector2f(50,50), animation, speed), target(nullptr)
 {
 }

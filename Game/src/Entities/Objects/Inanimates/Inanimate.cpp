@@ -1,5 +1,7 @@
 #include "Inanimate.h"
 
+//#define COLLIDER_DEBUG
+
 Inanimate::Inanimate()
 {
 }
@@ -10,7 +12,7 @@ Inanimate::Inanimate(sf::Vector2f position)
 	animator.get().setPosition(position);
 }
 
-Inanimate::Inanimate(sf::Vector2f position, const InanimateAnimation& animation)
+Inanimate::Inanimate(sf::Vector2f position, const InanimateAnimator& animation)
 	: Entity(position, sf::Vector2f(50, 50)), animator(animation)
 {
 	animator.get().setPosition(position);

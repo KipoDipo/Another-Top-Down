@@ -5,7 +5,7 @@ class Animation : public sf::Drawable
 {
 public:
 	Animation();
-	Animation(std::vector<sf::Texture>* frames, float switchTime);
+	Animation(std::vector<sf::Texture>* frames, float fps);
 	
 	void update();
 	void reset();
@@ -17,9 +17,9 @@ public:
 	void move(sf::Vector2f dir);
 	void move(float x, float y);
 	
-	void setSwitchTime(float switchTime);
+	void setFPS(float fps);
 
-	size_t getCurrentFrame() const;
+	unsigned getCurrentFrame() const;
 
 	sf::Vector2u getSize() const;
 	sf::Vector2f getPosition() const;
@@ -34,7 +34,7 @@ private:
 	std::shared_ptr<std::vector<sf::Texture>> frames;
 	sf::Sprite sprite;
 	float switchTime;
-	size_t currentFrame;
+	unsigned currentFrame;
 	sf::Clock clock;
 
 	static Animation noneAnimationGenerator();
