@@ -10,19 +10,19 @@ public:
 	Animate();
 	Animate(sf::Vector2f position, sf::Vector2f size, const AnimateAnimator& animation, float speed = 0);
 	
+	// Inherited via Entity
 	virtual void update() override;
-
-	virtual void move(sf::Vector2f position);
-	virtual void move(float x, float y);
+	virtual void move(sf::Vector2f position) override;
+	virtual void move(float x, float y) override;
 
 	void kill();
 	
 	bool getIsAlive() const;
 	int getHealth() const;
 	std::string getName() const;
-	sf::Vector2f getDirection();
-	float getSpeed();
-	const std::vector<Entity*>& getCollidablesList() const;
+	sf::Vector2f getDirection() const;
+	float getSpeed() const;
+	const std::vector<std::shared_ptr<Entity>>& getCollidablesList() const;
 
 	void addHealth(int toAdd);
 	void subHealth(int toSubtract);
@@ -35,7 +35,7 @@ public:
 
 	void resolveCollisions(const Entity* entity, Orientation orientation);
 
-	void addCollidable(Entity* entity);
+	void addCollidable(std::shared_ptr<Entity> entity);
 	void clearCollidables();
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
@@ -50,5 +50,5 @@ private:
 	sf::Vector2f dir;
 	std::string name = "NONE";
 	AnimateAnimator animator;
-	std::vector<Entity*> collidablesList;
+	std::vector<std::shared_ptr<Entity>> collidablesList;
 };

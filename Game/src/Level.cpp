@@ -18,47 +18,40 @@ Level& Level::operator=(const Level& other)
 {
 	if (this != &other)
 	{
-		free();
 		copy(other);
 	}
 	return *this;
 }
 
-Level::~Level()
-{
-	free();
-}
-
 void Level::setPlayer(sf::Vector2f position, float speed, const AnimateAnimator& animator, const GenericAnimator& atkAnimator)
 {
-	if (!player)
-		player = new Player(position, speed, animator, atkAnimator);
-	else
-	{
-		player->setPosition(position);
-		player->setSpeed(speed);
-	}
-
+	player = std::make_unique<Player>(position, speed, animator, atkAnimator);
 }
 
 void Level::addHostile(sf::Vector2f position, float speed, const AnimateAnimator& animations)
 {
-	hostiles.push_back(new Enemy(position, animations, speed));
+	hostiles.push_back(std::make_shared<Enemy>(position, speed, animations));
 }
 
 void Level::addSolid(sf::Vector2f position, const InanimateAnimator& animations)
 {
-	solids.push_back(new Inanimate(position, animations));
+	solids.push_back(std::make_shared<Inanimate>(position, animations));
 }
 
 void Level::addGround(sf::Vector2f position, const InanimateAnimator& animations)
 {
-	grounds.push_back(new Inanimate(position, animations));
+	grounds.push_back(std::make_unique<Inanimate>(position, animations));
 }
 
 void Level::addDecoration(sf::Vector2f position, const InanimateAnimator& animations)
 {
-	decorations.push_back(new Inanimate(position, animations));
+	decorations.push_back(std::make_unique<Inanimate>(position, animations));
+}
+
+void Level::addParticles(const std::vector<Particle>& particles)
+{
+	for (size_t i = 0; i < particles.size(); i++)
+		this->particles.push_back(std::make_unique<Particle>(particles[i]));
 }
 
 void Level::create()
@@ -69,7 +62,7 @@ void Level::create()
 	{
 		hostiles[i]->clearCollidables();
 		player->addEnemy(hostiles[i]);
-		hostiles[i]->setTarget(player);
+		hostiles[i]->setTarget(player.get());
 	}
 	for (size_t i = 0; i < solids.size(); i++)
 	{
@@ -90,6 +83,16 @@ void Level::update()
 		solids[i]->update();
 	for (size_t i = 0; i < decorations.size(); i++)
 		decorations[i]->update();
+	for (size_t i = 0; i < particles.size(); i++)
+	{
+		particles[i]->update();
+		if (!particles[i]->isActive())
+		{
+			particles[i].release();
+			particles.erase(particles.begin() + i);
+			i--;
+		}
+	}
 }
 
 const Player& Level::getPlayer() const
@@ -110,35 +113,27 @@ void Level::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	
 	for (size_t i = 0; i < decorations.size(); i++)
 		target.draw(*decorations[i], states);
+	for (size_t i = 0; i < particles.size(); i++)
+		target.draw(*particles[i], states);
 }
 
 void Level::copy(const Level& other)
 {
-	player = new Player(*other.player);
+	player = std::make_unique<Player>(*other.player);
 	hostiles.reserve(other.hostiles.size());
 	solids.reserve(other.solids.size());
 	grounds.reserve(other.grounds.size());
 	decorations.reserve(other.decorations.size());
 	
 	for (size_t i = 0; i < other.hostiles.size(); i++)
-		hostiles.push_back(new Enemy(*other.hostiles[i]));
-	for (size_t i = 0; i < other.solids.size(); i++)
-		solids.push_back(new Inanimate(*other.solids[i]));
-	for (size_t i = 0; i < other.grounds.size(); i++)
-		grounds.push_back(new Inanimate(*other.grounds[i]));
-	for (size_t i = 0; i < other.decorations.size(); i++)
-		decorations.push_back(new Inanimate(*other.decorations[i]));
-}
+		hostiles.push_back(std::make_shared<Enemy>(*other.hostiles[i]));
 
-void Level::free()
-{
-	delete player;
-	for (size_t i = 0; i < hostiles.size(); i++)
-		delete hostiles[i];
-	for (size_t i = 0; i < solids.size(); i++)
-		delete solids[i];
-	for (size_t i = 0; i < grounds.size(); i++)
-		delete grounds[i];
-	for (size_t i = 0; i < decorations.size(); i++)
-		delete decorations[i];
+	for (size_t i = 0; i < other.solids.size(); i++)
+		solids.push_back(std::make_shared<Inanimate>(*other.solids[i]));
+
+	for (size_t i = 0; i < other.grounds.size(); i++)
+		grounds.push_back(std::make_unique<Inanimate>(*other.grounds[i]));
+
+	for (size_t i = 0; i < other.decorations.size(); i++)
+		decorations.push_back(std::make_unique<Inanimate>(*other.decorations[i]));
 }

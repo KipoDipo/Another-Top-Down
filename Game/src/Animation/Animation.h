@@ -5,7 +5,7 @@ class Animation : public sf::Drawable
 {
 public:
 	Animation();
-	Animation(std::vector<sf::Texture>* frames, float fps);
+	Animation(std::shared_ptr<std::vector<sf::Texture>> frames, float fps);
 	
 	void update();
 	void reset();

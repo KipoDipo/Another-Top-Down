@@ -20,7 +20,6 @@ protected:
 private:
 	static Animation load(const std::string& path, float fps);
 	
-	bool valid;
 	unsigned currentFrame;
 
 	std::vector<Animation> animations;

@@ -1,12 +1,13 @@
 #include "Game.h"
 #include "Entities/All.h"
 #include "Utilities/All.h"
+#include <thread>
 
 using namespace sf;
 using namespace std;
 
-RenderWindow Game::window;
-vector<Level*> Game::levels;
+std::vector<std::unique_ptr<Level>> Game::levels;
+sf::RenderWindow Game::window;
 
 void Game::Start(unsigned width, unsigned height, std::string title)
 {
@@ -63,15 +64,25 @@ void Game::Init()
 	text.setString("FPS: wait");
 
 	GenericAnimator atkAnims("ball/ball", 30);
-	AnimateAnimator playerAnims("player_up/player", "player_down/player", "player_left/player", "player_right/player", "player_down/player", 12);
+	AnimateAnimator playerAnims(
+		"player_up/player", 
+		"player_down/player",
+		"player_left/player",
+		"player_right/player",
+		"player_down/player",
+		12
+	);
 	AnimateAnimator enemyAnims("enemy", 12);
 	InanimateAnimator solidAnims("solid/solid", 14);
 	InanimateAnimator groundAnims("tiles", 1);
 	
 	InanimateAnimator sparkAnims("spark/spark", 10);
+	sparkAnims.get().setOrigin((Vector2f)sparkAnims.get().getSize() / 2.f);
+
 	InanimateAnimator guideAnims("guide", 1);
 
-	Level* testLevel = new Level();
+
+	std::unique_ptr<Level> testLevel = make_unique<Level>();
 
 	testLevel->setPlayer(Vector2f(250, 250), 300.f, playerAnims, atkAnims);
 	
@@ -100,11 +111,10 @@ void Game::Init()
 	//			testLevel->addDecoration(Vector2f(j * 50.f, i * 50.f), sparkAnims);
 	
 	testLevel->create();
-	levels.push_back(testLevel);
+	levels.push_back(std::move(testLevel));
 	smoothCamera = levels[levels.size() - 1]->getPlayer().getCenter();
 	mclock.restart();
 }
-
 void Game::Update()
 {
 	levels[0]->update();

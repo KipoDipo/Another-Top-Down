@@ -8,7 +8,7 @@ class Attack : public Entity
 public:
 	Attack(float speed, float size, float distance, float range, const GenericAnimator& animations);
 	virtual ~Attack();
-	virtual Attack* clone() const = 0;
+	virtual std::unique_ptr<Attack> clone() const = 0;
 	
 	virtual void update(const sf::Vector2f& origin) = 0;
 

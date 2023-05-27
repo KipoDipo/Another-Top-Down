@@ -14,6 +14,6 @@ private:
 	static void Update();
 	static void Draw();
 
-	static std::vector<Level*> levels;
+	static std::vector<std::unique_ptr<Level>> levels;
 	static sf::RenderWindow window;
 };

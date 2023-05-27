@@ -7,7 +7,7 @@ Animation::Animation()
 {
 }
 
-Animation::Animation(std::vector<sf::Texture>* frames, float fps)
+Animation::Animation(std::shared_ptr<std::vector<sf::Texture>> frames, float fps)
 	: frames(frames), switchTime(1.f / fps), currentFrame(0), clock()
 {
 	sprite = frames == nullptr ? Animation::getNone().sprite : sf::Sprite((*this->frames)[0]);
@@ -92,7 +92,7 @@ void Animation::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 Animation Animation::noneAnimationGenerator()
 {
-	std::vector<sf::Texture>* noFrames = new std::vector<sf::Texture>();
+	std::shared_ptr<std::vector<sf::Texture>> noFrames = std::make_shared<std::vector<sf::Texture>>();
 	sf::Texture texture;
 	texture.create(50, 50);
 	sf::Image img = texture.copyToImage();

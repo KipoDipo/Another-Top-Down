@@ -81,7 +81,7 @@ void Animate::resolveCollisions(const Entity* entity, Orientation orientation)
 
 }
 
-void Animate::addCollidable(Entity* entity)
+void Animate::addCollidable(std::shared_ptr<Entity> entity)
 {
 	collidablesList.push_back(entity);
 }
@@ -101,17 +101,17 @@ std::string Animate::getName() const
 	return name;
 }
 
-sf::Vector2f Animate::getDirection()
+sf::Vector2f Animate::getDirection() const
 {
 	return dir;
 }
 
-float Animate::getSpeed()
+float Animate::getSpeed() const
 {
 	return speed;
 }
 
-const std::vector<Entity*>& Animate::getCollidablesList() const
+const std::vector<std::shared_ptr<Entity>>& Animate::getCollidablesList() const
 {
 	return collidablesList;
 }

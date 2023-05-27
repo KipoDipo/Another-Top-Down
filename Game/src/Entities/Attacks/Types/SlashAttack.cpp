@@ -29,7 +29,7 @@ void SlashAttack::update(const Vector2f& origin)
 	addProgress(getSpeed() * DeltaTime::get());
 }
 
-SlashAttack* SlashAttack::clone() const
+std::unique_ptr<Attack> SlashAttack::clone() const
 {
-	return new SlashAttack(*this);
+	return std::make_unique<SlashAttack>(*this);
 }

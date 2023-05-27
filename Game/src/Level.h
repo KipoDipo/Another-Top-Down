@@ -8,7 +8,6 @@ public:
 	Level();
 	Level(const Level& other);
 	Level& operator=(const Level& other);
-	~Level();
 	
 	void setPlayer(sf::Vector2f position, float speed, const AnimateAnimator& animator, const GenericAnimator& atkAnimator);
 	
@@ -16,6 +15,7 @@ public:
 	void addSolid(sf::Vector2f position, const InanimateAnimator& animator);
 	void addGround(sf::Vector2f position, const InanimateAnimator& animator);
 	void addDecoration(sf::Vector2f position, const InanimateAnimator& animator);
+	void addParticles(const std::vector<Particle>& particles);
 
 	void create();
 
@@ -28,11 +28,11 @@ public:
 
 private:
 	void copy(const Level& other);
-	void free();
 
-	Player* player;
-	std::vector<Enemy*> hostiles;
-	std::vector<Inanimate*> solids;
-	std::vector<Inanimate*> grounds;
-	std::vector<Inanimate*> decorations;
+	std::unique_ptr<Player> player;
+	std::vector<std::shared_ptr<Enemy>> hostiles;
+	std::vector<std::shared_ptr<Inanimate>> solids;
+	std::vector<std::unique_ptr<Inanimate>> grounds;
+	std::vector<std::unique_ptr<Inanimate>> decorations;
+	std::vector<std::unique_ptr<Particle>> particles;
 };

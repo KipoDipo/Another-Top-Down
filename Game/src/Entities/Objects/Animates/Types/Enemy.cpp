@@ -1,4 +1,4 @@
-#include "../../../Utilities/All.h"
+#include "../../../../Utilities/All.h"
 #include "Enemy.h"
 #include "Player.h"
 
@@ -12,7 +12,7 @@ Enemy::Enemy(sf::Vector2f position, float speed)
 {
 }
 
-Enemy::Enemy(sf::Vector2f position, const AnimateAnimator& animation, float speed)
+Enemy::Enemy(sf::Vector2f position, float speed, const AnimateAnimator& animation)
 	: Animate(position, sf::Vector2f(50,50), animation, speed), target(nullptr)
 {
 }
@@ -44,15 +44,14 @@ void Enemy::update()
 	if (!getIsAlive())
 		return;
 
-	Entity::update();
-	
 	if (!target)
 		return;
+
 	movement(Orientation::Vertical);
 	for (size_t i = 0; i < getCollidablesList().size(); i++)
-		resolveCollisions(getCollidablesList()[i], Orientation::Vertical);
+		resolveCollisions(getCollidablesList()[i].get(), Orientation::Vertical);
 
 	movement(Orientation::Horizontal);
 	for (size_t i = 0; i < getCollidablesList().size(); i++)
-		resolveCollisions(getCollidablesList()[i], Orientation::Horizontal);
+		resolveCollisions(getCollidablesList()[i].get(), Orientation::Horizontal);
 }

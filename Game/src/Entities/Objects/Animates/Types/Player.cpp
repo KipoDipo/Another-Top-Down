@@ -22,23 +22,20 @@ Player::Player(sf::Vector2f position, float speed, const AnimateAnimator& animat
 {
 	setSpeed(speed);
 	setName("Player");
-	attack = new SlashAttack(6.f, 10, 50, 100, atkAnimations);
+	attack = std::make_unique<SlashAttack>(6.f, 10, 50, 100, atkAnimations);
 }
 
-Player::~Player()
-{
-	free();
-}
-
-void Player::addEnemy(Enemy* enemy)
+void Player::addEnemy(std::shared_ptr<Enemy> enemy)
 {
 	enemies.push_back(enemy);
 }
-void Player::addEnemies(std::vector<Enemy>* enemies)
-{
-	for (size_t i = 0; i < enemies->size(); i++)
-		addEnemy(&(*enemies)[i]);
-}
+
+//void Player::addEnemies(std::vector<Enemy>* enemies)
+//{
+//	for (size_t i = 0; i < enemies->size(); i++)
+//		addEnemy(std::make_shared<Enemy>((*enemies)[i]));
+//		//addEnemy(&(*enemies)[i]);
+//}
 
 void Player::clearEnemies()
 {
@@ -53,7 +50,7 @@ void Player::update()
 
 	movement(Orientation::Vertical);
 	for (size_t i = 0; i < getCollidablesList().size(); i++)
-		resolveCollisions(getCollidablesList()[i], Orientation::Vertical);
+		resolveCollisions(getCollidablesList()[i].get(), Orientation::Vertical);
 	
 	if (getDirection().y > 0)
 		state = AnimateAnimator::DOWN;
@@ -62,7 +59,7 @@ void Player::update()
 
 	movement(Orientation::Horizontal);
 	for (size_t i = 0; i < getCollidablesList().size(); i++)
-		resolveCollisions(getCollidablesList()[i], Orientation::Horizontal);
+		resolveCollisions(getCollidablesList()[i].get(), Orientation::Horizontal);
 
 	if (getDirection().x > 0)
 		state = AnimateAnimator::RIGHT;
@@ -121,7 +118,7 @@ void Player::movement(Orientation orientation)
 	Animate::move(getDirection() * getSpeed() * DeltaTime::get());
 }
 
-void Player::checkInterractions(Enemy* enemy)
+void Player::checkInterractions(std::shared_ptr<Enemy> enemy)
 {
 	if (attack->getIsActive()
 		&& enemy->collides(attack->getCollider()))
@@ -142,9 +139,4 @@ void Player::copy(const Player& player)
 {
 	enemies = player.enemies;
 	attack = player.attack->clone();
-}
-
-void Player::free()
-{
-	delete attack;
 }

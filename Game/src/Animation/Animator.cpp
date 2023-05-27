@@ -6,13 +6,13 @@
 //#define NO_ANIM
 
 Animator::Animator()
-	: none(Animation::getNone()), currentFrame(0), valid(false)
+	: none(Animation::getNone()), currentFrame(0)
 {
 }
 
 Animation Animator::load(const std::string& path, float fps)
 {
-	std::vector<sf::Texture>* frames = new std::vector<sf::Texture>();
+	std::shared_ptr<std::vector<sf::Texture>> frames = std::make_shared<std::vector<sf::Texture>>();
 
 	sf::Texture buffer;
 	std::ifstream checkFile;
@@ -29,7 +29,6 @@ Animation Animator::load(const std::string& path, float fps)
 				if (!checkFile)
 				{
 					printf("%s couldn't load %s (%s)\n", ConsoleColors::redFlag, path.c_str(), lastResortPath.c_str());
-					delete frames;
 					return Animation::getNone();
 				}
 				buffer.loadFromFile(lastResortPath);
@@ -57,12 +56,11 @@ Animation Animator::load(const std::string& path, float fps)
 void Animator::add(const std::string& path, float fps)
 {
 	animations.push_back(load(path, fps));
-	valid = true;
 }
 
 void Animator::set(unsigned frame)
 {
-	Animation& ref = (valid && frame < animations.size()) 
+	Animation& ref = (frame < animations.size()) 
 		? animations[frame] : none;
 
 	ref.setPosition(animations[currentFrame].getPosition());
@@ -72,7 +70,7 @@ void Animator::set(unsigned frame)
 
 Animation& Animator::get()
 {
-	if (!valid)
+	if (animations.size() == 0)
 		return none;
 
 	return animations[currentFrame];
@@ -80,7 +78,7 @@ Animation& Animator::get()
 
 const Animation& Animator::get() const
 {
-	if (!valid)
+	if (animations.size() == 0)
 		return none;
 
 	return animations[currentFrame];
