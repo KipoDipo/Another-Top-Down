@@ -61,7 +61,7 @@ Animation Animation::noneAnimationGenerator()
 	sf::Color one = sf::Color(255, 200, 80);
 	sf::Color two = sf::Color(255, 80, 100);
 
-	for (size_t i = 0; i < 50; i++)
+	for (unsigned i = 0; i < 50; i++)
 	{
 		if (i != 0 && i % 25 == 0)
 			std::swap(one, two);

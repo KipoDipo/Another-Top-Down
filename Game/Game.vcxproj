@@ -127,7 +127,7 @@
       <TreatWarningAsError>false</TreatWarningAsError>
       <ShowIncludes>
       </ShowIncludes>
-      <AdditionalIncludeDirectories>$(SolutionDir)SFML-2.5.1-x64\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)SFML-2.5.1-x64\include;$(SolutionDir)$(SolutionName)\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
