@@ -11,7 +11,7 @@ Attack::Attack(float speed, float size, float distance, float range, const Gener
 	setSpeed(speed);
 	setDistance(distance);
 	setRange(range);
-	this->animator.get().setOrigin((sf::Vector2f)animator.get().getSize() / 2.f);
+	this->animator.getSprite().setOrigin((sf::Vector2f)this->animator.getSprite().getTexture()->getSize() / 2.f);
 }
 
 Attack::~Attack()
@@ -105,7 +105,7 @@ void Attack::setPosition(sf::Vector2f position)
 void Attack::setPosition(float x, float y)
 {
 	Entity::setPosition(x, y);
-	animator.get().setPosition(sf::Vector2f(getCollider().left, getCollider().top) + sf::Vector2f(getCollider().width, getCollider().height) / 2.f);
+	animator.getSprite().setPosition(sf::Vector2f(getCollider().left, getCollider().top) + sf::Vector2f(getCollider().width, getCollider().height) / 2.f);
 }
 
 void Attack::updateAnimation()

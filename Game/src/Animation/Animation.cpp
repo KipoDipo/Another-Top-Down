@@ -1,16 +1,14 @@
-#include "../Utilities/Utils.h"
 #include "Animation.h"
 #include <fstream>
 
 Animation::Animation()
-	: frames(), sprite(), switchTime(), currentFrame(0), clock()
+	: frames(), switchTime(), currentFrame(0), clock()
 {
 }
 
 Animation::Animation(std::shared_ptr<std::vector<sf::Texture>> frames, float fps)
 	: frames(frames), switchTime(1.f / fps), currentFrame(0), clock()
 {
-	sprite = frames == nullptr ? Animation::getNone().sprite : sf::Sprite((*this->frames)[0]);
 }
 
 void Animation::update()
@@ -22,7 +20,6 @@ void Animation::update()
 	
 	if (elapsedTime > switchTime)
 	{
-		sprite.setTexture((*frames)[currentFrame]);
 		currentFrame = (currentFrame + 1) % frames->size(); // from 0 to size
 		clock.restart();
 	}
@@ -32,37 +29,6 @@ void Animation::reset()
 {
 	clock.restart();
 	currentFrame = 0;
-	sprite.setTexture((*frames)[0]);
-}
-
-void Animation::setPosition(sf::Vector2f position)
-{
-	setPosition(position.x, position.y);
-}
-
-void Animation::setPosition(float x, float y)
-{
-	sprite.setPosition(x, y);
-}
-
-void Animation::setOrigin(sf::Vector2f origin)
-{
-	setOrigin(origin.x, origin.y);
-}
-
-void Animation::setOrigin(float x, float y)
-{
-	sprite.setOrigin(x, y);
-}
-
-void Animation::move(sf::Vector2f dir)
-{
-	move(dir.x, dir.y);
-}
-
-void Animation::move(float x, float y)
-{
-	sprite.move(x, y);
 }
 
 void Animation::setFPS(float fps)
@@ -75,19 +41,14 @@ unsigned Animation::getCurrentFrame() const
 	return currentFrame;
 }
 
-sf::Vector2u Animation::getSize() const
+size_t Animation::getLength() const
 {
-	return sprite.getTexture()->getSize();
+	return frames->size();
 }
 
-sf::Vector2f Animation::getPosition() const
+const sf::Texture& Animation::getTexture() const
 {
-	return sprite.getPosition();
-}
-
-void Animation::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{
-	target.draw(sprite, states);
+	return (*frames)[currentFrame];
 }
 
 Animation Animation::noneAnimationGenerator()
@@ -126,3 +87,4 @@ Animation& Animation::getNone()
 {
 	return noneAnimation;
 }
+

@@ -1,5 +1,6 @@
 #include "Entity.h"
-#include "../Utilities/Utils.h"
+#include <Utilities/Utils.h>
+#include <Level.h>
 
 using namespace sf;
 
@@ -8,7 +9,8 @@ Entity::Entity()
 {
 }
 
-Entity::Entity(Vector2f position, Vector2f size) /* Consider - Maybe custom collider? */
+Entity::Entity(Vector2f position, Vector2f size, Level* level) /* Consider - Maybe custom collider? */
+	: level(level)
 {
 	collider = FloatRect(
 		position.x, 
@@ -53,6 +55,11 @@ Vector2f Entity::getPosition() const
 const sf::FloatRect& Entity::getCollider() const
 {
 	return collider;
+}
+
+Level& Entity::getLevel()
+{
+	return *level;
 }
 
 bool Entity::collides(const Entity& entity) const

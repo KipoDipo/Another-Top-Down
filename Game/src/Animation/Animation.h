@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-class Animation : public sf::Drawable
+class Animation
 {
 public:
 	Animation();
@@ -10,29 +10,17 @@ public:
 	void update();
 	void reset();
 	
-	void setPosition(sf::Vector2f position);
-	void setPosition(float x, float y);
-	void setOrigin(sf::Vector2f origin);
-	void setOrigin(float x, float y);
-	void move(sf::Vector2f dir);
-	void move(float x, float y);
-	
 	void setFPS(float fps);
 
 	unsigned getCurrentFrame() const;
-
-	sf::Vector2u getSize() const;
-	sf::Vector2f getPosition() const;
-
+	size_t getLength() const;
 
 	static Animation& getNone();
 
-	// Inherited via Drawable
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-	
+	const sf::Texture& getTexture() const;
+
 private:
 	std::shared_ptr<std::vector<sf::Texture>> frames;
-	sf::Sprite sprite;
 	float switchTime;
 	unsigned currentFrame;
 	sf::Clock clock;

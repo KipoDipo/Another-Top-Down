@@ -1,17 +1,18 @@
 #include "Animate.h"
-#include "../../../Utilities/Utils.h"
+#include <Utilities/Utils.h>
 
 Animate::Animate()
-	: Animate(sf::Vector2f(0,0), sf::Vector2f(50,50), AnimateAnimator(), 0)
+	: Animate(sf::Vector2f(0,0), sf::Vector2f(50,50), AnimateAnimator(), GenericAnimator(), 0, nullptr)
 {
 }
 
-Animate::Animate(sf::Vector2f position, sf::Vector2f size, const AnimateAnimator& animator, float speed)
-	: Entity(position, size), animator(animator)
+Animate::Animate(sf::Vector2f position, sf::Vector2f size, const AnimateAnimator& animator, const GenericAnimator& deathParticlesAnimator, float speed, Level* level)
+	: Entity(position, size, level),
+	animator(animator), deathParticlesAnimator(deathParticlesAnimator)
 {
 	setHealth(1);
 	setSpeed(speed);
-	this->animator.get().setPosition(position);
+	this->animator.getSprite().setPosition(position);
 }
 
 void Animate::update()
@@ -76,7 +77,7 @@ void Animate::resolveCollisions(const Entity* entity, Orientation orientation)
 				Entity::setPosition(getCollider().left, entity->getCollider().top - getCollider().height);
 			break;
 		}
-		animator.get().setPosition(Entity::getPosition());
+		animator.getSprite().setPosition(Entity::getPosition());
 	}
 
 }
@@ -111,6 +112,11 @@ float Animate::getSpeed() const
 	return speed;
 }
 
+const GenericAnimator& Animate::getDeathParticlesAnimator() const
+{
+	return deathParticlesAnimator;
+}
+
 const std::vector<std::shared_ptr<Entity>>& Animate::getCollidablesList() const
 {
 	return collidablesList;
@@ -124,14 +130,14 @@ void Animate::move(sf::Vector2f position)
 void Animate::move(float x, float y)
 {
 	Entity::move(x, y);
-	animator.get().move(x, y);
+	animator.getSprite().move(x, y);
 }
 
 void Animate::kill()
 {
 	isAlive = false;
 	Entity::setPosition(-10000, -10000);
-	animator.get().setPosition(Entity::getPosition());
+	animator.getSprite().setPosition(Entity::getPosition());
 }
 
 bool Animate::getIsAlive() const

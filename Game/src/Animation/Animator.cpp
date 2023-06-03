@@ -1,12 +1,12 @@
 #include "Animator.h"
-#include "../Utilities/Paths.h"
-#include "../Utilities/ConsoleColors.h"
+#include <Utilities/Paths.h>
+#include <Utilities/ConsoleColors.h>
 #include <fstream>
 
 //#define NO_ANIM
 
 Animator::Animator()
-	: none(Animation::getNone()), currentFrame(0)
+	: none(Animation::getNone()), sprite(none.getTexture()), currentIndex(0)
 {
 }
 
@@ -56,40 +56,43 @@ Animation Animator::load(const std::string& path, float fps)
 void Animator::add(const std::string& path, float fps)
 {
 	animations.push_back(load(path, fps));
+	//if (animations.size() == 1)
+	//	sprite.setTexture(animations[0].getTexture());
 }
 
-void Animator::set(unsigned frame)
+void Animator::set(unsigned index)
 {
-	Animation& ref = (frame < animations.size()) 
-		? animations[frame] : none;
-
-	ref.setPosition(animations[currentFrame].getPosition());
-	currentFrame = frame;
-	animations[currentFrame].reset();
+	currentIndex = index;
+	animations[currentIndex].reset();
 }
 
-Animation& Animator::get()
+Animation* Animator::operator->()
 {
-	if (animations.size() == 0)
-		return none;
-
-	return animations[currentFrame];
+	return &animations[currentIndex];
 }
 
-const Animation& Animator::get() const
+const Animation* Animator::operator->() const
 {
-	if (animations.size() == 0)
-		return none;
+	return &animations[currentIndex];
+}
 
-	return animations[currentFrame];
+sf::Sprite& Animator::getSprite()
+{
+	return sprite;
+}
+
+const sf::Sprite& Animator::getSprite() const
+{
+	return sprite;
 }
 
 void Animator::update()
 {
-	animations[currentFrame].update();
+	sprite.setTexture(animations[currentIndex].getTexture());
+	animations[currentIndex].update();
 }
 
 void Animator::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	target.draw(animations[currentFrame], states);
+	target.draw(sprite, states);
 }

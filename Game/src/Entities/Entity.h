@@ -1,11 +1,12 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <Level.h>
 
 class Entity : public virtual sf::Drawable
 {
 public:
 	Entity();
-	Entity(sf::Vector2f position, sf::Vector2f size);
+	Entity(sf::Vector2f position, sf::Vector2f size, Level* level = nullptr);
 	virtual ~Entity();
 
 	virtual void move(sf::Vector2f position);
@@ -17,6 +18,7 @@ public:
 	sf::Vector2f getCenter() const;
 	const sf::Vector2f getSize() const;
 	const sf::FloatRect& getCollider() const;
+	Level& getLevel();
 
 	bool collides(const Entity& entity) const;
 	bool collides(const sf::FloatRect& rect) const;
@@ -28,4 +30,5 @@ public:
 
 private:
 	sf::FloatRect collider;
+	Level* level;
 };

@@ -1,6 +1,13 @@
 #pragma once
-#include "Entities/All.h"
+#include "Particles/Particle.h"
 #include <SFML/Graphics.hpp>
+
+class Player;
+class Enemy;
+class Inanimate;
+class GenericAnimator;
+class AnimateAnimator;
+class InanimateAnimator;
 
 class Level : public sf::Drawable
 {
@@ -9,9 +16,9 @@ public:
 	Level(const Level& other);
 	Level& operator=(const Level& other);
 	
-	void setPlayer(sf::Vector2f position, float speed, const AnimateAnimator& animator, const GenericAnimator& atkAnimator);
+	void setPlayer(sf::Vector2f position, float speed, const AnimateAnimator& animator, const GenericAnimator& deathParticlesAnimator, const GenericAnimator& atkAnimator);
 	
-	void addHostile(sf::Vector2f position, float speed, const AnimateAnimator& animator);
+	void addHostile(sf::Vector2f position, float speed, const AnimateAnimator& animator, const GenericAnimator& deathParticlesAnimator);
 	void addSolid(sf::Vector2f position, const InanimateAnimator& animator);
 	void addGround(sf::Vector2f position, const InanimateAnimator& animator);
 	void addDecoration(sf::Vector2f position, const InanimateAnimator& animator);

@@ -9,13 +9,14 @@ Inanimate::Inanimate()
 Inanimate::Inanimate(sf::Vector2f position)
 	: Entity(position, sf::Vector2f(50,50))
 {
-	animator.get().setPosition(position);
+	animator.getSprite().setPosition(position);
 }
 
 Inanimate::Inanimate(sf::Vector2f position, const InanimateAnimator& animation)
-	: Entity(position, sf::Vector2f(50, 50)), animator(animation)
+	: Entity(position, sf::Vector2f(50, 50)), 
+	animator(animation)
 {
-	animator.get().setPosition(position);
+	animator.getSprite().setPosition(position);
 }
 
 void Inanimate::draw(sf::RenderTarget& target, sf::RenderStates states) const

@@ -7,7 +7,5 @@
 
 #include "Objects/Inanimates/Inanimate.h"
 
-#include "Particles/ParticleGenerator.h"
-
 #include "Attacks/Attack.h"
 #include "Attacks/Types/SlashAttack.h"

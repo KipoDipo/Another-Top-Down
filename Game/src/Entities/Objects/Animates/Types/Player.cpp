@@ -1,13 +1,14 @@
-#include "../../../../Animation/Animation.h"
-#include "../../../../Utilities/All.h"
+#include <Animation/Animation.h>
+#include <Utilities/All.h>
 #include "Player.h"
 #include "Enemy.h"
-#include "../../../Attacks/Types/SlashAttack.h"
+#include <Entities/Attacks/Types/SlashAttack.h>
+#include <Level.h>
 
 using namespace sf;
 
 Player::Player()
-	: Player(Vector2f(250, 250), 300, AnimateAnimator(), GenericAnimator())
+	: Player(Vector2f(250, 250), 300, AnimateAnimator(), GenericAnimator(), GenericAnimator(), nullptr)
 {
 }
 
@@ -17,25 +18,18 @@ Player::Player(const Player& other)
 	copy(other);
 }
 
-Player::Player(sf::Vector2f position, float speed, const AnimateAnimator& animation, const GenericAnimator& atkAnimations)
-	: Animate(position, Vector2f(50,50), animation, speed)
+Player::Player(sf::Vector2f position, float speed, const AnimateAnimator& animation, const GenericAnimator& deathParticlesAnimator, const GenericAnimator& atkAnimations, Level* level)
+	: Animate(position, Vector2f(50,50), animation, deathParticlesAnimator, speed, level)
 {
 	setSpeed(speed);
 	setName("Player");
-	attack = std::make_unique<SlashAttack>(6.f, 10, 50, 100, atkAnimations);
+	attack = std::make_unique<SlashAttack>(6.f, 10.f, 50.f, 100.f, atkAnimations);
 }
 
 void Player::addEnemy(std::shared_ptr<Enemy> enemy)
 {
 	enemies.push_back(enemy);
 }
-
-//void Player::addEnemies(std::vector<Enemy>* enemies)
-//{
-//	for (size_t i = 0; i < enemies->size(); i++)
-//		addEnemy(std::make_shared<Enemy>((*enemies)[i]));
-//		//addEnemy(&(*enemies)[i]);
-//}
 
 void Player::clearEnemies()
 {
@@ -44,8 +38,6 @@ void Player::clearEnemies()
 
 void Player::update()
 {
-	Animate::update();
-	
 	AnimateAnimator::State state = AnimateAnimator::DOWN;
 
 	movement(Orientation::Vertical);
@@ -66,7 +58,8 @@ void Player::update()
 	if (getDirection().x < 0)
 		state = AnimateAnimator::LEFT;
 
-	setAnimation(state);
+	Animate::setAnimation(state);
+	Animate::update();
 
 	if (!attack->getIsActive())
 	{

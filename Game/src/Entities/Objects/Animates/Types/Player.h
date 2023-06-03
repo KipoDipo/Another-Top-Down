@@ -1,6 +1,6 @@
 #pragma once
 #include "../Animate.h"
-#include "../../../../Animation/Types/GenericAnimator.h"
+#include <Animation/Types/GenericAnimator.h>
 
 class Enemy;
 class Solid;
@@ -13,7 +13,7 @@ public:
 	Player();
 	Player(const Player& other);
 	Player& operator=(const Player& other) = delete;
-	Player(sf::Vector2f position, float speed, const AnimateAnimator& animations, const GenericAnimator& atkAnimations);
+	Player(sf::Vector2f position, float speed, const AnimateAnimator& animations, const GenericAnimator& deathParticlesAnimator, const GenericAnimator& atkAnimations, Level* level);
 	
 	void addEnemy(std::shared_ptr<Enemy> enemy);
 

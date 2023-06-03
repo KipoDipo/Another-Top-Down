@@ -1,7 +1,6 @@
 #pragma once
-#include <SFML/Graphics.hpp>
-#include "../../Animation/Types/GenericAnimator.h"
 #include "../Entity.h"
+#include <Animation/Types/GenericAnimator.h>
 
 class Attack : public Entity
 {

@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "../../Entity.h"
-#include "../../../Animation/Types/InanimateAnimator.h"
+#include <Entities/Entity.h>
+#include <Animation/Types/InanimateAnimator.h>
 
 class Inanimate : public Entity
 {

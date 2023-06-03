@@ -93,7 +93,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>SFML_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)SFML-2.5.1-x86\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)SFML-2.5.1-x86\include;$(SolutionDir)$(SolutionName)\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,8 +141,8 @@
   <ItemGroup>
     <ClCompile Include="src\Animation\Animator.cpp" />
     <ClCompile Include="src\Entities\Objects\Inanimates\Inanimate.cpp" />
-    <ClCompile Include="src\Entities\Particles\Particle.cpp" />
-    <ClCompile Include="src\Entities\Particles\ParticleGenerator.cpp" />
+    <ClCompile Include="src\Particles\Particle.cpp" />
+    <ClCompile Include="src\Particles\ParticleGenerator.cpp" />
     <ClCompile Include="src\Utilities\ConsoleColors.cpp" />
     <ClCompile Include="src\Utilities\Paths.cpp" />
     <ClCompile Include="src\Animation\Animation.cpp" />
@@ -161,8 +161,8 @@
     <ClInclude Include="src\Animation\Types\GenericAnimator.h" />
     <ClInclude Include="src\Animation\Types\InanimateAnimator.h" />
     <ClInclude Include="src\Entities\Objects\Inanimates\Inanimate.h" />
-    <ClInclude Include="src\Entities\Particles\Particle.h" />
-    <ClInclude Include="src\Entities\Particles\ParticleGenerator.h" />
+    <ClInclude Include="src\Particles\Particle.h" />
+    <ClInclude Include="src\Particles\ParticleGenerator.h" />
     <ClInclude Include="src\Level.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\Utilities\All.h" />

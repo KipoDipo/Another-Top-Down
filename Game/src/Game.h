@@ -6,7 +6,7 @@
 class Game
 {
 public:
-	static void Start(unsigned width, unsigned height, std::string title);
+	static void Start(unsigned width, unsigned height, const std::string& title);
 	
 private:
 	static void Init();

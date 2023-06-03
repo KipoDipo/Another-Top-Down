@@ -8,13 +8,13 @@ class Enemy : public Animate
 {
 public:
 	Enemy();
-	Enemy(sf::Vector2f position, float speed);
-	Enemy(sf::Vector2f position, float speed, const AnimateAnimator& animation);
+	Enemy(sf::Vector2f position, float speed, const AnimateAnimator& animation, const GenericAnimator& deathParticlesAnimator, Level* level);
 
 	void setTarget(Entity* target);
 
 	// Inherited via Animate
 	virtual void update() override;
+	virtual void kill() override;
 
 private:
 	// Inherited via Animate

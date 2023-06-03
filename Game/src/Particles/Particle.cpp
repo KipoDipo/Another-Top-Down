@@ -1,5 +1,5 @@
 #include "Particle.h"
-#include "../../Utilities/DeltaTime.h"
+#include <Utilities/DeltaTime.h>
 
 Particle::Particle()
 	: duration(0), speed(0), direction({ 0,0 }), isDone(true)
@@ -9,7 +9,8 @@ Particle::Particle()
 Particle::Particle(const GenericAnimator& animator, sf::Vector2f location, sf::Vector2f direction, float speed, float duration)
 	: animator(animator), direction(direction), speed(speed), duration(duration), isDone(false)
 {
-	this->animator.get().setPosition(location);
+	this->animator.getSprite().setPosition(location);
+	this->animator.getSprite().setOrigin((sf::Vector2f)this->animator.getSprite().getTexture()->getSize() / 2.f);
 }
 
 bool Particle::isActive() const
@@ -23,7 +24,7 @@ void Particle::update()
 		return;
 
 	animator.update();
-	animator.get().move(direction * speed * DeltaTime::get());
+	animator.getSprite().move(direction * speed * DeltaTime::get());
 
 	if (clock.getElapsedTime().asSeconds() > duration)
 		isDone = true;

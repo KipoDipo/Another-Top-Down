@@ -63,10 +63,10 @@
     <ClCompile Include="src\Entities\Objects\Inanimates\Inanimate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Entities\Particles\Particle.cpp">
+    <ClCompile Include="src\Particles\Particle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Entities\Particles\ParticleGenerator.cpp">
+    <ClCompile Include="src\Particles\ParticleGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -131,10 +131,10 @@
     <ClInclude Include="src\Animation\Types\GenericAnimator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Entities\Particles\Particle.h">
+    <ClInclude Include="src\Particles\Particle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Entities\Particles\ParticleGenerator.h">
+    <ClInclude Include="src\Particles\ParticleGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

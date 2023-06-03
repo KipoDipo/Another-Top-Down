@@ -1,4 +1,6 @@
 #include "Level.h"
+#include "Utilities/Utils.h"
+#include "Entities/All.h"
 
 Level::Level()
 	: player(nullptr), hostiles(), solids(), grounds()
@@ -23,14 +25,14 @@ Level& Level::operator=(const Level& other)
 	return *this;
 }
 
-void Level::setPlayer(sf::Vector2f position, float speed, const AnimateAnimator& animator, const GenericAnimator& atkAnimator)
+void Level::setPlayer(sf::Vector2f position, float speed, const AnimateAnimator& animator, const GenericAnimator& deathParticlesAnimator, const GenericAnimator& atkAnimator)
 {
-	player = std::make_unique<Player>(position, speed, animator, atkAnimator);
+	player = std::make_unique<Player>(position, speed, animator, deathParticlesAnimator, atkAnimator, this);
 }
 
-void Level::addHostile(sf::Vector2f position, float speed, const AnimateAnimator& animations)
+void Level::addHostile(sf::Vector2f position, float speed, const AnimateAnimator& animations, const GenericAnimator& deathParticlesAnimator)
 {
-	hostiles.push_back(std::make_shared<Enemy>(position, speed, animations));
+	hostiles.push_back(std::make_shared<Enemy>(position, speed, animations, deathParticlesAnimator, this));
 }
 
 void Level::addSolid(sf::Vector2f position, const InanimateAnimator& animations)
@@ -88,7 +90,6 @@ void Level::update()
 		particles[i]->update();
 		if (!particles[i]->isActive())
 		{
-			particles[i].release();
 			particles.erase(particles.begin() + i);
 			i--;
 		}

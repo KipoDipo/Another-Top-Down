@@ -1,4 +1,4 @@
-#include "../../../Utilities/All.h"
+#include <Utilities/DeltaTime.h>
 #include "SlashAttack.h"
 
 using namespace sf;

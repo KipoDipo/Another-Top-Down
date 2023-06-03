@@ -1,17 +1,16 @@
 #include "Game.h"
 #include "Entities/All.h"
 #include "Utilities/All.h"
-#include <thread>
 
 using namespace sf;
 using namespace std;
 
-std::vector<std::unique_ptr<Level>> Game::levels;
-sf::RenderWindow Game::window;
+vector<unique_ptr<Level>> Game::levels;
+RenderWindow Game::window;
 
-void Game::Start(unsigned width, unsigned height, std::string title)
+void Game::Start(unsigned width, unsigned height, const string& title)
 {
-	window.create(sf::VideoMode(width, height), title);
+	window.create(VideoMode(width, height), title);
 	// * Initialize * //
 	Font font;
 	font.loadFromFile("res/fonts/Pixeled.ttf");
@@ -27,9 +26,9 @@ void Game::Start(unsigned width, unsigned height, std::string title)
 	while (window.isOpen())
 	{
 		// * Dispatch Events * //
-		sf::Event event;
+		Event event;
 		while (window.pollEvent(event))
-			if (event.type == sf::Event::Closed)
+			if (event.type == Event::Closed)
 				window.close();
 
 		// * Loop * //
@@ -77,18 +76,22 @@ void Game::Init()
 	InanimateAnimator groundAnims("tiles", 1);
 	
 	InanimateAnimator sparkAnims("spark/spark", 10);
-	sparkAnims.get().setOrigin((Vector2f)sparkAnims.get().getSize() / 2.f);
+	sparkAnims.getSprite().setOrigin((Vector2f)sparkAnims.getSprite().getTexture()->getSize() / 2.f);
 
 	InanimateAnimator guideAnims("guide", 1);
 
+	GenericAnimator playerDeath("ball/ball", 10);
+	GenericAnimator enemyDeath("ball/ball", 60);
 
-	std::unique_ptr<Level> testLevel = make_unique<Level>();
+	unique_ptr<Level> testLevel = make_unique<Level>();
 
-	testLevel->setPlayer(Vector2f(250, 250), 300.f, playerAnims, atkAnims);
+	testLevel->setPlayer(Vector2f(250, 250), 300.f, playerAnims, playerDeath, atkAnims);
 	
-	testLevel->addHostile(Vector2f(180, 30), rand() % 20 + 20.f, enemyAnims);
-	testLevel->addHostile(Vector2f(230, 100), rand() % 20 + 20.f, enemyAnims);
-	testLevel->addHostile(Vector2f(260, 60), rand() % 20 + 20.f, enemyAnims);
+	testLevel->addHostile(Vector2f(180, 30), rand() % 20 + 20.f, enemyAnims, enemyDeath);
+	testLevel->addHostile(Vector2f(230, 100), rand() % 20 + 20.f, enemyAnims, enemyDeath);
+	testLevel->addHostile(Vector2f(260, 60), rand() % 20 + 20.f, enemyAnims, enemyDeath);
+
+
 
 	testLevel->addSolid(Vector2f(50, 0), solidAnims);
 	testLevel->addSolid(Vector2f(50, 50), solidAnims);
@@ -109,14 +112,15 @@ void Game::Init()
 	//	for (int j = -3; j < 10; j++)
 	//		if (rand() % 5 == 0)
 	//			testLevel->addDecoration(Vector2f(j * 50.f, i * 50.f), sparkAnims);
-	
 	testLevel->create();
-	levels.push_back(std::move(testLevel));
+	levels.push_back(move(testLevel));
 	smoothCamera = levels[levels.size() - 1]->getPlayer().getCenter();
 	mclock.restart();
 }
+//GenericAnimator a("ball/ball", 30);
 void Game::Update()
 {
+	//levels[0]->addParticles(ParticleGenerator::explosion(a, { 300,300 }, 100, 100, 10));
 	levels[0]->update();
 }
 
@@ -137,7 +141,7 @@ void Game::Draw()
 		if (mclock.getElapsedTime().asSeconds() > 0.5f)
 		{
 			mclock.restart();
-			text.setString("FPS: " + std::to_string((int)(sumFps / frames)));
+			text.setString("FPS: " + to_string((int)(sumFps / frames)));
 			sumFps = 0;
 			frames = 0;
 		}

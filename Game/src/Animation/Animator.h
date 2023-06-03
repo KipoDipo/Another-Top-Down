@@ -4,10 +4,13 @@
 class Animator : public sf::Drawable
 {
 public:
-	Animation& get();
-	const Animation& get() const;
+	Animation* operator->();
+	const Animation* operator->() const;
 	
-	void update();
+	sf::Sprite& getSprite();
+	const sf::Sprite& getSprite() const;
+
+	virtual void update();
 
 	// Inherited via Drawable
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
@@ -15,13 +18,15 @@ public:
 protected:
 	Animator();
 	void add(const std::string& path, float fps);
-	void set(unsigned frame);
+	void set(unsigned index);
 
 private:
 	static Animation load(const std::string& path, float fps);
 	
-	unsigned currentFrame;
+	unsigned currentIndex;
 
 	std::vector<Animation> animations;
 	Animation none;
+
+	sf::Sprite sprite;
 };
