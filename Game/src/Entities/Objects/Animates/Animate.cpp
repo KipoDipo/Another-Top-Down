@@ -1,6 +1,8 @@
 #include "Animate.h"
 #include <Utilities/Utils.h>
 
+//#define COLLIDER_DEBUG
+
 Animate::Animate()
 	: Animate(sf::Vector2f(0,0), sf::Vector2f(50,50), AnimateAnimator(), GenericAnimator(), 0, nullptr)
 {
@@ -12,12 +14,11 @@ Animate::Animate(sf::Vector2f position, sf::Vector2f size, const AnimateAnimator
 {
 	setHealth(1);
 	setSpeed(speed);
-	this->animator.getSprite().setPosition(position);
+	this->animator.getSprite().setPosition(position - (sf::Vector2f)this->animator.getSprite().getTexture()->getSize() / 2.f + size / 2.f);
 }
 
 void Animate::update()
 {
-	Entity::update();
 	animator.update();
 }
 
@@ -58,38 +59,30 @@ void Animate::setAnimation(AnimateAnimator::State state)
 	animator.setState(state);
 }
 
-void Animate::resolveCollisions(const Entity* entity, Orientation orientation)
+void Animate::resolveCollisions(const std::shared_ptr<Entity>& entity, Orientation orientation)
 {
 	if (collides(*entity))
 	{
+		sf::Vector2f newPosition;
 		switch (orientation)
 		{
 		case Orientation::Horizontal:
 			if (dir.x < 0)
-				Entity::setPosition(entity->getCollider().left + entity->getCollider().width, getCollider().top);
+				newPosition = sf::Vector2f(entity->getCollider().left + entity->getCollider().width, Entity::getCollider().top);
 			else if (dir.x > 0)
-				Entity::setPosition(entity->getCollider().left - getCollider().width, getCollider().top);
+				newPosition = sf::Vector2f(entity->getCollider().left - Entity::getCollider().width, Entity::getCollider().top);
 			break;
 		case Orientation::Vertical:
 			if (dir.y < 0)
-				Entity::setPosition(getCollider().left, entity->getCollider().top + entity->getCollider().height);
+				newPosition = sf::Vector2f(Entity::getCollider().left, entity->getCollider().top + entity->getCollider().height);
 			else if (dir.y > 0)
-				Entity::setPosition(getCollider().left, entity->getCollider().top - getCollider().height);
+				newPosition = sf::Vector2f(Entity::getCollider().left, entity->getCollider().top - Entity::getCollider().height);
 			break;
 		}
-		animator.getSprite().setPosition(Entity::getPosition());
+		animator.getSprite().move(newPosition - Entity::getPosition());
+		Entity::setPosition(newPosition);
 	}
 
-}
-
-void Animate::addCollidable(std::shared_ptr<Entity> entity)
-{
-	collidablesList.push_back(entity);
-}
-
-void Animate::clearCollidables()
-{
-	collidablesList.clear();
 }
 
 int Animate::getHealth() const
@@ -117,11 +110,6 @@ const GenericAnimator& Animate::getDeathParticlesAnimator() const
 	return deathParticlesAnimator;
 }
 
-const std::vector<std::shared_ptr<Entity>>& Animate::getCollidablesList() const
-{
-	return collidablesList;
-}
-
 void Animate::move(sf::Vector2f position)
 {
 	move(position.x, position.y);
@@ -136,7 +124,7 @@ void Animate::move(float x, float y)
 void Animate::kill()
 {
 	isAlive = false;
-	Entity::setPosition(-10000, -10000);
+	Entity::setPosition(INT_MIN, INT_MIN);
 	animator.getSprite().setPosition(Entity::getPosition());
 }
 

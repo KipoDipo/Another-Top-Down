@@ -24,7 +24,6 @@ public:
 	sf::Vector2f getDirection() const;
 	float getSpeed() const;
 	const GenericAnimator& getDeathParticlesAnimator() const;
-	const std::vector<std::shared_ptr<Entity>>& getCollidablesList() const;
 
 	void addHealth(int toAdd);
 	void subHealth(int toSubtract);
@@ -35,10 +34,7 @@ public:
 
 	void setAnimation(AnimateAnimator::State state);
 
-	void resolveCollisions(const Entity* entity, Orientation orientation);
-
-	void addCollidable(std::shared_ptr<Entity> entity);
-	void clearCollidables();
+	void resolveCollisions(const std::shared_ptr<Entity>& entity, Orientation orientation);
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
@@ -53,6 +49,4 @@ private:
 	std::string name = "NONE";
 	AnimateAnimator animator;
 	GenericAnimator deathParticlesAnimator;
-
-	std::vector<std::shared_ptr<Entity>> collidablesList;
 };

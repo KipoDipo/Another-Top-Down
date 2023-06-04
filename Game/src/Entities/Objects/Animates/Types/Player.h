@@ -15,10 +15,6 @@ public:
 	Player& operator=(const Player& other) = delete;
 	Player(sf::Vector2f position, float speed, const AnimateAnimator& animations, const GenericAnimator& deathParticlesAnimator, const GenericAnimator& atkAnimations, Level* level);
 	
-	void addEnemy(std::shared_ptr<Enemy> enemy);
-
-	void clearEnemies();
-
 	// Inherited via Animate
 	virtual void update() override;	
 
@@ -34,5 +30,4 @@ private:
 	void movement(Orientation orientation) override;
 	
 	std::unique_ptr<Attack> attack;
-	std::vector<std::shared_ptr<Enemy>> enemies;
 };

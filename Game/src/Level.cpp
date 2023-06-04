@@ -58,20 +58,8 @@ void Level::addParticles(const std::vector<Particle>& particles)
 
 void Level::create()
 {
-	player->clearCollidables();
-	player->clearEnemies();
 	for (size_t i = 0; i < hostiles.size(); i++)
-	{
-		hostiles[i]->clearCollidables();
-		player->addEnemy(hostiles[i]);
 		hostiles[i]->setTarget(player.get());
-	}
-	for (size_t i = 0; i < solids.size(); i++)
-	{
-		player->addCollidable(solids[i]);
-		for (size_t j = 0; j < hostiles.size(); j++)
-			hostiles[j]->addCollidable(solids[i]);
-	}
 }
 
 void Level::update()
@@ -99,6 +87,31 @@ void Level::update()
 const Player& Level::getPlayer() const
 {
 	return *player;
+}
+
+const std::vector<std::shared_ptr<Enemy>>& Level::getHostiles() const
+{
+	return hostiles;
+}
+
+const std::vector<std::shared_ptr<Inanimate>>& Level::getSolids() const
+{
+	return solids;
+}
+
+const std::vector<std::shared_ptr<Inanimate>>& Level::getGrounds() const
+{
+	return grounds;
+}
+
+const std::vector<std::unique_ptr<Inanimate>>& Level::getDecorations() const
+{
+	return decorations;
+}
+
+const std::vector<std::unique_ptr<Particle>>& Level::getParticles() const
+{
+	return particles;
 }
 
 void Level::draw(sf::RenderTarget& target, sf::RenderStates states) const

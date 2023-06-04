@@ -6,7 +6,7 @@
 //#define NO_ANIM
 
 Animator::Animator()
-	: none(Animation::getNone()), sprite(none.getTexture()), currentIndex(0)
+	: none(Animation::getNone()), sprite(none.getTexture()), currentAnimation(0)
 {
 }
 
@@ -56,24 +56,24 @@ Animation Animator::load(const std::string& path, float fps)
 void Animator::add(const std::string& path, float fps)
 {
 	animations.push_back(load(path, fps));
-	//if (animations.size() == 1)
-	//	sprite.setTexture(animations[0].getTexture());
+	if (animations.size() == 1)
+		sprite.setTexture(animations[0].getTexture());
 }
 
 void Animator::set(unsigned index)
 {
-	currentIndex = index;
-	animations[currentIndex].reset();
+	currentAnimation = index;
+	animations[currentAnimation].reset();
 }
 
 Animation* Animator::operator->()
 {
-	return &animations[currentIndex];
+	return &animations[currentAnimation];
 }
 
 const Animation* Animator::operator->() const
 {
-	return &animations[currentIndex];
+	return &animations[currentAnimation];
 }
 
 sf::Sprite& Animator::getSprite()
@@ -88,8 +88,8 @@ const sf::Sprite& Animator::getSprite() const
 
 void Animator::update()
 {
-	sprite.setTexture(animations[currentIndex].getTexture());
-	animations[currentIndex].update();
+	animations[currentAnimation].update();
+	sprite.setTexture(animations[currentAnimation].getTexture());
 }
 
 void Animator::draw(sf::RenderTarget& target, sf::RenderStates states) const

@@ -1,8 +1,9 @@
-#include <Utilities/All.h>
 #include "Enemy.h"
 #include "Player.h"
+#include <Utilities/All.h>
 #include <Level.h>
 #include <Particles/ParticleGenerator.h>
+#include <Entities/Objects/Inanimates/Inanimate.h>
 
 Enemy::Enemy()
 	: Enemy(sf::Vector2f(0, 0), 20, AnimateAnimator(), GenericAnimator(), nullptr)
@@ -46,12 +47,12 @@ void Enemy::update()
 		return;
 
 	movement(Orientation::Vertical);
-	for (size_t i = 0; i < getCollidablesList().size(); i++)
-		resolveCollisions(getCollidablesList()[i].get(), Orientation::Vertical);
+	for (size_t i = 0; i < getLevel().getSolids().size(); i++)
+		resolveCollisions(getLevel().getSolids()[i], Orientation::Vertical);
 
 	movement(Orientation::Horizontal);
-	for (size_t i = 0; i < getCollidablesList().size(); i++)
-		resolveCollisions(getCollidablesList()[i].get(), Orientation::Horizontal);
+	for (size_t i = 0; i < getLevel().getSolids().size(); i++)
+		resolveCollisions(getLevel().getSolids()[i], Orientation::Horizontal);
 
 	Animate::update();
 }

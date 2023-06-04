@@ -1,6 +1,6 @@
 #include "Game.h"
-#include "Entities/All.h"
-#include "Utilities/All.h"
+#include <Entities/All.h>
+#include <Utilities/All.h>
 
 using namespace sf;
 using namespace std;
@@ -90,7 +90,6 @@ void Game::Init()
 	testLevel->addHostile(Vector2f(180, 30), rand() % 20 + 20.f, enemyAnims, enemyDeath);
 	testLevel->addHostile(Vector2f(230, 100), rand() % 20 + 20.f, enemyAnims, enemyDeath);
 	testLevel->addHostile(Vector2f(260, 60), rand() % 20 + 20.f, enemyAnims, enemyDeath);
-
 
 
 	testLevel->addSolid(Vector2f(50, 0), solidAnims);

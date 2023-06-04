@@ -23,7 +23,7 @@ protected:
 private:
 	static Animation load(const std::string& path, float fps);
 	
-	unsigned currentIndex;
+	unsigned currentAnimation;
 
 	std::vector<Animation> animations;
 	Animation none;

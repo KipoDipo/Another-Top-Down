@@ -1,7 +1,6 @@
 #pragma once
-#include "SFML/Window.hpp"
-#include "SFML/Graphics.hpp"
-#include "Level.h"
+#include <SFML/Window.hpp>
+#include <Level.h>
 
 class Game
 {

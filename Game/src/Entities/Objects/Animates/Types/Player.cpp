@@ -1,8 +1,9 @@
-#include <Animation/Animation.h>
-#include <Utilities/All.h>
 #include "Player.h"
 #include "Enemy.h"
+#include <Animation/Animation.h>
+#include <Utilities/All.h>
 #include <Entities/Attacks/Types/SlashAttack.h>
+#include <Entities/Objects/Inanimates/Inanimate.h>
 #include <Level.h>
 
 using namespace sf;
@@ -19,21 +20,11 @@ Player::Player(const Player& other)
 }
 
 Player::Player(sf::Vector2f position, float speed, const AnimateAnimator& animation, const GenericAnimator& deathParticlesAnimator, const GenericAnimator& atkAnimations, Level* level)
-	: Animate(position, Vector2f(50,50), animation, deathParticlesAnimator, speed, level)
+	: Animate(position, Vector2f(50, 50), animation, deathParticlesAnimator, speed, level)
 {
 	setSpeed(speed);
 	setName("Player");
 	attack = std::make_unique<SlashAttack>(6.f, 10.f, 50.f, 100.f, atkAnimations);
-}
-
-void Player::addEnemy(std::shared_ptr<Enemy> enemy)
-{
-	enemies.push_back(enemy);
-}
-
-void Player::clearEnemies()
-{
-	enemies.clear();
 }
 
 void Player::update()
@@ -41,8 +32,8 @@ void Player::update()
 	AnimateAnimator::State state = AnimateAnimator::DOWN;
 
 	movement(Orientation::Vertical);
-	for (size_t i = 0; i < getCollidablesList().size(); i++)
-		resolveCollisions(getCollidablesList()[i].get(), Orientation::Vertical);
+	for (size_t i = 0; i < getLevel().getSolids().size(); i++)
+		resolveCollisions(getLevel().getSolids()[i], Orientation::Vertical);
 	
 	if (getDirection().y > 0)
 		state = AnimateAnimator::DOWN;
@@ -50,8 +41,8 @@ void Player::update()
 		state = AnimateAnimator::UP;
 
 	movement(Orientation::Horizontal);
-	for (size_t i = 0; i < getCollidablesList().size(); i++)
-		resolveCollisions(getCollidablesList()[i].get(), Orientation::Horizontal);
+	for (size_t i = 0; i < getLevel().getSolids().size(); i++)
+		resolveCollisions(getLevel().getSolids()[i], Orientation::Horizontal);
 
 	if (getDirection().x > 0)
 		state = AnimateAnimator::RIGHT;
@@ -78,8 +69,8 @@ void Player::update()
 	}
 
 	attack->update(getCenter());
-	for (size_t i = 0; i < enemies.size(); i++)
-		checkInterractions(enemies[i]);
+	for (size_t i = 0; i < getLevel().getHostiles().size(); i++)
+		checkInterractions(getLevel().getHostiles()[i]);
 }
 
 void Player::movement(Orientation orientation)
@@ -130,6 +121,5 @@ void Player::draw(RenderTarget& target, RenderStates states) const
 
 void Player::copy(const Player& player)
 {
-	enemies = player.enemies;
 	attack = player.attack->clone();
 }
