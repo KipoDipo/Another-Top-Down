@@ -1,11 +1,11 @@
 #pragma once
 #include "../Entity.h"
-#include <Animation/Types/GenericAnimator.h>
+#include <Animation/Types/SingleAnimator.h>
 
 class Attack : public Entity
 {
 public:
-	Attack(float speed, float size, float distance, float range, const GenericAnimator& animations);
+	Attack(float speed, float size, float distance, float range, const SingleAnimator& animations);
 	virtual ~Attack();
 	virtual std::unique_ptr<Attack> clone() const = 0;
 	
@@ -47,5 +47,5 @@ private:
 	float distance;
 	float range;
 	sf::Vector2f direction;
-	GenericAnimator animator;
+	SingleAnimator animator;
 };

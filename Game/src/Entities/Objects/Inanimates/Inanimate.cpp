@@ -12,7 +12,7 @@ Inanimate::Inanimate(sf::Vector2f position)
 	animator.getSprite().setPosition(position);
 }
 
-Inanimate::Inanimate(sf::Vector2f position, const InanimateAnimator& animation)
+Inanimate::Inanimate(sf::Vector2f position, const BinaryAnimator& animation)
 	: Entity(position, sf::Vector2f(50, 50)), 
 	animator(animation)
 {

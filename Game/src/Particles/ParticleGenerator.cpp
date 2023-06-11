@@ -1,7 +1,12 @@
 #include "ParticleGenerator.h"
 #include <Utilities/Utils.h>
 
-std::vector<Particle> ParticleGenerator::explosion(const GenericAnimator& animator, sf::Vector2f location, float speed, unsigned count, float duration, float randomDurationOffset)
+//std::vector<Particle> ParticleGenerator::explosion(const SingleAnimator& animator, sf::Vector2f location, float speed, unsigned count, float duration, float randomDurationOffset)
+//{
+//	return explosion(RandomAnimator({ animator }), location, speed, count, duration, randomDurationOffset);
+//}
+
+std::vector<Particle> ParticleGenerator::explosion(const RandomAnimator& animator, sf::Vector2f location, float speed, unsigned count, float duration, float randomDurationOffset)
 {
 	std::vector<Particle> vec;
 	vec.reserve(count);
@@ -14,7 +19,7 @@ std::vector<Particle> ParticleGenerator::explosion(const GenericAnimator& animat
 
 		float spdOffset = ((Utils::random(75) / 100.f) * speed);
 		float durOffset = (Utils::random((int)(randomDurationOffset * 100)) / 100.f) * duration;
-		Particle particle(animator, location, direction, speed - spdOffset, duration - durOffset);
+		Particle particle(SingleAnimator(animator.roll()), location, direction, speed - spdOffset, duration - durOffset);
 		vec.push_back(particle);
 	}
 	return vec;

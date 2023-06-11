@@ -1,51 +1,40 @@
 #include "Level.h"
 #include "Utilities/Utils.h"
 #include "Entities/All.h"
+#include <Particles/Particle.h>
+
+std::unique_ptr<Player> Level::player(nullptr);
 
 Level::Level()
-	: player(nullptr), hostiles(), solids(), grounds()
+	: hostiles(), solids(), grounds()
 {
-	solids.reserve(2048);
-	grounds.reserve(2048);
-	decorations.reserve(2048);
-	hostiles.reserve(2048);
+	//solids.reserve(2048);
+	//grounds.reserve(2048);
+	//decorations.reserve(2048);
+	//hostiles.reserve(2048);
 }
 
-Level::Level(const Level& other)
-{
-	copy(other);
-}
-
-Level& Level::operator=(const Level& other)
-{
-	if (this != &other)
-	{
-		copy(other);
-	}
-	return *this;
-}
-
-void Level::setPlayer(sf::Vector2f position, float speed, const AnimateAnimator& animator, const GenericAnimator& deathParticlesAnimator, const GenericAnimator& atkAnimator)
+void Level::setPlayer(sf::Vector2f position, float speed, const AnimateAnimator& animator, const RandomAnimator& deathParticlesAnimator, const SingleAnimator& atkAnimator)
 {
 	player = std::make_unique<Player>(position, speed, animator, deathParticlesAnimator, atkAnimator, this);
 }
 
-void Level::addHostile(sf::Vector2f position, float speed, const AnimateAnimator& animations, const GenericAnimator& deathParticlesAnimator)
+void Level::addHostile(sf::Vector2f position, float speed, const AnimateAnimator& animations, const RandomAnimator& deathParticlesAnimator)
 {
-	hostiles.push_back(std::make_shared<Enemy>(position, speed, animations, deathParticlesAnimator, this));
+	hostiles.push_back(std::make_unique<Enemy>(position, speed, animations, deathParticlesAnimator, this));
 }
 
-void Level::addSolid(sf::Vector2f position, const InanimateAnimator& animations)
+void Level::addSolid(sf::Vector2f position, const BinaryAnimator& animations)
 {
-	solids.push_back(std::make_shared<Inanimate>(position, animations));
+	solids.push_back(std::make_unique<Inanimate>(position, animations));
 }
 
-void Level::addGround(sf::Vector2f position, const InanimateAnimator& animations)
+void Level::addGround(sf::Vector2f position, const BinaryAnimator& animations)
 {
 	grounds.push_back(std::make_unique<Inanimate>(position, animations));
 }
 
-void Level::addDecoration(sf::Vector2f position, const InanimateAnimator& animations)
+void Level::addDecoration(sf::Vector2f position, const BinaryAnimator& animations)
 {
 	decorations.push_back(std::make_unique<Inanimate>(position, animations));
 }
@@ -84,22 +73,22 @@ void Level::update()
 	}
 }
 
-const Player& Level::getPlayer() const
+const Player& Level::getPlayer()
 {
 	return *player;
 }
 
-const std::vector<std::shared_ptr<Enemy>>& Level::getHostiles() const
+const std::vector<std::unique_ptr<Enemy>>& Level::getHostiles() const
 {
 	return hostiles;
 }
 
-const std::vector<std::shared_ptr<Inanimate>>& Level::getSolids() const
+const std::vector<std::unique_ptr<Inanimate>>& Level::getSolids() const
 {
 	return solids;
 }
 
-const std::vector<std::shared_ptr<Inanimate>>& Level::getGrounds() const
+const std::vector<std::unique_ptr<Inanimate>>& Level::getGrounds() const
 {
 	return grounds;
 }
@@ -129,25 +118,4 @@ void Level::draw(sf::RenderTarget& target, sf::RenderStates states) const
 		target.draw(*decorations[i], states);
 	for (size_t i = 0; i < particles.size(); i++)
 		target.draw(*particles[i], states);
-}
-
-void Level::copy(const Level& other)
-{
-	player = std::make_unique<Player>(*other.player);
-	hostiles.reserve(other.hostiles.size());
-	solids.reserve(other.solids.size());
-	grounds.reserve(other.grounds.size());
-	decorations.reserve(other.decorations.size());
-	
-	for (size_t i = 0; i < other.hostiles.size(); i++)
-		hostiles.push_back(std::make_shared<Enemy>(*other.hostiles[i]));
-
-	for (size_t i = 0; i < other.solids.size(); i++)
-		solids.push_back(std::make_shared<Inanimate>(*other.solids[i]));
-
-	for (size_t i = 0; i < other.grounds.size(); i++)
-		grounds.push_back(std::make_unique<Inanimate>(*other.grounds[i]));
-
-	for (size_t i = 0; i < other.decorations.size(); i++)
-		decorations.push_back(std::make_unique<Inanimate>(*other.decorations[i]));
 }

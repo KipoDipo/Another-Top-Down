@@ -6,11 +6,23 @@
 //#define NO_ANIM
 
 Animator::Animator()
-	: none(Animation::getNone()), sprite(none.getTexture()), currentAnimation(0)
+	: isEmpty(true), animations({Animation::getNone()}), currentAnimation(0)
 {
 }
 
-Animation Animator::load(const std::string& path, float fps)
+Animator::Animator(const std::string& path, float fps)
+	: isEmpty(false), animations({ load(path, fps) }), currentAnimation(0)
+{
+}
+
+Animator::Animator(const std::vector<Animation>& animations)
+	: isEmpty(false), animations({}), currentAnimation(0)
+{
+	for (size_t i = 0; i < animations.size(); i++)
+		add(animations[i]);
+}
+
+Animation Animator::load(const std::string& path, float fps, bool playOnce)
 {
 	std::shared_ptr<std::vector<sf::Texture>> frames = std::make_shared<std::vector<sf::Texture>>();
 
@@ -38,7 +50,7 @@ Animation Animator::load(const std::string& path, float fps)
 			}
 			else
 			{
-				printf("%s loaded animation %s (%s%sX.png) [%d frames]\n", ConsoleColors::greenFlag, path.c_str(), Paths::textures, path.c_str(), i);
+				printf("%s loaded animation %s (%s%sX.png) [%d frames]\n", ConsoleColors::greenFlag, path.c_str(), Paths::textures.c_str(), path.c_str(), i);
 				break;
 			}
 		}
@@ -46,22 +58,41 @@ Animation Animator::load(const std::string& path, float fps)
 		buffer.loadFromFile(fullPath);
 		frames->push_back(buffer);
 #ifdef NO_ANIM
-		printf("%s loaded animation %s (%s%s0.png) [NO_ANIM]\n", ConsoleColors::greenFlag, path.c_str(), Paths::textures, path.c_str());
+		printf("%s loaded animation %s (%s%s0.png) [NO_ANIM]\n", ConsoleColors::greenFlag, path.c_str(), Paths::textures.c_str(), path.c_str());
 		break;
 #endif
 	}
-	return Animation(frames, fps);
+	return Animation(frames, fps, playOnce);
 }
 
-void Animator::add(const std::string& path, float fps)
+void Animator::add(const std::string& path, float fps, bool playOnce)
 {
-	animations.push_back(load(path, fps));
-	if (animations.size() == 1)
-		sprite.setTexture(animations[0].getTexture());
+	if (isEmpty)
+	{
+		animations[0] = load(path, fps, playOnce);
+		isEmpty = false;
+		return;
+	}
+
+	animations.push_back(load(path, fps, playOnce));
+}
+
+void Animator::add(const Animation& animation)
+{
+	if (isEmpty)
+	{
+		animations[0] = animation;
+		isEmpty = false;
+		return;
+	}
+
+	animations.push_back(animation);
 }
 
 void Animator::set(unsigned index)
 {
+	if (index >= animations.size())
+		throw std::out_of_range("Animator::set - index out of range");
 	currentAnimation = index;
 	animations[currentAnimation].reset();
 }
@@ -76,23 +107,22 @@ const Animation* Animator::operator->() const
 	return &animations[currentAnimation];
 }
 
-sf::Sprite& Animator::getSprite()
+const Animation& Animator::operator[](size_t index) const
 {
-	return sprite;
+	return animations[index];
 }
 
-const sf::Sprite& Animator::getSprite() const
+Animation& Animator::operator[](size_t index)
 {
-	return sprite;
+	return animations[index];
+}
+
+size_t Animator::size() const
+{
+	return animations.size();;
 }
 
 void Animator::update()
 {
 	animations[currentAnimation].update();
-	sprite.setTexture(animations[currentAnimation].getTexture());
-}
-
-void Animator::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{
-	target.draw(sprite, states);
 }

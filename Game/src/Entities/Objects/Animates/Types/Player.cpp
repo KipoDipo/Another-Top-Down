@@ -9,7 +9,7 @@
 using namespace sf;
 
 Player::Player()
-	: Player(Vector2f(250, 250), 300, AnimateAnimator(), GenericAnimator(), GenericAnimator(), nullptr)
+	: Player(Vector2f(250, 250), 300, AnimateAnimator(), RandomAnimator(), SingleAnimator(), nullptr)
 {
 }
 
@@ -19,35 +19,37 @@ Player::Player(const Player& other)
 	copy(other);
 }
 
-Player::Player(sf::Vector2f position, float speed, const AnimateAnimator& animation, const GenericAnimator& deathParticlesAnimator, const GenericAnimator& atkAnimations, Level* level)
+Player::Player(sf::Vector2f position, float speed, const AnimateAnimator& animation, const RandomAnimator& deathParticlesAnimator, const SingleAnimator& atkAnimations, Level* level)
 	: Animate(position, Vector2f(50, 50), animation, deathParticlesAnimator, speed, level)
 {
 	setSpeed(speed);
 	setName("Player");
+	setHealth(50);
+	setMaxHealth(1000);
 	attack = std::make_unique<SlashAttack>(6.f, 10.f, 50.f, 100.f, atkAnimations);
 }
 
 void Player::update()
 {
-	AnimateAnimator::State state = AnimateAnimator::DOWN;
+	AnimateAnimator::State state = AnimateAnimator::State::DOWN;
 
 	movement(Orientation::Vertical);
 	for (size_t i = 0; i < getLevel().getSolids().size(); i++)
-		resolveCollisions(getLevel().getSolids()[i], Orientation::Vertical);
-	
+		resolveCollisions(*getLevel().getSolids()[i], Orientation::Vertical);
+
 	if (getDirection().y > 0)
-		state = AnimateAnimator::DOWN;
-	if (getDirection().y < 0)
-		state = AnimateAnimator::UP;
+		state = AnimateAnimator::State::DOWN;
+	else if (getDirection().y < 0)
+		state = AnimateAnimator::State::UP;
 
 	movement(Orientation::Horizontal);
 	for (size_t i = 0; i < getLevel().getSolids().size(); i++)
-		resolveCollisions(getLevel().getSolids()[i], Orientation::Horizontal);
+		resolveCollisions(*getLevel().getSolids()[i], Orientation::Horizontal);
 
 	if (getDirection().x > 0)
-		state = AnimateAnimator::RIGHT;
-	if (getDirection().x < 0)
-		state = AnimateAnimator::LEFT;
+		state = AnimateAnimator::State::RIGHT;
+	else if (getDirection().x < 0)
+		state = AnimateAnimator::State::LEFT;
 
 	Animate::setAnimation(state);
 	Animate::update();
@@ -70,7 +72,7 @@ void Player::update()
 
 	attack->update(getCenter());
 	for (size_t i = 0; i < getLevel().getHostiles().size(); i++)
-		checkInterractions(getLevel().getHostiles()[i]);
+		checkInterractions(*getLevel().getHostiles()[i]);
 }
 
 void Player::movement(Orientation orientation)
@@ -102,12 +104,13 @@ void Player::movement(Orientation orientation)
 	Animate::move(getDirection() * getSpeed() * DeltaTime::get());
 }
 
-void Player::checkInterractions(std::shared_ptr<Enemy> enemy)
+void Player::checkInterractions(Enemy& enemy)
 {
 	if (attack->getIsActive()
-		&& enemy->collides(attack->getCollider()))
+		&& enemy.getIsAlive()
+		&& enemy.collides(attack->getCollider()))
 	{
-		enemy->kill();
+		enemy.kill();
 	}
 }
 

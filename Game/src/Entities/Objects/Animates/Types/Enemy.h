@@ -8,7 +8,7 @@ class Enemy : public Animate
 {
 public:
 	Enemy();
-	Enemy(sf::Vector2f position, float speed, const AnimateAnimator& animation, const GenericAnimator& deathParticlesAnimator, Level* level);
+	Enemy(sf::Vector2f position, float speed, const AnimateAnimator& animation, const RandomAnimator& deathParticlesAnimator, Level* level);
 
 	void setTarget(Entity* target);
 

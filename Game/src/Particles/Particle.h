@@ -1,11 +1,11 @@
 #pragma once
-#include <Animation/Types/GenericAnimator.h>
+#include <Animation/Types/SingleAnimator.h>
 
 class Particle : public sf::Drawable
 {
 public:
 	Particle();
-	Particle(const GenericAnimator& animator, sf::Vector2f location, sf::Vector2f direction, float speed, float duration);
+	Particle(const SingleAnimator& animator, sf::Vector2f location, sf::Vector2f direction, float speed, float duration);
 	bool isActive() const;
 
 	void update();
@@ -19,7 +19,7 @@ private:
 	float duration;
 	float speed;
 	sf::Vector2f direction;
-	GenericAnimator animator;
+	SingleAnimator animator;
 
 	sf::Clock clock;
 };

@@ -2,24 +2,29 @@
 #include <fstream>
 
 Animation::Animation()
-	: frames(), switchTime(), currentFrame(0), clock()
+	: frames(), switchTime(), currentFrame(0), clock(), playOnce(true), isDone(true)
 {
 }
 
-Animation::Animation(std::shared_ptr<std::vector<sf::Texture>> frames, float fps)
-	: frames(frames), switchTime(1.f / fps), currentFrame(0), clock()
+Animation::Animation(std::shared_ptr<std::vector<sf::Texture>> frames, float fps, bool playOnce)
+	: frames(frames), switchTime(1.f / fps), currentFrame(0), clock(), playOnce(playOnce), isDone(false)
 {
 }
 
 void Animation::update()
 {
-	if ((*frames).size() == 1)
+	if ((*frames).size() == 1 || isDone)
 		return;
 
 	float elapsedTime = clock.getElapsedTime().asSeconds();
 	
 	if (elapsedTime > switchTime)
 	{
+		if (playOnce && currentFrame + 1 == frames->size())
+		{
+			isDone = true;
+			return;
+		}
 		currentFrame = (currentFrame + 1) % frames->size(); // from 0 to size
 		clock.restart();
 	}
@@ -29,6 +34,7 @@ void Animation::reset()
 {
 	clock.restart();
 	currentFrame = 0;
+	isDone = false;
 }
 
 void Animation::setFPS(float fps)
@@ -44,6 +50,11 @@ unsigned Animation::getCurrentFrame() const
 size_t Animation::getLength() const
 {
 	return frames->size();
+}
+
+bool Animation::hasFinished() const
+{
+	return playOnce ? isDone : false;
 }
 
 const sf::Texture& Animation::getTexture() const

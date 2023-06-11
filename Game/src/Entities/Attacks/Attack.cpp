@@ -1,6 +1,6 @@
 #include "Attack.h"
 
-Attack::Attack(float speed, float size, float distance, float range, const GenericAnimator& animations)
+Attack::Attack(float speed, float size, float distance, float range, const SingleAnimator& animations)
 	: Entity(sf::Vector2f(0,0), sf::Vector2f(size,size)), 
 	animator(animations)
 {

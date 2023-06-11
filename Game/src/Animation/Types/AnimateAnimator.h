@@ -1,10 +1,10 @@
 #pragma once
-#include "../Animator.h"
+#include "StateAnimator.h"
 
-class AnimateAnimator : public Animator
+class AnimateAnimator : public StateAnimator
 {
 public:
-	enum State 
+	enum class State : unsigned
 	{
 		DOWN,
 		UP,
@@ -14,55 +14,34 @@ public:
 	};
 
 	AnimateAnimator()
-		: state(DOWN)
+		: state(State::DOWN)
 	{
 	}
 
 	AnimateAnimator(const std::string& single, float fps)
-		: state(DOWN)
+		: AnimateAnimator(single, single, single, single, single, fps)
 	{
-		Animator::add(single, fps);
-		Animator::set(0);
 	}
 
 	AnimateAnimator(const std::string& up, const std::string& down, const std::string& left, const std::string& right, const std::string& sleep, float fps)
-		: state(DOWN)
+		: StateAnimator({
+			Animator::load(down,	fps),
+			Animator::load(up,		fps),
+			Animator::load(left,	fps),
+			Animator::load(right,	fps),
+			Animator::load(sleep,	fps)
+		})
 	{
-		Animator::add(down,		fps);
-		Animator::add(up,		fps);
-		Animator::add(left,		fps);
-		Animator::add(right,	fps);
-		Animator::add(sleep,	fps);
-
-		Animator::set(0);
+		set(State::DOWN);
 	}
 
-	void setState(State state)
+	void set(State state)
 	{
 		if (this->state == state)
 			return;
 
 		this->state = state;
-		switch (state)
-		{
-		case AnimateAnimator::DOWN:
-			Animator::set(0);
-			break;
-		case AnimateAnimator::UP:
-			Animator::set(1);
-			break;
-		case AnimateAnimator::LEFT:
-			Animator::set(2);
-			break;
-		case AnimateAnimator::RIGHT:
-			Animator::set(3);
-			break;
-		case AnimateAnimator::SLEEP:
-			Animator::set(4);
-			break;
-		default:
-			break;
-		}
+		StateAnimator::set((unsigned)this->state);
 	}
 
 private:

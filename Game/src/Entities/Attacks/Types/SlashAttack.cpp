@@ -3,7 +3,7 @@
 
 using namespace sf;
 
-SlashAttack::SlashAttack(float speed, float size, float distance, float range, const GenericAnimator& animations)
+SlashAttack::SlashAttack(float speed, float size, float distance, float range, const SingleAnimator& animations)
 	: Attack(speed, size, distance, range, animations)
 {
 }
@@ -14,7 +14,7 @@ void SlashAttack::update(const Vector2f& origin)
 	if (!getIsActive())
 		return;
 
-	updateAnimation();
+	Attack::updateAnimation();
 
 	Vector2f atkSizeOffset = getSize() / 2.f;
 	Vector2f atkAreaOffset = Vector2f(getDirection().y, getDirection().x) * getProgress() * getRange();

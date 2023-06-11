@@ -6,11 +6,11 @@
 #include <Entities/Objects/Inanimates/Inanimate.h>
 
 Enemy::Enemy()
-	: Enemy(sf::Vector2f(0, 0), 20, AnimateAnimator(), GenericAnimator(), nullptr)
+	: Enemy(sf::Vector2f(0, 0), 20, AnimateAnimator(), RandomAnimator(), nullptr)
 {
 }
 
-Enemy::Enemy(sf::Vector2f position, float speed, const AnimateAnimator& animation, const GenericAnimator& deathParticlesAnimator, Level* level)
+Enemy::Enemy(sf::Vector2f position, float speed, const AnimateAnimator& animation, const RandomAnimator& deathParticlesAnimator, Level* level)
 	: Animate(position, sf::Vector2f(50,50), animation, deathParticlesAnimator, speed, level), 
 	target(nullptr)
 {
@@ -48,11 +48,11 @@ void Enemy::update()
 
 	movement(Orientation::Vertical);
 	for (size_t i = 0; i < getLevel().getSolids().size(); i++)
-		resolveCollisions(getLevel().getSolids()[i], Orientation::Vertical);
+		resolveCollisions(*getLevel().getSolids()[i], Orientation::Vertical);
 
 	movement(Orientation::Horizontal);
 	for (size_t i = 0; i < getLevel().getSolids().size(); i++)
-		resolveCollisions(getLevel().getSolids()[i], Orientation::Horizontal);
+		resolveCollisions(*getLevel().getSolids()[i], Orientation::Horizontal);
 
 	Animate::update();
 }

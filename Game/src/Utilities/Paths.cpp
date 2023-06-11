@@ -1,4 +1,4 @@
 #include "Paths.h"
 
-const char* Paths::textures = "res/textures/";
-const char* Paths::fonts = "res/fonts/";
+const std::string Paths::textures = "res/textures/";
+const std::string Paths::fonts = "res/fonts/";

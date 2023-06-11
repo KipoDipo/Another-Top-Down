@@ -5,7 +5,7 @@ class Animation
 {
 public:
 	Animation();
-	Animation(std::shared_ptr<std::vector<sf::Texture>> frames, float fps);
+	Animation(std::shared_ptr<std::vector<sf::Texture>> frames, float fps, bool playOnce = false);
 	
 	void update();
 	void reset();
@@ -14,6 +14,7 @@ public:
 
 	unsigned getCurrentFrame() const;
 	size_t getLength() const;
+	bool hasFinished() const;
 
 	static Animation& getNone();
 
@@ -24,6 +25,10 @@ private:
 	float switchTime;
 	unsigned currentFrame;
 	sf::Clock clock;
+
+	bool playOnce;
+	bool isDone;
+
 
 	static Animation noneAnimationGenerator();
 	static Animation noneAnimation;

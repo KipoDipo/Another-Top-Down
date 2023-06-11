@@ -1,6 +1,6 @@
 #pragma once
 #include "../Animate.h"
-#include <Animation/Types/GenericAnimator.h>
+#include <Animation/Types/RandomAnimator.h>
 
 class Enemy;
 class Solid;
@@ -13,7 +13,7 @@ public:
 	Player();
 	Player(const Player& other);
 	Player& operator=(const Player& other) = delete;
-	Player(sf::Vector2f position, float speed, const AnimateAnimator& animations, const GenericAnimator& deathParticlesAnimator, const GenericAnimator& atkAnimations, Level* level);
+	Player(sf::Vector2f position, float speed, const AnimateAnimator& animations, const RandomAnimator& deathParticlesAnimator, const SingleAnimator& atkAnimations, Level* level);
 	
 	// Inherited via Animate
 	virtual void update() override;	
@@ -24,7 +24,7 @@ public:
 private:
 	void copy(const Player& player);
 
-	void checkInterractions(std::shared_ptr<Enemy> enemy);
+	void checkInterractions(Enemy& enemy);
 
 	// Inherited via Animate
 	void movement(Orientation orientation) override;

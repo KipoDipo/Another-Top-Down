@@ -6,7 +6,7 @@ Particle::Particle()
 {
 }
 
-Particle::Particle(const GenericAnimator& animator, sf::Vector2f location, sf::Vector2f direction, float speed, float duration)
+Particle::Particle(const SingleAnimator& animator, sf::Vector2f location, sf::Vector2f direction, float speed, float duration)
 	: animator(animator), direction(direction), speed(speed), duration(duration), isDone(false)
 {
 	this->animator.getSprite().setPosition(location);

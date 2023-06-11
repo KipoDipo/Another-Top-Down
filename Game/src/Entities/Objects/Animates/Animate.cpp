@@ -4,14 +4,15 @@
 //#define COLLIDER_DEBUG
 
 Animate::Animate()
-	: Animate(sf::Vector2f(0,0), sf::Vector2f(50,50), AnimateAnimator(), GenericAnimator(), 0, nullptr)
+	: Animate(sf::Vector2f(0,0), sf::Vector2f(50,50), AnimateAnimator(), RandomAnimator(), 0, nullptr)
 {
 }
 
-Animate::Animate(sf::Vector2f position, sf::Vector2f size, const AnimateAnimator& animator, const GenericAnimator& deathParticlesAnimator, float speed, Level* level)
+Animate::Animate(sf::Vector2f position, sf::Vector2f size, const AnimateAnimator& animator, const RandomAnimator& deathParticlesAnimator, float speed, Level* level)
 	: Entity(position, size, level),
 	animator(animator), deathParticlesAnimator(deathParticlesAnimator)
 {
+	setMaxHealth(1);
 	setHealth(1);
 	setSpeed(speed);
 	this->animator.getSprite().setPosition(position - (sf::Vector2f)this->animator.getSprite().getTexture()->getSize() / 2.f + size / 2.f);
@@ -39,6 +40,13 @@ void Animate::setHealth(int health)
 	this->health = health;
 }
 
+void Animate::setMaxHealth(int health)
+{
+	if (health < 0)
+		maxHealth = 0;
+	this->maxHealth = health;
+}
+
 void Animate::setName(const std::string& name)
 {
 	this->name = name;
@@ -56,27 +64,27 @@ void Animate::setSpeed(float speed)
 
 void Animate::setAnimation(AnimateAnimator::State state)
 {
-	animator.setState(state);
+	animator.set(state);
 }
 
-void Animate::resolveCollisions(const std::shared_ptr<Entity>& entity, Orientation orientation)
+void Animate::resolveCollisions(const Entity& entity, Orientation orientation)
 {
-	if (collides(*entity))
+	if (collides(entity))
 	{
 		sf::Vector2f newPosition;
 		switch (orientation)
 		{
 		case Orientation::Horizontal:
 			if (dir.x < 0)
-				newPosition = sf::Vector2f(entity->getCollider().left + entity->getCollider().width, Entity::getCollider().top);
+				newPosition = sf::Vector2f(entity.getCollider().left + entity.getCollider().width, Entity::getCollider().top);
 			else if (dir.x > 0)
-				newPosition = sf::Vector2f(entity->getCollider().left - Entity::getCollider().width, Entity::getCollider().top);
+				newPosition = sf::Vector2f(entity.getCollider().left - Entity::getCollider().width, Entity::getCollider().top);
 			break;
 		case Orientation::Vertical:
 			if (dir.y < 0)
-				newPosition = sf::Vector2f(Entity::getCollider().left, entity->getCollider().top + entity->getCollider().height);
+				newPosition = sf::Vector2f(Entity::getCollider().left, entity.getCollider().top + entity.getCollider().height);
 			else if (dir.y > 0)
-				newPosition = sf::Vector2f(Entity::getCollider().left, entity->getCollider().top - Entity::getCollider().height);
+				newPosition = sf::Vector2f(Entity::getCollider().left, entity.getCollider().top - Entity::getCollider().height);
 			break;
 		}
 		animator.getSprite().move(newPosition - Entity::getPosition());
@@ -88,6 +96,11 @@ void Animate::resolveCollisions(const std::shared_ptr<Entity>& entity, Orientati
 int Animate::getHealth() const
 {
 	return health;
+}
+
+int Animate::getMaxHealth() const
+{
+	return maxHealth;
 }
 
 std::string Animate::getName() const
@@ -105,7 +118,7 @@ float Animate::getSpeed() const
 	return speed;
 }
 
-const GenericAnimator& Animate::getDeathParticlesAnimator() const
+const RandomAnimator& Animate::getDeathParticlesAnimator() const
 {
 	return deathParticlesAnimator;
 }
@@ -124,8 +137,8 @@ void Animate::move(float x, float y)
 void Animate::kill()
 {
 	isAlive = false;
-	Entity::setPosition(INT_MIN, INT_MIN);
-	animator.getSprite().setPosition(Entity::getPosition());
+	//Entity::setPosition(INT_MIN, INT_MIN);
+	//animator.getSprite().setPosition(Entity::getPosition());
 }
 
 bool Animate::getIsAlive() const

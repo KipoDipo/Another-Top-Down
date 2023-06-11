@@ -1,32 +1,36 @@
 #pragma once
 #include  "Animation.h"
 
-class Animator : public sf::Drawable
+class Animator
 {
 public:
+	//using path_fps = std::pair<std::string, float>;
+
+	Animator();
+	Animator(const std::string& path, float fps);
+	Animator(const std::vector<Animation>& animations);
+
+	virtual ~Animator() = default;
+
 	Animation* operator->();
 	const Animation* operator->() const;
-	
-	sf::Sprite& getSprite();
-	const sf::Sprite& getSprite() const;
 
+	const Animation& operator[](size_t index) const;
+	Animation& operator[](size_t index);
+
+	size_t size() const;
+	
 	virtual void update();
 
-	// Inherited via Drawable
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-
+	static Animation load(const std::string& path, float fps, bool playOnce = false);
 protected:
-	Animator();
-	void add(const std::string& path, float fps);
-	void set(unsigned index);
+	void add(const std::string& path, float fps, bool playOnce = true);
+	void add(const Animation& animation);
+	virtual void set(unsigned index);
 
 private:
-	static Animation load(const std::string& path, float fps);
-	
-	unsigned currentAnimation;
-
 	std::vector<Animation> animations;
-	Animation none;
-
-	sf::Sprite sprite;
+	unsigned currentAnimation;
+	
+	bool isEmpty;
 };
