@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Utilities\Random.cpp" />
     <ClCompile Include="src\Animation\Animator.cpp" />
     <ClCompile Include="src\Entities\Objects\Inanimates\Inanimate.cpp" />
     <ClCompile Include="src\Particles\Particle.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="src\Animation\Animator.h" />
     <ClInclude Include="src\Animation\Types\AnimateAnimator.h" />
     <ClInclude Include="src\Animation\Types\BinaryAnimator.h" />
+    <ClInclude Include="src\Animation\Types\BinarySmartAnimator.h" />
     <ClInclude Include="src\Animation\Types\SingleAnimator.h" />
     <ClInclude Include="src\Animation\Types\RandomAnimator.h" />
     <ClInclude Include="src\Animation\Types\StateAnimator.h" />
@@ -189,6 +191,7 @@
     <ClInclude Include="src\Entities\Objects\Animates\Types\Enemy.h" />
     <ClInclude Include="src\Entities\Entity.h" />
     <ClInclude Include="src\Entities\Objects\Animates\Types\Player.h" />
+    <ClInclude Include="src\Utilities\Random.h" />
     <ClInclude Include="src\Utilities\Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

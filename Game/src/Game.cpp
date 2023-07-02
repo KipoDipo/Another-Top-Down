@@ -9,7 +9,16 @@ using namespace std;
 
 vector<shared_ptr<Level>> Game::levels;
 size_t Game::currentLevel = 0;
-UI Game::ui("res/fonts/Pixeled.ttf");
+UI Game::ui(
+	"res/fonts/Pixeled.ttf", 
+	BinarySmartAnimator(
+		"health/full/anim", 30,
+		"health/full/static", 30, true
+	),
+	SingleAnimator(
+		"health/empty/anim", 15
+	)
+);
 RenderWindow Game::window;
 
 
@@ -63,7 +72,7 @@ void Game::Init()
 		"player_down/player",
 		12
 	);
-	AnimateAnimator enemyAnims("enemy", 12);
+	AnimateAnimator enemyAnims("enemy/enemy", 12);
 	BinaryAnimator solidAnims("solid/solid", 14);
 	BinaryAnimator groundAnims("tiles", 14);
 
@@ -77,7 +86,8 @@ void Game::Init()
 		});
 
 	RandomAnimator enemyDeath({
-			Animator::load("ball/ball", 10)
+			Animator::load("enemy/particles/var0/chunk", 8, true),
+			Animator::load("enemy/particles/var1/chunk", 8, true)
 		});
 
 	shared_ptr<Level> testLevel = make_shared<Level>();

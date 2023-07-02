@@ -28,13 +28,3 @@ void Utils::printVector(Vector2f vector, std::string caption)
 {
 	std::cout << caption << " { " << vector.x << ", " << vector.y << " }" << std::endl;
 }
-
-int Utils::random(int min, int max)
-{
-	return rand() % (max - min) + min;
-}
-
-int Utils::random(int max)
-{
-	return random(0, max);
-}

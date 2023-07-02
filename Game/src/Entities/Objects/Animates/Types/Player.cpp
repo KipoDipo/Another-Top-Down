@@ -24,8 +24,8 @@ Player::Player(sf::Vector2f position, float speed, const AnimateAnimator& animat
 {
 	setSpeed(speed);
 	setName("Player");
-	setHealth(50);
-	setMaxHealth(1000);
+	setHealth(100);
+	setMaxHealth(100);
 	attack = std::make_unique<SlashAttack>(6.f, 10.f, 50.f, 100.f, atkAnimations);
 }
 
@@ -77,7 +77,6 @@ void Player::update()
 
 void Player::movement(Orientation orientation)
 {
-	using namespace sf;
 	setDirection({ 0, 0 });
 	Vector2f direction = getDirection();
 	switch (orientation)

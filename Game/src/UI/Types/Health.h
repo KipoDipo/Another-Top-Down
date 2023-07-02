@@ -1,13 +1,14 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include <Animation/Types/BinaryAnimator.h>
+#include <Animation/Types/BinarySmartAnimator.h>
+#include <Animation/Types/SingleAnimator.h>
 
 class Player;
 
 class Health : public sf::Drawable
 {
 public:
-	Health(sf::Vector2f position, const BinaryAnimator& healthBar, const BinaryAnimator& healthBarBackground);
+	Health(sf::Vector2f position, const BinarySmartAnimator& healthBar, const SingleAnimator& healthBarBackground);
 
 	void setPlayer(const Player& player);
 
@@ -15,12 +16,8 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 private:
-	BinaryAnimator healthBar;
-	BinaryAnimator healthBarBackground;
-
-	bool activeAnim = false;
-	sf::Clock clock;
-	int randomDelay = 0;
+	BinarySmartAnimator healthBar;
+	SingleAnimator healthBarBackground;
 
 	const Player* player;
 };

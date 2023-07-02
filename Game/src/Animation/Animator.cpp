@@ -50,7 +50,7 @@ Animation Animator::load(const std::string& path, float fps, bool playOnce)
 			}
 			else
 			{
-				printf("%s loaded animation %s (%s%sX.png) [%d frames]\n", ConsoleColors::greenFlag, path.c_str(), Paths::textures.c_str(), path.c_str(), i);
+				printf("%s loaded animation %s (%s%sX.png) [%d frames]\n", ConsoleColors::greenFlag, path.c_str(), Paths::textures.c_str(), path.c_str(), (int)i);
 				break;
 			}
 		}
@@ -92,7 +92,7 @@ void Animator::add(const Animation& animation)
 void Animator::set(unsigned index)
 {
 	if (index >= animations.size())
-		throw std::out_of_range("Animator::set - index out of range");
+		throw std::out_of_range("Animator::set(" + std::to_string(index) + "): index out of range");
 	currentAnimation = index;
 	animations[currentAnimation].reset();
 }
@@ -119,7 +119,7 @@ Animation& Animator::operator[](size_t index)
 
 size_t Animator::size() const
 {
-	return animations.size();;
+	return animations.size();
 }
 
 void Animator::update()

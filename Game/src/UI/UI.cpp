@@ -3,18 +3,12 @@
 
 using namespace sf;
 
-UI::UI(const std::string& pathToFont)
+UI::UI(const std::string& pathToFont, const BinarySmartAnimator& healthBarFull, const SingleAnimator& healthBarEmpty)
 	: fpsCounter(pathToFont, {5, 60}),
 	health (
 		Vector2f{ 10, 10 }, 
-		BinaryAnimator(
-			"health/full/anim", 30,
-			"health/full/static", 30, true
-		),
-		BinaryAnimator(
-			"health/empty/anim", 30,
-			"health/empty/static", 30, true
-		)
+		healthBarFull,
+		healthBarEmpty
 	)
 {
 }

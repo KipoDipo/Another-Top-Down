@@ -1,7 +1,7 @@
 #pragma once
 #include "StateAnimator.h"
 #include "SingleAnimator.h"
-#include <Utilities/Utils.h>
+#include <Utilities/Random.h>
 
 class RandomAnimator : public StateAnimator
 {
@@ -20,6 +20,6 @@ public:
 
 	const Animation& roll() const
 	{
-		return Animator::operator[](Utils::random((int)Animator::size()));
+		return Animator::operator[](Random::next((int)Animator::size()));
 	}
 };

@@ -16,7 +16,7 @@ public:
 
 	sf::Vector2f getPosition() const;
 	sf::Vector2f getCenter() const;
-	const sf::Vector2f getSize() const;
+	sf::Vector2f getSize() const;
 	const sf::FloatRect& getCollider() const;
 	Level& getLevel();
 

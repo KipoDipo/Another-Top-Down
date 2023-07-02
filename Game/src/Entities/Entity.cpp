@@ -64,7 +64,7 @@ Level& Entity::getLevel()
 
 bool Entity::collides(const Entity& entity) const
 {
-	return collider.intersects(entity.collider);
+	return collides(entity.collider);
 }
 
 bool Entity::collides(const FloatRect& rect) const
@@ -81,7 +81,7 @@ Vector2f Entity::getCenter() const
 	return Vector2f(collider.left, collider.top) + Vector2f(collider.width, collider.height) / 2.f;
 }
 
-const sf::Vector2f Entity::getSize() const
+sf::Vector2f Entity::getSize() const
 {
 	return sf::Vector2f(collider.width, collider.height);
 }

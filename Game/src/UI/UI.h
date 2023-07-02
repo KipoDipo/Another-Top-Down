@@ -7,7 +7,7 @@
 class UI : public sf::Drawable
 {
 public:
-	UI(const std::string& font);
+	UI(const std::string& font, const BinarySmartAnimator& healthBarFull, const SingleAnimator& healthBarEmpty);
 
 	void setPlayer(const Player& player);
 	
