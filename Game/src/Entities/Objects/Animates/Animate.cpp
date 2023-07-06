@@ -1,7 +1,11 @@
 #include "Animate.h"
 #include <Utilities/Utils.h>
+#include <Entities/Objects/Inanimates/Inanimate.h>
+#include <Utilities/ConsoleColors.h>
 
 //#define COLLIDER_DEBUG
+
+using namespace sf;
 
 Animate::Animate()
 	: Animate(sf::Vector2f(0,0), sf::Vector2f(50,50), AnimateAnimator(), RandomAnimator(), 0, nullptr)
@@ -67,32 +71,6 @@ void Animate::setAnimation(AnimateAnimator::State state)
 	animator.set(state);
 }
 
-void Animate::resolveCollisions(const Entity& entity, Orientation orientation)
-{
-	if (collides(entity))
-	{
-		sf::Vector2f newPosition;
-		switch (orientation)
-		{
-		case Orientation::Horizontal:
-			if (dir.x < 0)
-				newPosition = sf::Vector2f(entity.getCollider().left + entity.getCollider().width, Entity::getCollider().top);
-			else if (dir.x > 0)
-				newPosition = sf::Vector2f(entity.getCollider().left - Entity::getCollider().width, Entity::getCollider().top);
-			break;
-		case Orientation::Vertical:
-			if (dir.y < 0)
-				newPosition = sf::Vector2f(Entity::getCollider().left, entity.getCollider().top + entity.getCollider().height);
-			else if (dir.y > 0)
-				newPosition = sf::Vector2f(Entity::getCollider().left, entity.getCollider().top - Entity::getCollider().height);
-			break;
-		}
-		animator.getSprite().move(newPosition - Entity::getPosition());
-		Entity::setPosition(newPosition);
-	}
-
-}
-
 int Animate::getHealth() const
 {
 	return health;
@@ -123,15 +101,38 @@ const RandomAnimator& Animate::getDeathParticlesAnimator() const
 	return deathParticlesAnimator;
 }
 
-void Animate::move(sf::Vector2f position)
+void Animate::move(sf::Vector2f position, bool collides)
 {
-	move(position.x, position.y);
+	move(position.x, position.y, collides);
 }
 
-void Animate::move(float x, float y)
+void Animate::move(float x, float y, bool collides)
 {
-	Entity::move(x, y);
-	animator.getSprite().move(x, y);
+	bool moveVer = true, moveHor = true;
+
+	if (collides)
+	{
+		FloatRect testHor, testVer;
+		testHor = testVer = Entity::getCollider();
+
+		testHor.left += x;
+		testVer.top += y;
+
+		for (size_t i = 0; i < getLevel().getSolids().size(); i++)
+		{
+			if (getLevel().getSolids()[i]->collides(testHor))
+				moveHor = false;
+			if (getLevel().getSolids()[i]->collides(testVer))
+				moveVer = false;	
+		}
+	}
+
+	if (moveHor)
+		Entity::move(x, 0);
+	if (moveVer)
+		Entity::move(0, y);
+
+	animator.getSprite().setPosition(Entity::getPosition());
 }
 
 void Animate::kill()

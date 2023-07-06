@@ -27,7 +27,7 @@ private:
 	void checkInterractions(Enemy& enemy);
 
 	// Inherited via Animate
-	void movement(Orientation orientation) override;
+	void movement() override;
 	
 	std::unique_ptr<Attack> attack;
 };

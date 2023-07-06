@@ -31,28 +31,7 @@ Player::Player(sf::Vector2f position, float speed, const AnimateAnimator& animat
 
 void Player::update()
 {
-	AnimateAnimator::State state = AnimateAnimator::State::DOWN;
-
-	movement(Orientation::Vertical);
-	for (size_t i = 0; i < getLevel().getSolids().size(); i++)
-		resolveCollisions(*getLevel().getSolids()[i], Orientation::Vertical);
-
-	if (getDirection().y > 0)
-		state = AnimateAnimator::State::DOWN;
-	else if (getDirection().y < 0)
-		state = AnimateAnimator::State::UP;
-
-	movement(Orientation::Horizontal);
-	for (size_t i = 0; i < getLevel().getSolids().size(); i++)
-		resolveCollisions(*getLevel().getSolids()[i], Orientation::Horizontal);
-
-	if (getDirection().x > 0)
-		state = AnimateAnimator::State::RIGHT;
-	else if (getDirection().x < 0)
-		state = AnimateAnimator::State::LEFT;
-
-	Animate::setAnimation(state);
-	Animate::update();
+	movement();
 
 	if (!attack->getIsActive())
 	{
@@ -75,29 +54,35 @@ void Player::update()
 		checkInterractions(*getLevel().getHostiles()[i]);
 }
 
-void Player::movement(Orientation orientation)
+void Player::movement()
 {
-	setDirection({ 0, 0 });
-	Vector2f direction = getDirection();
-	switch (orientation)
-	{
-	case Orientation::Horizontal:
-		if (Keyboard::isKeyPressed(Keyboard::A))
-			direction += Vector2f(-1, 0);
-		if (Keyboard::isKeyPressed(Keyboard::D))
-			direction += Vector2f(1, 0);
-		if (Keyboard::isKeyPressed(Keyboard::W) || Keyboard::isKeyPressed(Keyboard::S))
-			direction /= Utils::root2;
-		break;
-	case Orientation::Vertical:
-		if (Keyboard::isKeyPressed(Keyboard::W))
-			direction += Vector2f(0, -1);
-		if (Keyboard::isKeyPressed(Keyboard::S))
-			direction += Vector2f(0, 1);
-		if (Keyboard::isKeyPressed(Keyboard::A) || Keyboard::isKeyPressed(Keyboard::D))
-			direction /= Utils::root2;
-		break;
-	}
+	Vector2f direction = { 0, 0 };
+
+	if (Keyboard::isKeyPressed(Keyboard::A))
+		direction += Vector2f(-1, 0);
+	if (Keyboard::isKeyPressed(Keyboard::D))
+		direction += Vector2f(1, 0);
+	if (Keyboard::isKeyPressed(Keyboard::W))
+		direction += Vector2f(0, -1);
+	if (Keyboard::isKeyPressed(Keyboard::S))
+		direction += Vector2f(0, 1);
+
+	if (direction.x != 0 && direction.y != 0)
+		direction /= Utils::root2;
+
+	AnimateAnimator::State state = AnimateAnimator::State::DOWN;
+
+	if (direction.x > 0)
+		state = AnimateAnimator::State::RIGHT;
+	else if (direction.x < 0)
+		state = AnimateAnimator::State::LEFT;
+	else if (direction.y > 0)
+		state = AnimateAnimator::State::DOWN;
+	else if (direction.y < 0)
+		state = AnimateAnimator::State::UP;
+
+	Animate::setAnimation(state);
+	Animate::update();
 
 	setDirection(direction);
 	Animate::move(getDirection() * getSpeed() * DeltaTime::get());

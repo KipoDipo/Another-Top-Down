@@ -3,8 +3,6 @@
 #include <Animation/Types/AnimateAnimator.h>
 #include <Animation/Types/RandomAnimator.h>
 
-enum class Orientation;
-
 class Animate : public Entity
 {
 public:
@@ -13,8 +11,8 @@ public:
 	
 	// Inherited via Entity
 	virtual void update() override;
-	virtual void move(sf::Vector2f position) override;
-	virtual void move(float x, float y) override;
+	virtual void move(sf::Vector2f position, bool collides = true);
+	virtual void move(float x, float y, bool collides = true);
 
 	virtual void kill();
 	
@@ -36,12 +34,10 @@ public:
 
 	void setAnimation(AnimateAnimator::State state);
 
-	void resolveCollisions(const Entity& entity, Orientation orientation);
-
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 protected:
-	virtual void movement(Orientation orientation) = 0;
+	virtual void movement() = 0;
 
 private:
 	bool isAlive = true;

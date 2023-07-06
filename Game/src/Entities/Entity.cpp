@@ -13,15 +13,11 @@ Entity::Entity(Vector2f position, Vector2f size, Level* level) /* Consider - May
 	: level(level)
 {
 	collider = FloatRect(
-		position.x, 
-		position.y, 
-		size.x, 
+		position.x,
+		position.y,
+		size.x,
 		size.y
 	);
-}
-
-Entity::~Entity()
-{
 }
 
 

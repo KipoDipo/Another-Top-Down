@@ -18,7 +18,7 @@ public:
 
 private:
 	// Inherited via Animate
-	virtual void movement(Orientation orientation) override;
+	virtual void movement() override;
 
 	Entity* target;
 };

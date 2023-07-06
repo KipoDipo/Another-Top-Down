@@ -7,7 +7,7 @@ class Entity : public virtual sf::Drawable
 public:
 	Entity();
 	Entity(sf::Vector2f position, sf::Vector2f size, Level* level = nullptr);
-	virtual ~Entity();
+	virtual ~Entity() = default;
 
 	virtual void move(sf::Vector2f position);
 	virtual void move(float x, float y);
