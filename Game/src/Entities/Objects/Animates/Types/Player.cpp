@@ -84,8 +84,7 @@ void Player::movement()
 	Animate::setAnimation(state);
 	Animate::update();
 
-	setDirection(direction);
-	Animate::move(getDirection() * getSpeed() * DeltaTime::get());
+	Animate::move(direction * getSpeed() * DeltaTime::get());
 }
 
 void Player::checkInterractions(Enemy& enemy)

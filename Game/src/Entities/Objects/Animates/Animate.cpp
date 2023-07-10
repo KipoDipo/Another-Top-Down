@@ -56,11 +56,6 @@ void Animate::setName(const std::string& name)
 	this->name = name;
 }
 
-void Animate::setDirection(sf::Vector2f direction)
-{
-	dir = direction;
-}
-
 void Animate::setSpeed(float speed)
 {
 	this->speed = speed;
@@ -84,11 +79,6 @@ int Animate::getMaxHealth() const
 std::string Animate::getName() const
 {
 	return name;
-}
-
-sf::Vector2f Animate::getDirection() const
-{
-	return dir;
 }
 
 float Animate::getSpeed() const

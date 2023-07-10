@@ -2,22 +2,24 @@
 #include <SFML/Graphics.hpp>
 #include <Animation/Types/BinarySmartAnimator.h>
 #include <Animation/Types/SingleAnimator.h>
+#include <UI/UIElement.h>
+#include <Entities/Objects/Animates/Animate.h>
 
 class Player;
 
-class Health : public sf::Drawable
+class Health : public UIElement
 {
 public:
-	Health(sf::Vector2f position, const BinarySmartAnimator& healthBar, const SingleAnimator& healthBarBackground);
+	Health(sf::Vector2f position, const Animate& player, const BinarySmartAnimator& healthBar, const SingleAnimator& healthBarBackground);
 
-	void setPlayer(const Player& player);
+	void setTarget(const Animate& target);
 
-	void update();
+	virtual void update() override;
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 private:
 	BinarySmartAnimator healthBar;
 	SingleAnimator healthBarBackground;
 
-	const Player* player;
+	const Animate* target;
 };

@@ -20,7 +20,6 @@ public:
 	int getHealth() const;
 	int getMaxHealth() const;
 	std::string getName() const;
-	sf::Vector2f getDirection() const;
 	float getSpeed() const;
 	const RandomAnimator& getDeathParticlesAnimator() const;
 
@@ -29,7 +28,6 @@ public:
 	void setHealth(int health);
 	void setMaxHealth(int health);
 	void setName(const std::string& name);
-	void setDirection(sf::Vector2f direction);
 	void setSpeed(float speed);
 
 	void setAnimation(AnimateAnimator::State state);
@@ -44,7 +42,6 @@ private:
 	int health;
 	int maxHealth;
 	float speed;
-	sf::Vector2f dir;
 	std::string name = "NONE";
 	AnimateAnimator animator;
 	RandomAnimator deathParticlesAnimator;

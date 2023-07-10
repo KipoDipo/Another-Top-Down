@@ -2,6 +2,7 @@
 #include <Entities/All.h>
 #include <Utilities/All.h>
 #include <Animation/All.h>
+#include <UI/All.h>
 #include <Particles/ParticleGenerator.h>
 
 using namespace sf;
@@ -9,16 +10,7 @@ using namespace std;
 
 vector<shared_ptr<Level>> Game::levels;
 size_t Game::currentLevel = 0;
-UI Game::ui(
-	"res/fonts/Pixeled.ttf", 
-	BinarySmartAnimator(
-		"health/full/anim", 30,
-		"health/full/static", 30, true
-	),
-	SingleAnimator(
-		"health/empty/anim", 15
-	)
-);
+UI Game::ui;
 RenderWindow Game::window;
 
 
@@ -93,7 +85,7 @@ void Game::Init()
 	shared_ptr<Level> testLevel = make_shared<Level>();
 
 	testLevel->setPlayer({ 250, 250 }, 300.f, playerAnims, playerDeath, atkAnims);
-	Game::ui.setPlayer(Level::getPlayer());
+	//Game::ui.setPlayer(Level::getPlayer());
 
 	testLevel->addHostile({ 180, 30 }, rand() % 20 + 20.f, enemyAnims, enemyDeath);
 	testLevel->addHostile({ 230, 100 }, rand() % 20 + 20.f, enemyAnims, enemyDeath);
@@ -119,6 +111,22 @@ void Game::Init()
 	testLevel->create();
 	levels.push_back(testLevel);
 	smoothCamera = Level::getPlayer().getCenter();
+
+	shared_ptr<Health> uiHealth = make_shared<Health>(
+		Vector2f(10, 10),
+		Level::getPlayer(),
+		BinarySmartAnimator(
+			"health/full/anim", 30,
+			"health/full/static", 30, true
+		),
+		SingleAnimator(
+			"health/empty/anim", 15
+		)
+	);
+	shared_ptr<FPSCounter> uiFps = make_shared<FPSCounter>("res/fonts/Pixeled.ttf", Vector2f(5, 50));
+
+	Game::ui.addElement(uiHealth);
+	Game::ui.addElement(uiFps);
 }
 
 void Game::Update()

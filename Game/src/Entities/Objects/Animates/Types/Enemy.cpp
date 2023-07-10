@@ -25,9 +25,7 @@ void Enemy::movement()
 {
 	sf::Vector2f direction = Utils::normalized(target->getCenter() - getCenter());
 
-	setDirection(direction);
-
-	move(getDirection() * getSpeed() * DeltaTime::get());
+	move(direction * getSpeed() * DeltaTime::get());
 }
 
 void Enemy::update()

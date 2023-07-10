@@ -7,7 +7,8 @@ FPSCounter::FPSCounter(const std::string& pathToFont, sf::Vector2f position)
 	fps.setFont(font);
 	fps.setFillColor(sf::Color::White);
 	fps.setCharacterSize(15);
-	fps.setPosition(position);	
+	fps.setPosition(position);
+	fps.setString("FPS:");
 	const_cast<sf::Texture&>(font.getTexture(15)).setSmooth(false); // hack
 }
 

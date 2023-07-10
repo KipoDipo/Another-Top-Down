@@ -3,25 +3,15 @@
 
 using namespace sf;
 
-UI::UI(const std::string& pathToFont, const BinarySmartAnimator& healthBarFull, const SingleAnimator& healthBarEmpty)
-	: fpsCounter(pathToFont, {5, 60}),
-	health (
-		Vector2f{ 10, 10 }, 
-		healthBarFull,
-		healthBarEmpty
-	)
+void UI::addElement(const std::shared_ptr<UIElement>& element)
 {
-}
-
-void UI::setPlayer(const Player& player)
-{
-	health.setPlayer(player);
+	elements.push_back(element);
 }
 
 void UI::update()
 {
-	fpsCounter.update();
-	health.update();
+	for (size_t i = 0; i < elements.size(); i++)
+		elements[i]->update();
 }
 
 void UI::draw(RenderTarget& target, RenderStates states) const
@@ -29,8 +19,8 @@ void UI::draw(RenderTarget& target, RenderStates states) const
 	sf::View original = target.getView();
 	target.setView(View(FloatRect(0, 0, original.getSize().x, original.getSize().y)));
 
-	target.draw(fpsCounter, states);
-	target.draw(health, states);
+	for (size_t i = 0; i < elements.size(); i++)
+		target.draw(*elements[i], states);
 
 	target.setView(original);
 }
